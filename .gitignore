@@ -1,0 +1,25 @@
+# Git ignore rules for study_qt
+
+# Agents & Agent rules (not to be committed)
+.agents/
+AGENTS.md
+
+# Build output directories
+build/
+app/
+out/
+bin/
+
+# Visual Studio & IDE files
+.vs/
+*.user
+*.VC.db
+*.opendb
+.idea/
+.vscode/
+CMakeUserPresets.json
+
+# Qt generated & temporary files
+*.autosave
+*.qmake.stash
+Makefile*
