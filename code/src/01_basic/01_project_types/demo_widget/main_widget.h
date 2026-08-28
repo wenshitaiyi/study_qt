@@ -1,10 +1,11 @@
 #pragma once
 
 #include <QWidget>
+#include <memory>
 
-class QLabel;
-class QPushButton;
-class QVBoxLayout;
+namespace Ui {
+class MainWidget;
+}
 
 class MainWidget : public QWidget
 {
@@ -12,13 +13,12 @@ class MainWidget : public QWidget
 
 public:
     explicit MainWidget(QWidget *parent = nullptr);
-    ~MainWidget() override = default;
+    ~MainWidget() override;
 
 private slots:
     void onButtonClicked();
 
 private:
-    QLabel *m_label{nullptr};
-    QPushButton *m_button{nullptr};
+    std::unique_ptr<Ui::MainWidget> m_ui;
     int m_clickCount{0};
 };

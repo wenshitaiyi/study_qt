@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
 
-study_add_demo(demo_widget
+study_add_demo(demo_mainwindow
     SRCS
         main.cpp
-        main_widget.h
-        main_widget.cpp
-        main_widget.ui
+        main_window.h
+        main_window.cpp
+        main_window.ui
     QT_LIBS
         Qt5::Core
         Qt5::Gui

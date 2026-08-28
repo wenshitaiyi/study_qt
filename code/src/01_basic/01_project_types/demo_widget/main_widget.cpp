@@ -1,39 +1,20 @@
 #include "main_widget.h"
-#include <QLabel>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QFont>
+#include "ui_main_widget.h"
 
 MainWidget::MainWidget(QWidget *parent)
     : QWidget(parent)
+    , m_ui(std::make_unique<Ui::MainWidget>())
 {
-    setWindowTitle(QStringLiteral("Qt 基础窗口演示 (demo_widget)"));
-    resize(400, 250);
+    m_ui->setupUi(this);
 
-    auto *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(20, 20, 20, 20);
-    layout->setSpacing(15);
-
-    m_label = new QLabel(QStringLiteral("欢迎进入 Qt 学习体系！点击下方按钮测试："), this);
-    QFont font = m_label->font();
-    font.setPointSize(11);
-    m_label->setFont(font);
-    m_label->setAlignment(Qt::AlignCenter);
-
-    m_button = new QPushButton(QStringLiteral("点击测试 (0)"), this);
-    m_button->setFixedHeight(36);
-
-    layout->addStretch();
-    layout->addWidget(m_label);
-    layout->addWidget(m_button);
-    layout->addStretch();
-
-    connect(m_button, &QPushButton::clicked, this, &MainWidget::onButtonClicked);
+    connect(m_ui->buttonTest, &QPushButton::clicked, this, &MainWidget::onButtonClicked);
 }
+
+MainWidget::~MainWidget() = default;
 
 void MainWidget::onButtonClicked()
 {
     ++m_clickCount;
-    m_button->setText(QStringLiteral("已点击 %1 次").arg(m_clickCount));
-    m_label->setText(QStringLiteral("状态：信号槽触发成功！当前点击计数 = %1").arg(m_clickCount));
+    m_ui->buttonTest->setText(QStringLiteral("已点击 %1 次").arg(m_clickCount));
+    m_ui->labelPrompt->setText(QStringLiteral("状态：UI 信号槽触发成功！当前点击计数 = %1").arg(m_clickCount));
 }

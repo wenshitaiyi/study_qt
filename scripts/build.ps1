@@ -25,7 +25,9 @@ param(
     [ValidateSet("Debug", "Release")]
     [string]$Config = "Debug",
 
-    [switch]$Clean
+    [switch]$Clean,
+
+    [switch]$Deploy
 )
 
 $ErrorActionPreference = "Stop"
@@ -60,9 +62,18 @@ if ($Clean) {
 [System.Environment]::SetEnvironmentVariable('Path', $null, 'Process')
 [System.Environment]::SetEnvironmentVariable('PATH', $env:Path, 'Process')
 
-# Configure if build directory doesn't have CMakeCache.txt
+# Configure if build directory doesn't have CMakeCache.txt or target project file is not found
 $CMakeCache = Join-Path $BuildDir "CMakeCache.txt"
-if (-not (Test-Path $CMakeCache)) {
+$NeedsConfigure = (-not (Test-Path $CMakeCache))
+
+if (-not $NeedsConfigure -and ($Target -ne "")) {
+    $TargetProjects = Get-ChildItem -Path $BuildDir -Filter "$Target.vcxproj" -Recurse -ErrorAction SilentlyContinue
+    if (-not $TargetProjects) {
+        $NeedsConfigure = $true
+    }
+}
+
+if ($NeedsConfigure) {
     Write-Host "=== Configuring Project with CMake ===" -ForegroundColor Cyan
     $ConfigArgs = @(
         "-S", $RootDir,
@@ -100,3 +111,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "=== Build Completed Successfully! ===" -ForegroundColor Green
 $OutDir = Join-Path $RootDir "app\$($Config.ToLower())"
 Write-Host "Output Directory: $OutDir" -ForegroundColor Gray
+
+if ($Deploy -and ($Target -ne "")) {
+    & (Join-Path $PSScriptRoot "deploy.ps1") -Target $Target -Config $Config
+}
