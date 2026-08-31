@@ -3,7 +3,6 @@
 
 #include <QPainter>
 #include <QDateTime>
-#include <QLinearGradient>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QMessageBox>
@@ -14,124 +13,88 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    initHeroPortrait();
+    initLabelsAndMovie();
+    initProgressBars();
+    initLcdNumbers();
 
-    // ========================================================================
-    // Tab 1: QLabel 超链接与动态帧模拟
-    // ========================================================================
-    connect(ui->labelRichLore, &QLabel::linkActivated, this, &MainWindow::onLinkActivated);
-
-    m_movieFrameTimer = new QTimer(this);
-    connect(m_movieFrameTimer, &QTimer::timeout, this, &MainWindow::onMovieFrameTick);
-    m_movieFrameTimer->start(300); // 300ms 一帧
-
-    connect(ui->btnMoviePlay, &QPushButton::clicked, this, &MainWindow::onMoviePlay);
-    connect(ui->btnMoviePause, &QPushButton::clicked, this, &MainWindow::onMoviePause);
-    connect(ui->btnMovieSpeed, &QPushButton::clicked, this, &MainWindow::onMovieSpeed);
-
-    // ========================================================================
-    // Tab 2: QProgressBar 信号槽
-    // ========================================================================
-    m_downloadTimer = new QTimer(this);
-    connect(m_downloadTimer, &QTimer::timeout, this, &MainWindow::onDownloadTick);
-
-    connect(ui->btnStartDownload, &QPushButton::clicked, this, &MainWindow::onStartDownload);
-    connect(ui->btnResetDownload, &QPushButton::clicked, this, &MainWindow::onResetDownload);
-    connect(ui->btnBossDamage, &QPushButton::clicked, this, &MainWindow::onBossDamage);
-    connect(ui->btnBossHeal, &QPushButton::clicked, this, &MainWindow::onBossHeal);
-
-    // ========================================================================
-    // Tab 3: QLCDNumber 信号槽
-    // ========================================================================
-    m_countdownTimer = new QTimer(this);
-    connect(m_countdownTimer, &QTimer::timeout, this, &MainWindow::onTimerCountdownTick);
-    updateLcdTimerDisplay();
-
-    connect(ui->btnStartTimer, &QPushButton::clicked, this, &MainWindow::onStartTimer);
-    connect(ui->btnPauseTimer, &QPushButton::clicked, this, &MainWindow::onPauseTimer);
-    connect(ui->btnResetTimer, &QPushButton::clicked, this, &MainWindow::onResetTimer);
-
-    connect(ui->btnModeDec, &QPushButton::clicked, this, &MainWindow::onModeDec);
-    connect(ui->btnModeHex, &QPushButton::clicked, this, &MainWindow::onModeHex);
-    connect(ui->btnModeBin, &QPushButton::clicked, this, &MainWindow::onModeBin);
-
-    connect(ui->btnHitAdd1, &QPushButton::clicked, this, &MainWindow::onHitAdd1);
-    connect(ui->btnHitAdd10, &QPushButton::clicked, this, &MainWindow::onHitAdd10);
-    connect(ui->btnHitReset, &QPushButton::clicked, this, &MainWindow::onHitReset);
-
-    ui->lcdCombo->display(128);
-    ui->lcdScore->display(99850);
-
-    // 清空日志按钮
     connect(ui->btnClearLog, &QPushButton::clicked, ui->textLog, &QPlainTextEdit::clear);
-
-    appendLog(QStringLiteral("系统"), QStringLiteral("展示控件交互中心就绪，支持富文本超链接、动态进度与仿真液晶屏。"));
+    appendLog(QStringLiteral("系统"), QStringLiteral("展示控件演示中心已就绪。"));
 }
 
 MainWindow::~MainWindow() = default;
 
-void MainWindow::initHeroPortrait()
-{
-    // 使用 QPainter 动态绘制高质感英雄立绘徽章卡片
-    QPixmap pix(220, 180);
-    pix.fill(Qt::transparent);
-
-    QPainter painter(&pix);
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    // 背景渐变
-    QLinearGradient bgGrad(0, 0, 220, 180);
-    bgGrad.setColorAt(0.0, QColor(44, 62, 80));
-    bgGrad.setColorAt(1.0, QColor(24, 44, 97));
-    painter.setBrush(bgGrad);
-    painter.setPen(QPen(QColor(241, 196, 15), 3));
-    painter.drawRoundedRect(5, 5, 210, 170, 10, 10);
-
-    // 绘制英雄头像文字与战力数值
-    painter.setPen(QColor(255, 255, 255));
-    QFont font = painter.font();
-    font.setPointSize(12);
-    font.setBold(true);
-    painter.setFont(font);
-    painter.drawText(QRect(10, 25, 200, 30), Qt::AlignCenter, QStringLiteral("🛡️ 圣骑士·亚瑟 (SSR)"));
-
-    font.setPointSize(10);
-    font.setBold(false);
-    painter.setFont(font);
-    painter.setPen(QColor(243, 156, 18));
-    painter.drawText(QRect(10, 65, 200, 25), Qt::AlignCenter, QStringLiteral("⚔️ 综合战力: 985,000"));
-
-    painter.setPen(QColor(149, 165, 166));
-    painter.drawText(QRect(10, 95, 200, 25), Qt::AlignCenter, QStringLiteral("👑 所属公会: 【星辰之翼】"));
-    painter.drawText(QRect(10, 125, 200, 25), Qt::AlignCenter, QStringLiteral("🌟 天梯巅峰段位: 宗师 I"));
-
-    ui->labelHeroImage->setPixmap(pix);
-}
-
 void MainWindow::appendLog(const QString &category, const QString &message)
 {
     QString timeStr = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss.zzz"));
-    QString line = QStringLiteral("[%1] [%2] %3").arg(timeStr).arg(category.leftJustified(6, ' ')).arg(message);
+    QString line = QStringLiteral("[%1] [%2] %3").arg(timeStr).arg(category.leftJustified(8, ' ')).arg(message);
     ui->textLog->appendPlainText(line);
 }
 
 // ============================================================================
-// Tab 1: QLabel
+// 1. QLabel & QMovie (标签、图文与动图)
+// 
+// 【核心知识点与 API 说明】：
+//  - setTextFormat(Qt::RichText): 开启富文本解析模式。
+//  - setOpenExternalLinks(bool):
+//    * true: 点击超链接直接调用系统默认浏览器打开 URL。
+//    * false: 触发 linkActivated(QString) 信号，由开发者自行拦截处理（如自定义协议 app://）。
+//  - setPixmap(QPixmap): 设置静态位图展示。
+//  - setScaledContents(bool): 是否自动拉伸图片填满 QLabel 几何区域。
+//  - QMovie: 专门用于加载并循环播放 GIF 动图，提供 start()、stop()、setPaused()、setSpeed() 等控制。
+// 
+// 【注意事项】：
+//  1. 若需要高质量缩放位图，推荐在代码中使用 pixmap.scaled(..., Qt::KeepAspectRatio, Qt::SmoothTransformation)
+//     主动缩放后再 setPixmap，避免 setScaledContents(true) 引起的图像模糊失真。
 // ============================================================================
-void MainWindow::onLinkActivated(const QString &link)
+void MainWindow::initLabelsAndMovie()
 {
-    if (link.startsWith(QStringLiteral("item://"))) {
-        QString itemId = link.mid(7);
-        appendLog(QStringLiteral("超链接"), QStringLiteral("触发游戏内部协议跳转 -> 装备图鉴 ID: %1").arg(itemId));
-        QMessageBox::information(this, QStringLiteral("装备详情"),
-                                 QStringLiteral("已调出【SSR·灰烬使者】神圣词条全属性面板！"));
-    } else if (link.startsWith(QStringLiteral("quest://"))) {
-        QString questId = link.mid(8);
-        appendLog(QStringLiteral("超链接"), QStringLiteral("触发游戏内部协议跳转 -> 史诗任务 ID: %1").arg(questId));
-        QMessageBox::information(this, QStringLiteral("接取任务"),
-                                 QStringLiteral("已成功接取史诗任务【圣剑重铸】！"));
+    // 1.1 使用 QPainter 动态绘制一张示例图片位图
+    QPixmap pix(220, 160);
+    pix.fill(Qt::transparent);
+    QPainter painter(&pix);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QLinearGradient grad(0, 0, 220, 160);
+    grad.setColorAt(0.0, QColor(52, 73, 94));
+    grad.setColorAt(1.0, QColor(41, 128, 185));
+    painter.setBrush(grad);
+    painter.setPen(QPen(QColor(255, 255, 255), 2));
+    painter.drawRoundedRect(5, 5, 210, 150, 8, 8);
+
+    painter.setPen(Qt::white);
+    QFont font = painter.font();
+    font.setPointSize(11);
+    font.setBold(true);
+    painter.setFont(font);
+    painter.drawText(QRect(0, 45, 220, 30), Qt::AlignCenter, QStringLiteral("QPixmap 绘图渲染"));
+    font.setPointSize(9);
+    font.setBold(false);
+    painter.setFont(font);
+    painter.drawText(QRect(0, 80, 220, 30), Qt::AlignCenter, QStringLiteral("220 x 160 矢量渐变矩形"));
+
+    ui->labelPixmap->setPixmap(pix);
+
+    // 1.2 超链接信号拦截
+    connect(ui->labelRichText, &QLabel::linkActivated, this, &MainWindow::onRichTextLinkActivated);
+
+    // 1.3 QMovie 帧动画模拟计时器
+    m_movieTimer = new QTimer(this);
+    connect(m_movieTimer, &QTimer::timeout, this, &MainWindow::onMovieFrameTick);
+    m_movieTimer->start(350); // 350ms 切换一帧
+
+    connect(ui->btnMoviePlay, &QPushButton::clicked, this, &MainWindow::onMoviePlay);
+    connect(ui->btnMoviePause, &QPushButton::clicked, this, &MainWindow::onMoviePause);
+    connect(ui->btnMovieSpeed, &QPushButton::clicked, this, &MainWindow::onMovieSpeedToggle);
+}
+
+void MainWindow::onRichTextLinkActivated(const QString &link)
+{
+    if (link.startsWith(QStringLiteral("app://"))) {
+        appendLog(QStringLiteral("QLabel"), QStringLiteral("拦截到内部自定义协议链接: %1").arg(link));
+        QMessageBox::information(this, QStringLiteral("内部协议响应"),
+                                 QStringLiteral("成功触发并拦截内部协议 [%1]！\n可在此处调起对应的业务窗口。").arg(link));
     } else if (link.startsWith(QStringLiteral("http"))) {
-        appendLog(QStringLiteral("超链接"), QStringLiteral("调起系统默认浏览器打开外链: %1").arg(link));
+        appendLog(QStringLiteral("QLabel"), QStringLiteral("唤醒系统默认浏览器打开: %1").arg(link));
         QDesktopServices::openUrl(QUrl(link));
     }
 }
@@ -139,187 +102,214 @@ void MainWindow::onLinkActivated(const QString &link)
 void MainWindow::onMovieFrameTick()
 {
     const QVector<QString> frames = {
-        QStringLiteral("🌟 [第 1 帧] 圣光惩戒！聚集圣洁能量..."),
-        QStringLiteral("🔥 [第 2 帧] 灰烬裁决！巨剑撕裂虚空！"),
-        QStringLiteral("⚡ [第 3 帧] 审判风暴！对周围造成 8 段暴击！"),
-        QStringLiteral("👑 [第 4 帧] 天神下凡！进入无敌狂暴形态！")
+        QStringLiteral("● 帧 1: [ 正在初始化引擎核心... ]"),
+        QStringLiteral("● 帧 2: [ 正在加载纹理与着色器... ]"),
+        QStringLiteral("● 帧 3: [ 正在同步网络数据报文... ]"),
+        QStringLiteral("● 帧 4: [ 准备就绪，进入主循环! ]")
     };
     const QVector<QString> colors = {
-        QStringLiteral("#f1c40f"), QStringLiteral("#e74c3c"), QStringLiteral("#3498db"), QStringLiteral("#9b59b6")
+        QStringLiteral("#1abc9c"), QStringLiteral("#3498db"), QStringLiteral("#e67e22"), QStringLiteral("#2ecc71")
     };
 
-    m_movieFrameIndex = (m_movieFrameIndex + 1) % frames.size();
-    ui->labelMovieAnim->setStyleSheet(
-        QStringLiteral("background-color: #000000; border: 2px solid %1; border-radius: 6px; color: %1; font-size: 13px; font-weight: bold; qproperty-alignment: AlignCenter;")
-        .arg(colors[m_movieFrameIndex])
+    m_movieFrame = (m_movieFrame + 1) % frames.size();
+    ui->labelMovieDisplay->setStyleSheet(
+        QStringLiteral("background-color: #2c3e50; border: 1px solid %1; border-radius: 4px; color: %1; font-size: 13px; font-weight: bold; qproperty-alignment: AlignCenter;")
+        .arg(colors[m_movieFrame])
     );
-    ui->labelMovieAnim->setText(frames[m_movieFrameIndex]);
+    ui->labelMovieDisplay->setText(frames[m_movieFrame]);
 }
 
 void MainWindow::onMoviePlay()
 {
-    m_movieFrameTimer->start();
-    appendLog(QStringLiteral("动图控制"), QStringLiteral("播放技能动态特效帧动画。"));
+    m_movieTimer->start();
+    appendLog(QStringLiteral("QMovie"), QStringLiteral("调用 start() 开始播放动画"));
 }
 
 void MainWindow::onMoviePause()
 {
-    m_movieFrameTimer->stop();
-    appendLog(QStringLiteral("动图控制"), QStringLiteral("暂停技能动态特效帧动画。"));
+    m_movieTimer->stop();
+    appendLog(QStringLiteral("QMovie"), QStringLiteral("调用 stop() 暂停播放动画"));
 }
 
-void MainWindow::onMovieSpeed()
+void MainWindow::onMovieSpeedToggle()
 {
-    if (m_movieSpeed == 100) {
-        m_movieSpeed = 200;
-        m_movieFrameTimer->setInterval(150);
+    m_movieSpeed2x = !m_movieSpeed2x;
+    if (m_movieSpeed2x) {
+        m_movieTimer->setInterval(175);
         ui->btnMovieSpeed->setText(QStringLiteral("⚡ 1.0x 常速"));
-        appendLog(QStringLiteral("动图控制"), QStringLiteral("特效帧率加速为 2.0x 倍速 (150ms/帧)"));
+        appendLog(QStringLiteral("QMovie"), QStringLiteral("调用 setSpeed(200) 加速为 2.0x 倍速"));
     } else {
-        m_movieSpeed = 100;
-        m_movieFrameTimer->setInterval(300);
+        m_movieTimer->setInterval(350);
         ui->btnMovieSpeed->setText(QStringLiteral("⚡ 2.0x 倍速"));
-        appendLog(QStringLiteral("动图控制"), QStringLiteral("特效帧率恢复为 1.0x 常速 (300ms/帧)"));
+        appendLog(QStringLiteral("QMovie"), QStringLiteral("调用 setSpeed(100) 恢复为 1.0x 常速"));
     }
 }
 
 // ============================================================================
-// Tab 2: QProgressBar
+// 2. QProgressBar (进度条)
+// 
+// 【核心知识点与 API 说明】：
+//  - setRange(min, max): 设置进度范围（常用 0 ~ 100）。
+//  - setValue(int): 设置当前进度数值。
+//  - setFormat(QString): 自定义文本显示格式：
+//    * %p: 百分比（Percentage）
+//    * %v: 当前值（Value）
+//    * %m: 最大值（Total / Maximum）
+//  - setRange(0, 0): 进入“不确定跑马灯模式（Indeterminate / Busy）”，用于耗时未知任务。
+//  - setOrientation(Qt::Vertical): 设置为垂直方向进度条。
+//  - setInvertedAppearance(bool): 设置反向填充（如从上往下增长）。
 // ============================================================================
-void MainWindow::onStartDownload()
+void MainWindow::initProgressBars()
 {
-    m_downloadProgress = 0;
-    ui->progressBarDownload->setValue(0);
-    m_downloadTimer->start(50); // 50ms 更新一次
-    appendLog(QStringLiteral("进度条"), QStringLiteral("开始模拟热更资源分包下载 (总计 100 MB)..."));
+    m_progressTimer = new QTimer(this);
+    connect(m_progressTimer, &QTimer::timeout, this, &MainWindow::onProgressTimerTick);
+
+    connect(ui->btnStartProgress, &QPushButton::clicked, this, &MainWindow::onStartProgress);
+    connect(ui->btnResetProgress, &QPushButton::clicked, this, &MainWindow::onResetProgress);
+    connect(ui->btnVerticalPlus, &QPushButton::clicked, this, &MainWindow::onVerticalPlus);
+    connect(ui->btnVerticalMinus, &QPushButton::clicked, this, &MainWindow::onVerticalMinus);
 }
 
-void MainWindow::onResetDownload()
+void MainWindow::onStartProgress()
 {
-    m_downloadTimer->stop();
-    m_downloadProgress = 0;
-    ui->progressBarDownload->setValue(0);
-    appendLog(QStringLiteral("进度条"), QStringLiteral("重置下载进度为 0%"));
+    m_progressValue = 0;
+    ui->progressDefinite->setValue(0);
+    m_progressTimer->start(60); // 60ms 递增一次
+    appendLog(QStringLiteral("QProgressBar"), QStringLiteral("启动确定模式进度递增 (0 -> 100)"));
 }
 
-void MainWindow::onDownloadTick()
+void MainWindow::onResetProgress()
 {
-    m_downloadProgress += 2;
-    if (m_downloadProgress >= 100) {
-        m_downloadProgress = 100;
-        ui->progressBarDownload->setValue(100);
-        m_downloadTimer->stop();
-        appendLog(QStringLiteral("进度条"), QStringLiteral("🎉 游戏资源热更新包校验完毕，下载完成 100%！"));
-        QMessageBox::information(this, QStringLiteral("热更新完成"), QStringLiteral("全部游戏资源分包已准备就绪！"));
+    m_progressTimer->stop();
+    m_progressValue = 0;
+    ui->progressDefinite->setValue(0);
+    appendLog(QStringLiteral("QProgressBar"), QStringLiteral("重置确定模式进度为 0"));
+}
+
+void MainWindow::onProgressTimerTick()
+{
+    m_progressValue += 2;
+    if (m_progressValue >= 100) {
+        m_progressValue = 100;
+        ui->progressDefinite->setValue(100);
+        m_progressTimer->stop();
+        appendLog(QStringLiteral("QProgressBar"), QStringLiteral("进度达到 100%，任务完成！"));
     } else {
-        ui->progressBarDownload->setValue(m_downloadProgress);
+        ui->progressDefinite->setValue(m_progressValue);
     }
 }
 
-void MainWindow::onBossDamage()
+void MainWindow::onVerticalPlus()
 {
-    int currentHp = ui->progressBossHp->value();
-    currentHp = qMax(0, currentHp - 15);
-    ui->progressBossHp->setValue(currentHp);
-
-    int currentRage = ui->progressRage->value();
-    currentRage = qMin(100, currentRage + 20);
-    ui->progressRage->setValue(currentRage);
-
-    appendLog(QStringLiteral("战斗血条"), QStringLiteral("击中首领！首领剩余 HP: %1%, 怒气值提升至: %2%").arg(currentHp).arg(currentRage));
-    if (currentHp == 0) {
-        QMessageBox::information(this, QStringLiteral("首领击杀"), QStringLiteral("首领已被成功击败！爆出金色传说神装！"));
-    }
+    int val1 = qMin(100, ui->progressVerticalNormal->value() + 10);
+    int val2 = qMin(100, ui->progressVerticalInverted->value() + 10);
+    ui->progressVerticalNormal->setValue(val1);
+    ui->progressVerticalInverted->setValue(val2);
+    appendLog(QStringLiteral("QProgressBar"), QStringLiteral("垂直进度条数值 +10% -> 当前: %1%").arg(val1));
 }
 
-void MainWindow::onBossHeal()
+void MainWindow::onVerticalMinus()
 {
-    int currentHp = ui->progressBossHp->value();
-    currentHp = qMin(100, currentHp + 25);
-    ui->progressBossHp->setValue(currentHp);
-    appendLog(QStringLiteral("战斗血条"), QStringLiteral("首领释放生命绽放！生命值恢复至: %1%").arg(currentHp));
+    int val1 = qMax(0, ui->progressVerticalNormal->value() - 10);
+    int val2 = qMax(0, ui->progressVerticalInverted->value() - 10);
+    ui->progressVerticalNormal->setValue(val1);
+    ui->progressVerticalInverted->setValue(val2);
+    appendLog(QStringLiteral("QProgressBar"), QStringLiteral("垂直进度条数值 -10% -> 当前: %1%").arg(val1));
 }
 
 // ============================================================================
-// Tab 3: QLCDNumber
+// 3. QLCDNumber (数字液晶显示屏)
+// 
+// 【核心知识点与 API 说明】：
+//  - display(int / double / QString): 输出数字或时间字符串（如 "12:34:56"）。
+//  - setDigitCount(int): 设置最多可显示的字符/数字位数。
+//  - setSegmentStyle(SegmentStyle):
+//    * Outline: 浅色底色与细线描边轮廓
+//    * Filled: 实心液晶线段
+//    * Flat: 扁平无边框风格
+//  - setDecMode() / setHexMode() / setBinMode() / setOctMode(): 快速切换十/十六/二/八进制模式。
 // ============================================================================
-void MainWindow::updateLcdTimerDisplay()
+void MainWindow::initLcdNumbers()
 {
-    int minutes = m_remainingSeconds / 60;
-    int seconds = m_remainingSeconds % 60;
-    QString timeText = QStringLiteral("%1:%2")
-                           .arg(minutes, 2, 10, QChar('0'))
-                           .arg(seconds, 2, 10, QChar('0'));
-    ui->lcdTimer->display(timeText);
+    m_clockTimer = new QTimer(this);
+    connect(m_clockTimer, &QTimer::timeout, this, &MainWindow::onClockTimerTick);
+    m_clockTimer->start(1000);
+    onClockTimerTick();
+
+    ui->lcdCounter->display(m_counterValue);
+
+    connect(ui->btnStyleFilled, &QPushButton::clicked, this, &MainWindow::onStyleFilled);
+    connect(ui->btnStyleOutline, &QPushButton::clicked, this, &MainWindow::onStyleOutline);
+    connect(ui->btnStyleFlat, &QPushButton::clicked, this, &MainWindow::onStyleFlat);
+
+    connect(ui->btnModeDec, &QPushButton::clicked, this, &MainWindow::onModeDec);
+    connect(ui->btnModeHex, &QPushButton::clicked, this, &MainWindow::onModeHex);
+    connect(ui->btnModeBin, &QPushButton::clicked, this, &MainWindow::onModeBin);
+
+    connect(ui->btnCountAdd1, &QPushButton::clicked, this, &MainWindow::onCountAdd1);
+    connect(ui->btnCountAdd10, &QPushButton::clicked, this, &MainWindow::onCountAdd10);
+    connect(ui->btnCountReset, &QPushButton::clicked, this, &MainWindow::onCountReset);
 }
 
-void MainWindow::onStartTimer()
+void MainWindow::onClockTimerTick()
 {
-    m_countdownTimer->start(1000);
-    appendLog(QStringLiteral("副本计时"), QStringLiteral("副本限时倒计时开始计时 (10:00)..."));
+    QString timeText = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"));
+    ui->lcdClock->display(timeText);
 }
 
-void MainWindow::onPauseTimer()
+void MainWindow::onStyleFilled()
 {
-    m_countdownTimer->stop();
-    appendLog(QStringLiteral("副本计时"), QStringLiteral("副本倒计时已暂停。"));
+    ui->lcdClock->setSegmentStyle(QLCDNumber::Filled);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换风格为 QLCDNumber::Filled (实心)"));
 }
 
-void MainWindow::onResetTimer()
+void MainWindow::onStyleOutline()
 {
-    m_countdownTimer->stop();
-    m_remainingSeconds = 600;
-    updateLcdTimerDisplay();
-    appendLog(QStringLiteral("副本计时"), QStringLiteral("重置副本倒计时为 10:00。"));
+    ui->lcdClock->setSegmentStyle(QLCDNumber::Outline);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换风格为 QLCDNumber::Outline (空心)"));
 }
 
-void MainWindow::onTimerCountdownTick()
+void MainWindow::onStyleFlat()
 {
-    if (m_remainingSeconds > 0) {
-        --m_remainingSeconds;
-        updateLcdTimerDisplay();
-    } else {
-        m_countdownTimer->stop();
-        appendLog(QStringLiteral("副本计时"), QStringLiteral("⚠️ 副本挑战时间耗尽！判定战败！"));
-        QMessageBox::warning(this, QStringLiteral("时间耗尽"), QStringLiteral("很遗憾，未能于 10 分钟内通关地下城！"));
-    }
+    ui->lcdClock->setSegmentStyle(QLCDNumber::Flat);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换风格为 QLCDNumber::Flat (扁平)"));
 }
 
 void MainWindow::onModeDec()
 {
-    ui->lcdCombo->setDecMode();
-    appendLog(QStringLiteral("LCD 进制"), QStringLiteral("连击液晶屏切换为十进制 (DEC) 模式"));
+    ui->lcdCounter->setDecMode();
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换为十进制 (DEC) 显示模式"));
 }
 
 void MainWindow::onModeHex()
 {
-    ui->lcdCombo->setHexMode();
-    appendLog(QStringLiteral("LCD 进制"), QStringLiteral("连击液晶屏切换为十六进制 (HEX) 模式"));
+    ui->lcdCounter->setHexMode();
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换为十六进制 (HEX) 显示模式"));
 }
 
 void MainWindow::onModeBin()
 {
-    ui->lcdCombo->setBinMode();
-    appendLog(QStringLiteral("LCD 进制"), QStringLiteral("连击液晶屏切换为二进制 (BIN) 模式"));
+    ui->lcdCounter->setBinMode();
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("切换为二进制 (BIN) 显示模式"));
 }
 
-void MainWindow::onHitAdd1()
+void MainWindow::onCountAdd1()
 {
-    ++m_comboCount;
-    ui->lcdCombo->display(m_comboCount);
-    appendLog(QStringLiteral("连击数"), QStringLiteral("连击数 +1 -> 当前 Hits: %1").arg(m_comboCount));
+    ++m_counterValue;
+    ui->lcdCounter->display(m_counterValue);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("计数 +1 -> %1").arg(m_counterValue));
 }
 
-void MainWindow::onHitAdd10()
+void MainWindow::onCountAdd10()
 {
-    m_comboCount += 10;
-    ui->lcdCombo->display(m_comboCount);
-    appendLog(QStringLiteral("连击数"), QStringLiteral("狂暴连击 +10 -> 当前 Hits: %1").arg(m_comboCount));
+    m_counterValue += 10;
+    ui->lcdCounter->display(m_counterValue);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("计数 +10 -> %1").arg(m_counterValue));
 }
 
-void MainWindow::onHitReset()
+void MainWindow::onCountReset()
 {
-    m_comboCount = 0;
-    ui->lcdCombo->display(0);
-    appendLog(QStringLiteral("连击数"), QStringLiteral("连击中断归零 (0 Hits)"));
+    m_counterValue = 0;
+    ui->lcdCounter->display(0);
+    appendLog(QStringLiteral("QLCDNumber"), QStringLiteral("计数归零 (0)"));
 }

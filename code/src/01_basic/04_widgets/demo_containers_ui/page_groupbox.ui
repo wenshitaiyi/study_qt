@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PageGroupBox</class>
+ <widget class="QWidget" name="PageGroupBox">
+  <layout class="QVBoxLayout" name="vboxRoot">
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="styleSheet">
+      <string notr="true">font-size: 14px; font-weight: bold; color: #2c3e50;</string>
+     </property>
+     <property name="text">
+      <string>📦 QGroupBox 分组容器使用指南</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelNotes">
+     <property name="text">
+      <string>💡 核心 API：setTitle(str), setCheckable(bool), setChecked(bool), toggled(bool) 信号, setFlat(bool), setAlignment(Qt::AlignLeft/Center/Right)。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupStandard">
+     <property name="title">
+      <string>1. 标准分组框 (Standard QGroupBox)</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <layout class="QHBoxLayout" name="hlayoutStd">
+      <item>
+       <widget class="QRadioButton" name="radioOptA">
+        <property name="text">
+         <string>选项 A</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioOptB">
+        <property name="text">
+         <string>选项 B</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioOptC">
+        <property name="text">
+         <string>选项 C</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupCheckable">
+     <property name="title">
+      <string>2. 带勾选框自锁分组 (setCheckable: true)</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <layout class="QFormLayout" name="formCheckable">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelProxyHost">
+        <property name="text">
+         <string>代理服务器主机：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="editProxyHost">
+        <property name="text">
+         <string>127.0.0.1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelProxyPort">
+        <property name="text">
+         <string>代理端口：</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinProxyPort">
+        <property name="maximum">
+         <number>65535</number>
+        </property>
+        <property name="value">
+         <number>7890</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupFlat">
+     <property name="title">
+      <string>3. 扁平无边框分组 (setFlat: true)</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <layout class="QHBoxLayout" name="hlayoutFlat">
+      <item>
+       <widget class="QLabel" name="labelFlatDesc">
+        <property name="text">
+         <string>setFlat(true) 去除左右和底部的 3D 边框线，仅保留顶部的标题分隔，视觉更简洁现代。</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnFlatAction">
+        <property name="text">
+         <string>扁平容器内操作按钮</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacerGroup">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PageToolBox</class>
+ <widget class="QWidget" name="PageToolBox">
+  <layout class="QVBoxLayout" name="vboxRoot">
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="styleSheet">
+      <string notr="true">font-size: 14px; font-weight: bold; color: #2c3e50;</string>
+     </property>
+     <property name="text">
+      <string>🗂️ QToolBox 抽屉折叠面板使用指南</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelNotes">
+     <property name="text">
+      <string>💡 核心 API：addItem(widget, text), insertItem(), removeItem(index), setCurrentIndex(int), currentChanged(int) 信号。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="hlayoutToolboxContainer">
+     <item>
+      <widget class="QToolBox" name="toolBoxDemo">
+       <property name="minimumSize">
+        <size>
+         <width>260</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="pageFriends">
+        <attribute name="label">
+         <string>👥 我的好友列表 (3/5)</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="vboxFriends">
+         <item>
+          <widget class="QPushButton" name="btnFriend1">
+           <property name="text">
+            <string>🟢 张三 (在线 - Visual Studio)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnFriend2">
+           <property name="text">
+            <string>🟢 李四 (在线 - Qt Creator)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnFriend3">
+           <property name="text">
+            <string>⚪ 王五 (离线)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacerFriends">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageGroups">
+        <attribute name="label">
+         <string>🏢 项目讨论群组 (2)</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="vboxGroups">
+         <item>
+          <widget class="QPushButton" name="btnGroup1">
+           <property name="text">
+            <string>💬 C++ / Qt 核心技术架构组</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnGroup2">
+           <property name="text">
+            <string>💬 UI / UX 交互设计规范组</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacerGroups">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="pageBlacklist">
+        <attribute name="label">
+         <string>🚫 黑名单与已屏蔽 (0)</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="vboxBlack">
+         <item>
+          <widget class="QLabel" name="labelEmptyBlack">
+           <property name="text">
+            <string>（暂无已屏蔽联系人）</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacerBlack">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupToolboxInfo">
+       <property name="title">
+        <string>【QToolBox 抽屉组件特性说明】</string>
+       </property>
+       <layout class="QVBoxLayout" name="vboxToolboxInfo">
+        <item>
+         <widget class="QLabel" name="labelToolboxDesc">
+          <property name="text">
+           <string>• QToolBox 呈现经典的“手风琴（Accordion）”抽屉式垂直折叠面板效果。
+• 每一项由一个可点击的标题栏（Tab Button）和对应的内部 Widget 组成。
+• 适用于 QQ 风格好友列表、侧边导航工具箱或多层级分类筛选。</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="hlayoutToolboxActions">
+          <item>
+           <widget class="QPushButton" name="btnSwitchNextDrawer">
+            <property name="text">
+             <string>⏩ 切换到下一个抽屉 (setCurrentIndex)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnAddDrawer">
+            <property name="text">
+             <string>➕ 动态追加新抽屉 (addItem)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="spacerToolboxInfo">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

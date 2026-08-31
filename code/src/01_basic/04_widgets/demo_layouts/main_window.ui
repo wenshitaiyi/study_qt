@@ -6,229 +6,129 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1020</width>
-    <height>720</height>
+    <width>1000</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Qt 五大核心布局管理器与游戏界面实战 (demo_layouts)</string>
+   <string>Qt 五大核心布局管理器使用指南 (demo_layouts)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayoutRoot">
     <item>
-     <widget class="QTabWidget" name="tabWidgetMain">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
       </property>
+
       <!-- TAB 1: QHBoxLayout & QVBoxLayout -->
-      <widget class="QWidget" name="tabLinear">
+      <widget class="QWidget" name="tabBox">
        <attribute name="title">
-        <string>1. 英雄状态与快捷栏 (HBox / VBox)</string>
+        <string>1. 水平与垂直布局 (QHBoxLayout / QVBoxLayout)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab1">
+       <layout class="QVBoxLayout" name="vboxTab1">
         <item>
-         <widget class="QGroupBox" name="groupHeroHud">
+         <widget class="QGroupBox" name="groupHBox">
           <property name="title">
-           <string>【顶部玩家 HUD 状态栏】(QHBoxLayout + 弹性拉伸 Stretch + 对齐)</string>
+           <string>【QHBoxLayout 水平布局】演示：拉伸权重 (Stretch)、弹簧占位 (Spacer)、边距与间距</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutHud">
-           <property name="spacing">
-            <number>12</number>
-           </property>
+          <layout class="QVBoxLayout" name="vboxInsideHGroup">
            <item>
-            <widget class="QLabel" name="labelAvatar">
-             <property name="minimumSize">
-              <size>
-               <width>50</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: #2c3e50; color: #f1c40f; border-radius: 25px; font-weight: bold; qproperty-alignment: AlignCenter;</string>
-             </property>
+            <widget class="QLabel" name="labelHBoxDesc">
              <property name="text">
-              <string>Lv.85
-骑士</string>
+              <string>说明：下方三个按钮水平排列，分别设置了不同的 Stretch 比例 (1 : 2 : 1)，窗口变宽时中间按钮将获得两倍的拉伸空间。</string>
              </property>
             </widget>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutBars">
+            <layout class="QHBoxLayout" name="hlayoutDemo">
              <property name="spacing">
-              <number>4</number>
+              <number>15</number>
              </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayoutHp">
-               <item>
-                <widget class="QLabel" name="labelHpTitle">
-                 <property name="text">
-                  <string>HP :</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QProgressBar" name="progressHp">
-                 <property name="value">
-                  <number>82</number>
-                 </property>
-                 <property name="format">
-                  <string>18,500 / 22,500</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QPushButton" name="btnH1">
+               <property name="text">
+                <string>按钮 1 (Stretch = 1)</string>
+               </property>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayoutMp">
-               <item>
-                <widget class="QLabel" name="labelMpTitle">
-                 <property name="text">
-                  <string>MP :</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QProgressBar" name="progressMp">
-                 <property name="value">
-                  <number>65</number>
-                 </property>
-                 <property name="format">
-                  <string>3,250 / 5,000</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QPushButton" name="btnH2">
+               <property name="text">
+                <string>按钮 2 (Stretch = 2，中间扩展)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnH3">
+               <property name="text">
+                <string>按钮 3 (Stretch = 1)</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
-            <spacer name="horizontalSpacerHud">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="labelGold">
-             <property name="styleSheet">
-              <string notr="true">font-size: 13px; font-weight: bold; color: #f39c12;</string>
-             </property>
-             <property name="text">
-              <string>💰 金币: 88,520</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="labelDiamond">
-             <property name="styleSheet">
-              <string notr="true">font-size: 13px; font-weight: bold; color: #3498db;</string>
-             </property>
-             <property name="text">
-              <string>💎 钻石: 1,280</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="hlayoutSpacerDemo">
+             <item>
+              <widget class="QLabel" name="labelLeft">
+               <property name="text">
+                <string>左侧固定文本</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacerH">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnRight">
+               <property name="text">
+                <string>右对齐操作按钮 (弹簧推向最右侧)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBattleLog">
+         <widget class="QGroupBox" name="groupVBox">
           <property name="title">
-           <string>【副本主战场监控】(QVBoxLayout 自适应伸缩)</string>
+           <string>【QVBoxLayout 垂直布局】演示：垂直层叠、单项对齐方式 (Alignment)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutLogSub">
-           <item>
-            <widget class="QPlainTextEdit" name="textBattleLogTab1">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-             <property name="plainText">
-              <string>[12:00:01] 队伍进入【暗黑神殿·深渊层】
-[12:00:03] 圣骑士施放【圣光光环】，全队护甲提升 20%
-[12:00:05] 首领【伊利丹·怒风】苏醒，战斗正式开始！</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupActionSlots">
-          <property name="title">
-           <string>【底部动作技能栏】(QHBoxLayout 均分比例 Stretch + 居中对齐)</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutSlots">
+          <layout class="QVBoxLayout" name="vlayoutDemo">
            <property name="spacing">
             <number>10</number>
            </property>
            <item>
-            <widget class="QPushButton" name="btnSlot1">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>45</height>
-              </size>
-             </property>
+            <widget class="QPushButton" name="btnVLeft">
              <property name="text">
-              <string>[1] 圣光惩击</string>
+              <string>左对齐部件 (Qt::AlignLeft)</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnSlot2">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>45</height>
-              </size>
-             </property>
+            <widget class="QPushButton" name="btnVCenter">
              <property name="text">
-              <string>[2] 圣盾术</string>
+              <string>居中对齐部件 (Qt::AlignHCenter)</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnSlot3">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>45</height>
-              </size>
-             </property>
+            <widget class="QPushButton" name="btnVRight">
              <property name="text">
-              <string>[3] 审判之锤</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="btnSlot4">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>45</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>[4] 复仇之怒</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="btnSlotPotion">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>45</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>[Q] 生命药剂(99)</string>
+              <string>右对齐部件 (Qt::AlignRight)</string>
              </property>
             </widget>
            </item>
@@ -241,73 +141,75 @@
       <!-- TAB 2: QGridLayout -->
       <widget class="QWidget" name="tabGrid">
        <attribute name="title">
-        <string>2. 装备背包与镶嵌矩阵 (QGridLayout)</string>
+        <string>2. 网格布局 (QGridLayout)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab2">
+       <layout class="QVBoxLayout" name="vboxTab2">
         <item>
-         <widget class="QLabel" name="labelGridHint">
+         <widget class="QLabel" name="labelGridNotes">
           <property name="text">
-           <string>💡 核心知识点：QGridLayout 跨行跨列 (RowSpan / ColSpan)、单元格对其与行列拉伸比 (setRowStretch / setColumnStretch)。</string>
+           <string>💡 核心 API：addWidget(widget, row, col, rowSpan, colSpan) 跨行跨列、setRowStretch(row, stretch) 行拉伸、setColumnStretch(col, stretch) 列拉伸。</string>
           </property>
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayoutGridContainer">
-          <item>
-           <widget class="QGroupBox" name="groupCharacterModel">
-            <property name="title">
-             <string>英雄装备立绘 (跨 3行 x 2列 占据大单元格)</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayoutHeroEquip">
-             <item row="0" column="0" rowspan="3" colspan="2">
-              <widget class="QLabel" name="labelHeroPortrait">
-               <property name="styleSheet">
-                <string notr="true">background-color: #1a252f; color: #ecf0f1; border: 2px solid #34495e; border-radius: 8px; font-size: 14px; font-weight: bold; qproperty-alignment: AlignCenter;</string>
-               </property>
-               <property name="text">
-                <string>🛡️ 圣骑士·全套神装
-[占用 3 行 x 2 列大空间]
-头盔: 炽天使之冠
-胸甲: 永恒守护
-主手: 灰烬使者 (Ashbringer)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QPushButton" name="btnRing1">
-               <property name="text">
-                <string>💍 戒指 1</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QPushButton" name="btnRing2">
-               <property name="text">
-                <string>💍 戒指 2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="QPushButton" name="btnTrinket">
-               <property name="text">
-                <string>📿 远古饰品</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="groupInventoryGrid">
-            <property name="title">
-             <string>4x4 物品背包网格 (QGridLayout 自动均匀对齐)</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayoutInventory">
-             <!-- 背包格子在代码中动态填充或在 UI 中排列 -->
-            </layout>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QGroupBox" name="groupGridBox">
+          <property name="title">
+           <string>网格布局单元格矩阵演示 (3行 x 3列)</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutDemo">
+           <item row="0" column="0" rowspan="2" colspan="1">
+            <widget class="QPushButton" name="btnGridSpanRow">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #34495e; color: white; font-weight: bold;</string>
+             </property>
+             <property name="text">
+              <string>跨 2 行 (Row 0~1, Col 0)
+rowSpan = 2, colSpan = 1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnGrid01">
+             <property name="text">
+              <string>[0, 1] 单元格</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="btnGrid02">
+             <property name="text">
+              <string>[0, 2] 单元格</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" rowspan="1" colspan="2">
+            <widget class="QPushButton" name="btnGridSpanCol">
+             <property name="styleSheet">
+              <string notr="true">background-color: #2980b9; color: white; font-weight: bold;</string>
+             </property>
+             <property name="text">
+              <string>跨 2 列 (Row 1, Col 1~2) - colSpan = 2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="3">
+            <widget class="QPushButton" name="btnGridFooter">
+             <property name="styleSheet">
+              <string notr="true">background-color: #27ae60; color: white; font-weight: bold;</string>
+             </property>
+             <property name="text">
+              <string>跨整行底部栏 (Row 2, Col 0~2) - colSpan = 3</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -315,15 +217,15 @@
       <!-- TAB 3: QFormLayout -->
       <widget class="QWidget" name="tabForm">
        <attribute name="title">
-        <string>3. 角色创建与天赋表单 (QFormLayout)</string>
+        <string>3. 表单布局 (QFormLayout)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab3">
+       <layout class="QVBoxLayout" name="vboxTab3">
         <item>
-         <widget class="QGroupBox" name="groupForm">
+         <widget class="QGroupBox" name="groupFormBox">
           <property name="title">
-           <string>【新角色注册与属性加点表单】(QFormLayout 标签字段自动对齐)</string>
+           <string>【QFormLayout 标准两列表单】演示：标签-字段对齐 (addRow)、换行策略 (RowWrapPolicy)</string>
           </property>
-          <layout class="QFormLayout" name="formLayoutChar">
+          <layout class="QFormLayout" name="formLayoutDemo">
            <property name="fieldGrowthPolicy">
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
@@ -334,154 +236,83 @@
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="labelCharName">
+            <widget class="QLabel" name="labelUsername">
              <property name="text">
-              <string>角色昵称：</string>
+              <string>用户名 (Username)：</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="editCharName">
+            <widget class="QLineEdit" name="editUsername">
              <property name="text">
-              <string>风暴降生·龙骑士</string>
+              <string>qt_developer</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelClass">
+            <widget class="QLabel" name="labelRole">
              <property name="text">
-              <string>初始职业：</string>
+              <string>用户角色 (Role)：</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="comboClass">
+            <widget class="QComboBox" name="comboRole">
              <item>
               <property name="text">
-               <string>圣骑士 (Paladin)</string>
+               <string>系统管理员 (Admin)</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>大魔法师 (Archmage)</string>
+               <string>普通操作员 (Operator)</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>暗影刺客 (Rogue)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>恶魔猎手 (DemonHunter)</string>
+               <string>只读访客 (Viewer)</string>
               </property>
              </item>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="labelStrength">
+            <widget class="QLabel" name="labelAge">
              <property name="text">
-              <string>力量 (Strength)：</string>
+              <string>年龄 (Age)：</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayoutStr">
-             <item>
-              <widget class="QSpinBox" name="spinStrength">
-               <property name="minimum">
-                <number>10</number>
-               </property>
-               <property name="maximum">
-                <number>200</number>
-               </property>
-               <property name="value">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelStrDesc">
-               <property name="text">
-                <string>影响物理攻击力与最大生命值</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QSpinBox" name="spinAge">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>120</number>
+             </property>
+             <property name="value">
+              <number>28</number>
+             </property>
+            </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="labelAgility">
+            <widget class="QLabel" name="labelRemark">
              <property name="text">
-              <string>敏捷 (Agility)：</string>
+              <string>备注信息 (Remark)：</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayoutAgi">
-             <item>
-              <widget class="QSpinBox" name="spinAgility">
-               <property name="minimum">
-                <number>10</number>
-               </property>
-               <property name="maximum">
-                <number>200</number>
-               </property>
-               <property name="value">
-                <number>35</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelAgiDesc">
-               <property name="text">
-                <string>影响暴击率与攻击速度</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="labelIntellect">
-             <property name="text">
-              <string>智力 (Intellect)：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayoutInt">
-             <item>
-              <widget class="QSpinBox" name="spinIntellect">
-               <property name="minimum">
-                <number>10</number>
-               </property>
-               <property name="maximum">
-                <number>200</number>
-               </property>
-               <property name="value">
-                <number>25</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelIntDesc">
-               <property name="text">
-                <string>影响魔法攻击力与法力值上限</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="labelBio">
-             <property name="text">
-              <string>英雄传记简介：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="editBio">
+            <widget class="QLineEdit" name="editRemark">
              <property name="placeholderText">
-              <string>输入该英雄的背景传奇故事...</string>
+              <string>输入可选的备注说明信息...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="2">
+            <widget class="QPushButton" name="btnFormSubmit">
+             <property name="text">
+              <string>跨两列提交按钮 (addRow(singleWidget))</string>
              </property>
             </widget>
            </item>
@@ -489,31 +320,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayoutFormBtns">
-          <item>
-           <spacer name="horizontalSpacerForm">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btnCreateChar">
-            <property name="text">
-             <string>✨ 提交创建新英雄</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacerForm">
+         <spacer name="verticalSpacerTab3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -531,79 +338,44 @@
       <!-- TAB 4: QStackedLayout / QStackedWidget -->
       <widget class="QWidget" name="tabStacked">
        <attribute name="title">
-        <string>4. 职业二转觉醒向导 (QStackedLayout)</string>
+        <string>4. 堆叠布局与分步向导 (QStackedWidget)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab4">
+       <layout class="QVBoxLayout" name="vboxTab4">
         <item>
-         <widget class="QLabel" name="labelWizardTitle">
-          <property name="styleSheet">
-           <string notr="true">font-size: 14px; font-weight: bold; color: #2980b9;</string>
-          </property>
+         <widget class="QLabel" name="labelStackTitle">
           <property name="text">
-           <string>🧙‍♂️ 职业二转觉醒殿堂向导流程 (QStackedLayout 多步骤动态切换)</string>
+           <string>💡 核心 API：setCurrentIndex(index), setCurrentWidget(widget), currentChanged(index) 信号。</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QStackedWidget" name="stackedWidgetWizard">
+         <widget class="QStackedWidget" name="stackedWidget">
           <property name="styleSheet">
-           <string notr="true">border: 1px solid #bdc3c7; border-radius: 6px; background-color: #fdfefe;</string>
+           <string notr="true">border: 1px solid #bdc3c7; border-radius: 4px; background-color: #fafafa;</string>
           </property>
-          <widget class="QWidget" name="pageStep1">
-           <layout class="QVBoxLayout" name="verticalLayoutStep1">
+          <widget class="QWidget" name="page1">
+           <layout class="QVBoxLayout" name="vboxPage1">
             <item>
-             <widget class="QLabel" name="labelStep1">
+             <widget class="QLabel" name="labelPage1Title">
               <property name="styleSheet">
-               <string notr="true">font-size: 15px; font-weight: bold; color: #e67e22;</string>
+               <string notr="true">font-size: 15px; font-weight: bold; color: #2980b9;</string>
               </property>
               <property name="text">
-               <string>第 1 步：基础资格考核评估</string>
+               <string>第 1 页：欢迎向导与许可协议</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelStep1Content">
+             <widget class="QLabel" name="labelPage1Text">
               <property name="text">
-               <string>• 当前角色等级：Lv.85 (达标，要求 &gt;= 80)
-• 主线任务通关：【击败熔岩巨龙】已完成
-• 觉醒考核状态：恭喜你！已满足全部二转前置条件，请点击下一步选择专精进阶路线。</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
+               <string>欢迎使用安装向导。请阅读并同意最终用户许可协议后继续。</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacerStep1">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="pageStep2">
-           <layout class="QVBoxLayout" name="verticalLayoutStep2">
-            <item>
-             <widget class="QLabel" name="labelStep2">
-              <property name="styleSheet">
-               <string notr="true">font-size: 15px; font-weight: bold; color: #e67e22;</string>
-              </property>
+             <widget class="QCheckBox" name="chkAgreeLicense">
               <property name="text">
-               <string>第 2 步：选择你的二转觉醒专精方向</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioSpecRetribution">
-              <property name="text">
-               <string>⚔️ 【惩戒骑士】极限输出路线 (终极技能：灰烬觉醒，爆发提升 200%)</string>
+               <string>我已阅读并同意许可协议条款</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -611,21 +383,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="radioSpecProtection">
-              <property name="text">
-               <string>🛡️ 【防护领主】绝对防御路线 (终极技能：神圣壁垒，全队免死 5 秒)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioSpecHoly">
-              <property name="text">
-               <string>✨ 【神圣祭司】强力治愈路线 (终极技能：群体复活，救赎战败队友)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacerStep2">
+             <spacer name="spacerP1">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -639,31 +397,68 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="pageStep3">
-           <layout class="QVBoxLayout" name="verticalLayoutStep3">
+          <widget class="QWidget" name="page2">
+           <layout class="QVBoxLayout" name="vboxPage2">
             <item>
-             <widget class="QLabel" name="labelStep3">
+             <widget class="QLabel" name="labelPage2Title">
+              <property name="styleSheet">
+               <string notr="true">font-size: 15px; font-weight: bold; color: #e67e22;</string>
+              </property>
+              <property name="text">
+               <string>第 2 页：目标安装路径与配置</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelPath">
+              <property name="text">
+               <string>安装目录路径：</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="editInstallPath">
+              <property name="text">
+               <string>C:\Program Files\MyApplication</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="spacerP2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page3">
+           <layout class="QVBoxLayout" name="vboxPage3">
+            <item>
+             <widget class="QLabel" name="labelPage3Title">
               <property name="styleSheet">
                <string notr="true">font-size: 15px; font-weight: bold; color: #27ae60;</string>
               </property>
               <property name="text">
-               <string>第 3 步：神圣誓约与二转完成！</string>
+               <string>第 3 页：安装就绪与完成</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="labelStep3Msg">
+             <widget class="QLabel" name="labelPage3Text">
               <property name="text">
-               <string>🎉 恭喜！神圣誓约已缔结，觉醒力量注入体内！
-全新二转专属技能已解锁至技能树，全属性成长率提升 30%！</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
+               <string>所有配置参数已就绪，点击“完成”即可结束配置向导！</string>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacerStep3">
+             <spacer name="spacerP3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -680,7 +475,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayoutWizardNav">
+         <layout class="QHBoxLayout" name="hlayoutWizardBtns">
           <item>
            <widget class="QPushButton" name="btnWizardPrev">
             <property name="text">
@@ -692,7 +487,7 @@
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacerWizard">
+           <spacer name="spacerWizard">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -707,7 +502,7 @@
           <item>
            <widget class="QLabel" name="labelStepIndicator">
             <property name="text">
-             <string>步骤: 1 / 3</string>
+             <string>当前页面: 1 / 3</string>
             </property>
            </widget>
           </item>
@@ -723,22 +518,22 @@
        </layout>
       </widget>
 
-      <!-- TAB 5: Dynamic Sandbox -->
-      <widget class="QWidget" name="tabSandbox">
+      <!-- TAB 5: Dynamic Parameter Adjuster -->
+      <widget class="QWidget" name="tabDynamic">
        <attribute name="title">
-        <string>5. 布局参数实时调谐实验室 (Sandbox)</string>
+        <string>5. 动态调参实验室 (Margins / Spacing / Stretch)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab5">
+       <layout class="QVBoxLayout" name="vboxTab5">
         <item>
-         <widget class="QGroupBox" name="groupSandboxControls">
+         <widget class="QGroupBox" name="groupDynamicCtrl">
           <property name="title">
-           <string>【动态调节参数】(实时修改 Margins、Spacing 与 Stretch)</string>
+           <string>【动态调节 API 演示】调用 setContentsMargins、setSpacing 与 setStretch</string>
           </property>
-          <layout class="QGridLayout" name="gridLayoutSandboxCtrl">
+          <layout class="QGridLayout" name="gridCtrl">
            <item row="0" column="0">
-            <widget class="QLabel" name="labelMargin">
+            <widget class="QLabel" name="labelMarginTitle">
              <property name="text">
-              <string>外边距 (Margin):</string>
+              <string>外边距 (setContentsMargins):</string>
              </property>
             </widget>
            </item>
@@ -759,16 +554,16 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QLabel" name="labelMarginVal">
+            <widget class="QLabel" name="labelMarginValue">
              <property name="text">
               <string>10 px</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelSpacing">
+            <widget class="QLabel" name="labelSpacingTitle">
              <property name="text">
-              <string>间距 (Spacing):</string>
+              <string>部件间距 (setSpacing):</string>
              </property>
             </widget>
            </item>
@@ -789,39 +584,39 @@
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLabel" name="labelSpacingVal">
+            <widget class="QLabel" name="labelSpacingValue">
              <property name="text">
               <string>10 px</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="labelStretchRatio">
+            <widget class="QLabel" name="labelStretchTitle">
              <property name="text">
-              <string>拉伸比 (Stretch):</string>
+              <string>拉伸比例预设 (setStretch):</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1" colspan="2">
-            <layout class="QHBoxLayout" name="horizontalLayoutStretchBtns">
+            <layout class="QHBoxLayout" name="hlayoutStretchPresets">
              <item>
               <widget class="QPushButton" name="btnStretch111">
                <property name="text">
-                <string>1 : 1 : 1 均分</string>
+                <string>1 : 1 : 1 (均分)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnStretch121">
                <property name="text">
-                <string>1 : 2 : 1 中间扩大</string>
+                <string>1 : 2 : 1 (突出中间)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnStretch132">
                <property name="text">
-                <string>1 : 3 : 2 阶梯拉伸</string>
+                <string>1 : 3 : 2 (阶梯)</string>
                </property>
               </widget>
              </item>
@@ -831,14 +626,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupSandboxPreview">
+         <widget class="QGroupBox" name="groupDynamicPreview">
           <property name="title">
-           <string>【实时受控目标布局容器】</string>
+           <string>【实时受控目标布局容器】(观察边距、间距与比例的即时变化)</string>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: #2c3e50;</string>
           </property>
-          <layout class="QHBoxLayout" name="sandboxTargetLayout">
+          <layout class="QHBoxLayout" name="dynamicTargetLayout">
            <property name="leftMargin">
             <number>10</number>
            </property>
@@ -855,32 +650,32 @@
             <number>10</number>
            </property>
            <item>
-            <widget class="QPushButton" name="btnSandbox1">
+            <widget class="QPushButton" name="btnBoxA">
              <property name="styleSheet">
-              <string notr="true">background-color: #e74c3c; color: white; font-weight: bold; font-size: 14px; min-height: 80px;</string>
+              <string notr="true">background-color: #e74c3c; color: white; font-weight: bold; min-height: 80px;</string>
              </property>
              <property name="text">
-              <string>模块 A (Stretch 1)</string>
+              <string>部件 A (index: 0)</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnSandbox2">
+            <widget class="QPushButton" name="btnBoxB">
              <property name="styleSheet">
-              <string notr="true">background-color: #2ecc71; color: white; font-weight: bold; font-size: 14px; min-height: 80px;</string>
+              <string notr="true">background-color: #2ecc71; color: white; font-weight: bold; min-height: 80px;</string>
              </property>
              <property name="text">
-              <string>模块 B (Stretch 1)</string>
+              <string>部件 B (index: 1)</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="btnSandbox3">
+            <widget class="QPushButton" name="btnBoxC">
              <property name="styleSheet">
-              <string notr="true">background-color: #3498db; color: white; font-weight: bold; font-size: 14px; min-height: 80px;</string>
+              <string notr="true">background-color: #3498db; color: white; font-weight: bold; min-height: 80px;</string>
              </property>
              <property name="text">
-              <string>模块 C (Stretch 1)</string>
+              <string>部件 C (index: 2)</string>
              </property>
             </widget>
            </item>
@@ -892,12 +687,12 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="labelStatusBar">
+     <widget class="QLabel" name="labelStatus">
       <property name="styleSheet">
-       <string notr="true">background-color: #ecf0f1; padding: 4px; color: #2c3e50; font-weight: bold;</string>
+       <string notr="true">background-color: #ecf0f1; padding: 5px; color: #2c3e50; font-weight: bold;</string>
       </property>
       <property name="text">
-       <string>就绪 | 当前布局实战演示运行中</string>
+       <string>状态：就绪 | 切换上方 Tab 页面查看不同布局管理器的标准用法。</string>
       </property>
      </widget>
     </item>

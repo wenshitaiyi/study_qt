@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PageTabWidget</class>
+ <widget class="QWidget" name="PageTabWidget">
+  <layout class="QVBoxLayout" name="vboxRoot">
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="styleSheet">
+      <string notr="true">font-size: 14px; font-weight: bold; color: #2c3e50;</string>
+     </property>
+     <property name="text">
+      <string>📑 QTabWidget 多标签页容器使用指南</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelNotes">
+     <property name="text">
+      <string>💡 核心 API：addTab(), setTabPosition(), setTabShape(), setTabsClosable(bool), setMovable(bool), setCornerWidget()。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupTabControls">
+     <property name="title">
+      <string>【动态控制选项】(修改标签页方位、形状与动态增删)</string>
+     </property>
+     <layout class="QHBoxLayout" name="hlayoutTabCtrls">
+      <item>
+       <widget class="QLabel" name="labelPos">
+        <property name="text">
+         <string>标签方位 (TabPosition)：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboTabPos">
+        <item>
+         <property name="text">
+          <string>North (上方)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>South (下方)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>West (左侧)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>East (右侧)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkClosable">
+        <property name="text">
+         <string>允许关闭 (TabsClosable)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkMovable">
+        <property name="text">
+         <string>允许拖拽排序 (Movable)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnAddNewTab">
+        <property name="text">
+         <string>➕ 动态添加新标签页</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidgetDemo">
+     <property name="tabsClosable">
+      <bool>true</bool>
+     </property>
+     <property name="movable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>通用配置 (General)</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="vboxGeneral">
+       <item>
+        <widget class="QLabel" name="labelGen">
+         <property name="text">
+          <string>这是【通用配置】标签页内容。支持拖拽标签头重新排序。</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerGen">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabNetwork">
+      <attribute name="title">
+       <string>网络参数 (Network)</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="vboxNet">
+       <item>
+        <widget class="QLabel" name="labelNet">
+         <property name="text">
+          <string>这是【网络参数】标签页内容。点击标签右上角“×”可请求关闭。</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerNet">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabAdvanced">
+      <attribute name="title">
+       <string>高级选项 (Advanced)</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="vboxAdv">
+       <item>
+        <widget class="QLabel" name="labelAdv">
+         <property name="text">
+          <string>这是【高级选项】标签页内容。</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerAdv">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

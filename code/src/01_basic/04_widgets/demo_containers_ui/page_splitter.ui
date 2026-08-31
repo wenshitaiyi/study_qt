@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PageSplitter</class>
+ <widget class="QWidget" name="PageSplitter">
+  <layout class="QVBoxLayout" name="vboxRoot">
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="styleSheet">
+      <string notr="true">font-size: 14px; font-weight: bold; color: #2c3e50;</string>
+     </property>
+     <property name="text">
+      <string>📐 QSplitter 可拖拽动态分割条使用指南</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelNotes">
+     <property name="text">
+      <string>💡 核心 API：setOrientation(), setStretchFactor(index, factor), setCollapsible(index, bool), setSizes(), setHandleWidth()。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupSplitterCtrls">
+     <property name="title">
+      <string>【分割条属性控制】</string>
+     </property>
+     <layout class="QHBoxLayout" name="hlayoutSplitterCtrls">
+      <item>
+       <widget class="QPushButton" name="btnResetRatio">
+        <property name="text">
+         <string>🔄 重置分栏比例为 1 : 2 : 1</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkCollapsible">
+        <property name="text">
+         <string>允许折叠收起至 0 像素 (setCollapsible)</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="spacerSplitterCtrls">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSplitter" name="splitterHorizontal">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="handleWidth">
+      <number>6</number>
+     </property>
+     <widget class="QGroupBox" name="panelLeft">
+      <property name="title">
+       <string>左侧导航面板 (Left Panel)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #f1f2f6;</string>
+      </property>
+      <layout class="QVBoxLayout" name="vboxLeft">
+       <item>
+        <widget class="QLabel" name="labelLeftText">
+         <property name="text">
+          <string>左侧导航树/目录区
+(鼠标悬停在边线上可左右拖拽调节宽度)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerL">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="panelCenter">
+      <property name="title">
+       <string>中央主编辑区 (Center Panel)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #ffffff;</string>
+      </property>
+      <layout class="QVBoxLayout" name="vboxCenter">
+       <item>
+        <widget class="QLabel" name="labelCenterText">
+         <property name="text">
+          <string>中央代码/工作区 (设置了主要拉伸权重 Stretch: 2)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerC">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="panelRight">
+      <property name="title">
+       <string>右侧属性栏 (Right Panel)</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #f1f2f6;</string>
+      </property>
+      <layout class="QVBoxLayout" name="vboxRight">
+       <item>
+        <widget class="QLabel" name="labelRightText">
+         <property name="text">
+          <string>右侧属性检查器</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerR">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

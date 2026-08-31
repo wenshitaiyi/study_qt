@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PageScrollArea</class>
+ <widget class="QWidget" name="PageScrollArea">
+  <layout class="QVBoxLayout" name="vboxRoot">
+   <item>
+    <widget class="QLabel" name="labelTitle">
+     <property name="styleSheet">
+      <string notr="true">font-size: 14px; font-weight: bold; color: #2c3e50;</string>
+     </property>
+     <property name="text">
+      <string>📜 QScrollArea 滚动视图区域使用指南</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelNotes">
+     <property name="text">
+      <string>💡 核心 API：setWidget(QWidget*), setWidgetResizable(bool), setHorizontalScrollBarPolicy(), ensureWidgetVisible()。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupScrollCtrls">
+     <property name="title">
+      <string>【滚动区域属性控制】</string>
+     </property>
+     <layout class="QHBoxLayout" name="hlayoutScrollCtrls">
+      <item>
+       <widget class="QCheckBox" name="chkWidgetResizable">
+        <property name="text">
+         <string>自适应调整尺寸 (setWidgetResizable)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelHBar">
+        <property name="text">
+         <string>水平滚动条策略：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboHBarPolicy">
+        <item>
+         <property name="text">
+          <string>AsNeeded (需要时出现)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AlwaysOn (常开固定)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AlwaysOff (始终禁用隐藏)</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnScrollToBottom">
+        <property name="text">
+         <string>⬇ 快速滚动到底部</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="scrollAreaDemo">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>500</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="vboxScrollContent">
+       <!-- 动态或静态放入多个卡片 -->
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

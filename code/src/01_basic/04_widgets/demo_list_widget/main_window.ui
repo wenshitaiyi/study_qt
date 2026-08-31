@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QListWidget 深度实战与避坑指南 (游戏背包仓库) - demo_list_widget</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="hlayoutRoot">
+    <item>
+     <layout class="QVBoxLayout" name="vboxLeftArea">
+      <!-- 顶部过滤与视图切换工具栏 -->
+      <item>
+       <widget class="QGroupBox" name="groupToolbar">
+        <property name="title">
+         <string>【工具栏】实时检索过滤、视图模式与排序</string>
+        </property>
+        <layout class="QHBoxLayout" name="hlayoutTool">
+         <item>
+          <widget class="QLabel" name="labelSearch">
+           <property name="text">
+            <string>🔍 装备过滤：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="editFilter">
+           <property name="placeholderText">
+            <string>输入装备名实时模糊过滤隐藏...</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelViewMode">
+           <property name="text">
+            <string>视图模式：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboViewMode">
+           <item>
+            <property name="text">
+             <string>📋 列表模式 (ListMode)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🔲 大图标模式 (IconMode)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSortAsc">
+           <property name="text">
+            <string>🔼 升序排序</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSortDesc">
+           <property name="text">
+            <string>🔽 降序排序</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <!-- 主 QListWidget 区域 -->
+      <item>
+       <widget class="QListWidget" name="listInventory">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::InternalMove</enum>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>28</width>
+          <height>28</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <!-- 底部统计与快捷提示 -->
+      <item>
+       <widget class="QLabel" name="labelStatusTips">
+        <property name="styleSheet">
+         <string notr="true">background-color: #ecf0f1; padding: 4px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
+        </property>
+        <property name="text">
+         <string>💡 提示：双击可就地编辑装备名；右键任意项弹出右键菜单；支持 Ctrl/Shift 批量多选与勾选。</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- 右侧操作与日志监控区 -->
+    <item>
+     <layout class="QVBoxLayout" name="vboxRightArea">
+      <!-- CRUD 数据增删改查面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupCrud">
+        <property name="title">
+         <string>【CRUD 数据增删改查】</string>
+        </property>
+        <layout class="QFormLayout" name="formCrud">
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelItemName">
+           <property name="text">
+            <string>道具名称：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="editNewItemName">
+           <property name="text">
+            <string>圣光庇护法杖</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelRarity">
+           <property name="text">
+            <string>装备品质：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboRarity">
+           <item>
+            <property name="text">
+             <string>🟢 普通 (Common)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🔵 精良 (Rare)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🟣 史诗 (Epic)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🟡 传说 (Legendary)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="labelGold">
+           <property name="text">
+            <string>金币价值：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinGold">
+           <property name="minimum">
+            <number>10</number>
+           </property>
+           <property name="maximum">
+            <number>99999</number>
+           </property>
+           <property name="value">
+            <number>1500</number>
+           </property>
+           <property name="suffix">
+            <string> 金币</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutAddBtns">
+           <item>
+            <widget class="QPushButton" name="btnAddItem">
+             <property name="text">
+              <string>➕ 追加末尾 (addItem)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnInsertItem">
+             <property name="text">
+              <string>📌 插入当前行 (insertItem)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutDelBtns">
+           <item>
+            <widget class="QPushButton" name="btnDeleteSelected">
+             <property name="text">
+              <string>🗑 移除选中 (takeItem)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnBatchSell">
+             <property name="text">
+              <string>💰 批量出售已勾选</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnClearAll">
+             <property name="text">
+              <string>清空背包</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 避坑指南要点框 -->
+      <item>
+       <widget class="QGroupBox" name="groupPitfalls">
+        <property name="title">
+         <string>【核心避坑指南 (Gotchas)】</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxPitfalls">
+         <item>
+          <widget class="QLabel" name="labelPitfallNotes">
+           <property name="styleSheet">
+            <string notr="true">color: #7f8c8d; font-size: 11px;</string>
+           </property>
+           <property name="text">
+            <string>1. takeItem(row) 仅从列表中解除关系，不会 delete 释放内存，必须显式 delete item！
+2. customContextMenuRequested 信号传入的 pos 位于视口坐标系，弹窗必须使用 viewport()-&gt;mapToGlobal(pos) 换算。
+3. 在代码中批量修改 item 文本时，务必调用 blockSignals(true/false) 防止 itemChanged 信号死循环递归。</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 实时日志监控面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupLog">
+        <property name="title">
+         <string>📡 QListWidget 事件与信号实时监控</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxLog">
+         <item>
+          <widget class="QPlainTextEdit" name="textLog">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnClearLog">
+           <property name="text">
+            <string>清空监控日志</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

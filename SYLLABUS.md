@@ -145,43 +145,77 @@
 
 #### 1.4.2 demo_layouts ✅ [已实现]
 - **源码工程**：[code/src/01_basic/04_widgets/demo_layouts](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_layouts/)
-- **描述**：采用 RPG 游戏全景交互思维，通过 5 个专属 Tab 标签页全面剖析 Qt 五大核心布局管理器：
-  1. `QHBoxLayout` & `QVBoxLayout`：英雄 HUD 状态栏（头像、血条/蓝条、右对齐财富钱包）与底部等宽技能动作栏（弹性拉伸 Stretch 与对齐）。
-  2. `QGridLayout`：英雄立绘（跨 3行 x 2列 占据大单元格）与 4x4 物品背包网格自适应对齐。
-  3. `QFormLayout`：角色昵称、职业选择、力量/敏捷/智力微调框与英雄传记表单对齐。
-  4. `QStackedLayout` / `QStackedWidget`：职业二转觉醒向导流程切换（资格考核 $\to$ 专精选择 $\to$ 誓约完成）。
-  5. 动态布局调参实验室：滑块实时调节外边距（Margins）、间距（Spacing）与 `1:1:1`、`1:2:1`、`1:3:2` 阶梯拉伸比。  
-- **应用场景**：多分辨率游戏/工业软件界面自适应排版、分步向导流程（Wizard）、表单对齐与网格矩阵。
+- **描述**：系统化罗列并演示 Qt 五大核心布局管理器标准用法与 API：
+  1. `QHBoxLayout` & `QVBoxLayout`：弹性拉伸（`addStretch`）、权重比例（`setStretch(1:2:1)`）、外边距与间距、单项独立对齐（`setAlignment`）。
+  2. `QGridLayout`：网格行列定位、跨行跨列合并（`addWidget(w, r, c, rowSpan, colSpan)`）、行列拉伸比例。
+  3. `QFormLayout`：标准两列键值表单（`addRow(label, field)`）、跨列提交按钮、响应式换行策略与标签对齐。
+  4. `QStackedWidget` / `QStackedLayout`：多步骤向导分步切换（`setCurrentIndex`、`currentChanged`）。
+  5. 动态调参实验室：运行时实时调节 `setContentsMargins`、`setSpacing` 与 `setStretch` 比例。  
+- **应用场景**：多分辨率窗口自适应适配、分步向导（Wizard）、表单对齐与网格排版。
 
 #### 1.4.3 demo_editors ✅ [已实现]
 - **源码工程**：[code/src/01_basic/04_widgets/demo_editors](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_editors/)
-- **描述**：采用 RPG 游戏管理与交互控制中心思维，通过 4 个专属 Tab 标签页全面剖析 Qt 全能输入组件：
-  1. `QLineEdit`：回显模式（Password/PasswordEchoOnEdit）、输入掩码（CDK 激活码/网关 IP）、正则校验器（中英文昵称限制）与神装图鉴动态搜索补全（`QCompleter`）。
-  2. 数值微调与下拉选择：`QSpinBox` / `QDoubleSpinBox`（等级/金币/暴击倍率/特惠折扣）、`QComboBox`（装备品质 UserData 映射）、`QFontComboBox`（对话字体实时变更）、`QKeySequenceEdit`（技能快捷键映射）与 `QDateTimeEdit`（限时活动日历）。
-  3. 富文本与 GM 终端：`QTextEdit`（全服活动公告富文本排版加粗/变色）与 `QPlainTextEdit`（开发者 GM 脚本指令逐行解析批处理执行）。
-  4. 音频与视角罗盘：`QSlider`（主音量与 BGM 滑块）与 `QDial`（360 度循环视角罗盘方向自动换算）。  
-- **应用场景**：客户端登录注册与 CDK 校验、参数微调与快捷键绑定、富文本公告排版与 GM 调试终端。
+- **描述**：系统化罗列并演示 Qt 常用输入与编辑器组件标准用法与 API：
+  1. `QLineEdit`：回显模式（`Normal / Password / PasswordEchoOnEdit`）、一键清除小图标、IP/序列号格式掩码（`setInputMask`）、整型与正则校验器（`setValidator`）、自动补全（`QCompleter`）。
+  2. `QSpinBox` / `QDoubleSpinBox`：前缀/后缀（`Lv.`、`¥`、`ms`）、步长（`singleStep`）、极值循环滚动（`wrapping`）、零值特殊文本（`specialValueText`）、浮点小数精度（`decimals`）。
+  3. 下拉与按键捕获：`QComboBox`（绑定 `UserData`）、`QFontComboBox`（系统字体选择）、`QKeySequenceEdit`（快捷键捕获）、`QDateTimeEdit`（日历弹出视图）。
+  4. 多行文本与富文本：`QTextEdit`（HTML 排版与选区光标格式化）、`QPlainTextEdit`（海量日志/代码高性能渲染与最大行数防溢出控制）。  
+- **应用场景**：账号密码安全输入、参数微调与快捷键绑定、富文本排版与代码/日志控制台。
 
 #### 1.4.4 demo_displays ✅ [已实现]
 - **源码工程**：[code/src/01_basic/04_widgets/demo_displays](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_displays/)
-- **描述**：采用 RPG 游戏数据与战场监控展示思维，通过 4 个专属 Tab 标签页全面剖析 Qt 各类核心展示组件：
-  1. `QLabel`：富文本排版、自定义协议内链（`item://`、`quest://` 弹窗拦截）与外链（`http` 浏览器唤醒）、`QPainter` 动态绘制英雄徽章卡片、`QMovie` 技能动态帧循环播放/暂停/倍速控制。
-  2. `QProgressBar`：资源热更新确定百分比下载进度、跨服天梯匹配不确定跑马灯（`setRange(0, 0)`）、首领垂直血条与狂暴怒气槽增减交互。
-  3. `QLCDNumber`：副本限时 10 分钟倒计时时钟（`MM:SS`）、战斗连击数（Hits Counter）动态递增与 10/16/2 进制自由切换。
-  4. 副本通关结算战报卡：综合混排 `QLabel` + `QLCDNumber` + `QProgressBar` 战报卡片。  
-- **应用场景**：游戏/桌面应用公告栏与内外部超链接拦截、资源下载/解压进度反馈、数字液晶钟表与高频计数器展示。
+- **描述**：系统化罗列并演示 Qt 常用展示与输出控件标准用法与 API：
+  1. `QLabel`：富文本 HTML 排版、超链接点击拦截（`linkActivated`）、`QPixmap` 位图绘制、`QMovie` 动图播放/暂停/倍速控制。
+  2. `QProgressBar`：确定进度模式、自定义格式化文本（`setFormat("%p% (%v/%m)")`）、不确定跑马灯流动模式（`setRange(0, 0)`）、垂直方向与反向增长（`setInvertedAppearance`）。
+  3. `QLCDNumber`：仿真液晶时钟（`display("HH:mm:ss")`）、液晶线框风格切换（`Outline / Filled / Flat`）、进制切换（`DEC / HEX / BIN`）。
+  4. 辅助与状态展示：`QToolTip` 富文本悬停气泡提示、`QWhatsThis` 上下文帮助说明（`Shift + F1`）。  
+- **应用场景**：软件公告图文与超链接拦截、耗时任务进度指示与跑马灯、数字时钟与高频计数器仪表。
 
-#### 1.4.5 demo_containers_ui ⏳ [待实现]
-**描述**：使用 `QGroupBox` 分组框、`QTabWidget` 多标签页、`QToolBox` 抽屉式折叠面板、`QScrollArea` 滚动视图、`QSplitter` 动态可拖拽分割条。  
-**应用场景**：系统设置多分类页面、类似通讯录抽屉列表、左右分栏可拖拽工作区。
+#### 1.4.5 demo_containers_ui ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_containers_ui](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_containers_ui/)
+- **描述**：采用**主 UI + 多子 UI 组合架构**，以顶部 `QComboBox` 下拉导航为视图调度器，中央 `QStackedWidget` 承载 5 个独立子页面，系统化罗列并演示 Qt 常用容器控件：
+  1. `QGroupBox`：标准分组、扁平无边框分组（`setFlat`）、带复选框自锁分组（`setCheckable`，取消勾选时自动批量禁用内部子控件）。
+  2. `QTabWidget`：上/下/左/右方位切换（`setTabPosition`）、标签可关闭（`setTabsClosable`）、拖拽排序（`setMovable`）、右上角角标控件挂载（`setCornerWidget`）。
+  3. `QToolBox`：抽屉式手风琴折叠面板（`addItem`、`removeItem`、`setCurrentIndex`、`currentChanged`）。
+  4. `QScrollArea`：滚动视图视口、自适应缩放（`setWidgetResizable`）、滚动条策略与快速滚底。
+  5. `QSplitter`：水平/垂直动态拖拽分割条（`setStretchFactor`、`setCollapsible(false)` 防止收缩为 0、`setSizes`）。  
+- **应用场景**：模块化系统设置多页面路由、类似 QQ/通讯录抽屉面板、大画布滚动区域与 IDE/工作区左右分栏。
 
-#### 1.4.6 demo_item_widgets ⏳ [待实现]
-**描述**：快速使用 `QListWidget`, `QTreeWidget`, `QTableWidget` 实现简易列表、多级树形目录与二维表格数据的增删改查、图标绑定与排序。  
-**应用场景**：本地音乐播放列表、文件目录树形导航、简易学生成绩统计表格。
+#### 1.4.6 demo_list_widget ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_list_widget](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_list_widget/)
+- **描述**：`QListWidget` 专属深度实战工程（游戏道具背包与装备仓库）：
+  1. **数据增删改查 (CRUD)**：动态追加（`addItem`）、指定位置插入（`insertItem`）、安全移除（`takeItem` + `delete`）、一键清空（`clear`）。
+  2. **编辑与外观修饰**：双击就地编辑（`Qt::ItemIsEditable`）、品质图标徽章（`setIcon`）、多选复选框（`Qt::ItemIsUserCheckable`）、背景色与对齐、自定义隐藏元数据绑定（`setData(Qt::UserRole, ...)`）。
+  3. **高级交互与避坑指南**：
+     - **选择模式**：单选（`SingleSelection`）与 `ExtendedSelection`（Ctrl/Shift 连续与多选）。
+     - **右键菜单与 Viewport 避坑**：`setContextMenuPolicy(Qt::CustomContextMenu)`，使用 `viewport()->mapToGlobal(pos)` 正确换算屏幕绝对坐标。
+     - **信号防递归**：代码批量更新数据时使用 `blockSignals(true/false)` 防止 `itemChanged` 信号陷入死循环。
+     - **实时过滤与检索**：搜索框输入关键字时动态遍历并隐藏不匹配项（`item->setHidden(!matched)`）。  
+- **应用场景**：道具背包列表、下载任务清单、玩家好友列表、配置项选择器。
 
-#### 1.4.7 demo_json_tree_editor ⏳ [待实现]
-**描述**：结合 `QTreeWidget` 与 `QJsonDocument` 构建可视化 JSON 树形结构编辑器：支持从磁盘读取 JSON 文件递归解析填充为树形节点（Object/Array/Key-Value）、支持就地双击编辑键值与类型转换、动态增删子节点、以及校验格式并同步写回磁盘。  
-**应用场景**：游戏/应用 JSON 配置文件可视化修改器、RESTful 响应报文结构可视化调试工具。
+#### 1.4.7 demo_tree_widget ⏳ [待实现]
+- **描述**：`QTreeWidget` 专属深度实战工程（游戏技能天赋树与世界地下城多级目录）：
+  1. **多级层次树构建**：顶层节点（`addTopLevelItem`）与子节点层级挂载（`addChild`）、自定义多列标题（`setHeaderLabels`）。
+  2. **父子级联智能勾选**：勾选父节点自动联动所有子节点全选/全不选，子节点部分勾选自动将父节点置为三态半选（`Qt::PartiallyChecked`）。
+  3. **高级交互与避坑指南**：
+     - **节点过滤与递归展开**：输入搜索词高亮目标节点，并自动递归展开其所有父级分支（`setExpanded(true)`）。
+     - **右键动态菜单**：根据当前右键选中的是“根节点”还是“叶子技能节点”，动态弹出不同的上下文菜单项。
+     - **树节点排序避坑**：`sortItems(column, order)`，重载或绑定 `Qt::UserRole` 解决数值按字符串字典序排序的经典 Bug。  
+- **应用场景**：技能天赋分支树、多级关卡目录、文件目录树形结构、权限组织架构。
+
+#### 1.4.8 demo_table_widget ⏳ [待实现]
+- **描述**：`QTableWidget` 专属深度实战工程（游戏全服天梯排行榜与装备数值矩阵大表）：
+  1. **二维表格矩阵管理**：行列动态设置（`setRowCount`, `setColumnCount`）、表头定制（`setHorizontalHeaderLabels`）、整行选中（`SelectRows`）。
+  2. **单元格富控件与样式**：文本居中对齐、只读锁定、单元格嵌入自定义控件（`setCellWidget` 嵌入操作按钮组/进度条）、单元格背景根据战斗力高低自动渐变着色。
+  3. **高级交互与避坑指南**：
+     - **数值排序避坑**：数字列（如战力、等级）默认按字符串排序导致 "100" 排在 "20" 前面，通过重写 `QTableWidgetItem::<` 运算符或 `setData(Qt::DisplayRole, int)` 实现真正的数值排序。
+     - **表格刷新与闪烁抑制**：批量插入成百上千行数据时调用 `setUpdatesEnabled(false)`，插入完成后再恢复并刷新，消除界面卡顿与白屏闪烁。
+     - **列宽自适应与弹性拉伸**：`horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch / ResizeToContents)`。  
+- **应用场景**：天梯排行榜、物品交易行大表、学生/员工信息台账、传感器多通道数据表格。
+
+#### 1.4.9 demo_json_tree_editor ⏳ [待实现]
+- **描述**：结合 `QTreeWidget` 与 `QJsonDocument` 构建可视化 JSON 树形结构编辑器：支持从磁盘读取 JSON 文件递归解析填充为树形节点（Object/Array/Key-Value）、支持就地双击编辑键值与类型转换、动态增删子节点、以及校验格式并同步写回磁盘。  
+- **应用场景**：游戏/应用 JSON 配置文件可视化修改器、RESTful 响应报文结构可视化调试工具。
 
 ---
 
@@ -520,8 +554,13 @@
 **应用场景**：现代化后台管理系统客户端、多功能综合软件主界面底座。
 
 #### 4.4.2 demo_dock_workbench ⏳ [待实现]
-**描述**：专业级多文档与停靠工作台底座（类似 VS / Photoshop 布局），基于 `QMainWindow` 的多 Dock 面板任意拖拽/悬浮/停靠/合并 Tab，配合中心多文档编辑区（QMdiArea），支持用户自定义布局持久化保存与恢复。  
-**应用场景**：专业 IDE、数据分析工具、设计器与仿真软件主框架。
+**描述**：对标 Visual Studio 2022 / Qt Creator 专业级多窗口停靠拖拽合并工作台框架：
+1. **任意拖拽与停靠定位**：支持上下左右任意停靠区（`Qt::DockWidgetAreas`）、从主窗口脱离独立悬浮（Floating）、拖动时高亮停靠锚点指示。
+2. **窗体合并与分栏拆分**：支持多 Dock 窗体拖拽合并为标签页组（`tabifyDockWidget`）、嵌套动态水平/垂直分栏拆分（`splitDockWidget`）。
+3. **中心多文档编辑区**：基于 `QMdiArea` / 多 Tab 标签页提供多文档/代码/视图编辑区，支持视图拆分与快捷关闭。
+4. **布局方案持久化保存与一键恢复**：基于 `saveState()` / `restoreState()` 将用户自定义拖拽排版的布局方案（如【默认开发布局】、【调试分析布局】、【纯净代码布局】）序列化保存至本地配置，并支持一键重置与方案切换。
+5. **全局视图菜单联动**：菜单栏自动生成所有停靠窗体的显隐勾选控制（`toggleViewAction()`）。  
+**应用场景**：IDE、工业仿真上位机、CAD/GIS 专业建模软件、数据分析多屏看板主框架。
 
 #### 4.4.3 demo_frameless_window ⏳ [待实现]
 **描述**：跨平台无边框高颜值窗口框架，实现 Windows 原生级阴影、八向鼠标拉伸缩放、标题栏双击最大化、系统贴边吸附（Aero Snap）以及自定义标题栏按钮。  

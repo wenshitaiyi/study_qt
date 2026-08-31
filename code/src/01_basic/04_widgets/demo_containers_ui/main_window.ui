@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Qt 常用容器控件使用指南 (主UI + 多子UI组合架构) - demo_containers_ui</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="vboxRoot">
+    <item>
+     <widget class="QGroupBox" name="groupTopNav">
+      <property name="title">
+       <string>【容器组件导航选择器】(使用 QComboBox 动态切换子 UI 界面)</string>
+      </property>
+      <layout class="QHBoxLayout" name="hlayoutNav">
+       <item>
+        <widget class="QLabel" name="labelNavTitle">
+         <property name="styleSheet">
+          <string notr="true">font-size: 13px; font-weight: bold; color: #2c3e50;</string>
+         </property>
+         <property name="text">
+          <string>当前容器视图：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboNavigation">
+         <property name="minimumSize">
+          <size>
+           <width>320</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font-size: 13px; font-weight: bold;</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>📦 1. QGroupBox (分组框与自锁控制)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>📑 2. QTabWidget (多标签页与角落部件)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>🗂️ 3. QToolBox (抽屉手风琴折叠面板)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>📜 4. QScrollArea (滚动区域与自适应缩放)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>📐 5. QSplitter (动态可拖拽分割条)</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacerNav">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="hlayoutMainContent">
+      <item>
+       <widget class="QStackedWidget" name="stackedContainer">
+        <!-- 5 个子 UI 页面将在代码中动态添加进 stackedContainer -->
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupLog">
+        <property name="minimumSize">
+         <size>
+          <width>320</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>📡 容器控件交互事件实时监控</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxLog">
+         <item>
+          <widget class="QPlainTextEdit" name="textLog">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnClearLog">
+           <property name="text">
+            <string>清空监控日志</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

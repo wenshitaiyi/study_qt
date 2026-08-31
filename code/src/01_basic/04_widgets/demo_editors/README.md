@@ -1,23 +1,18 @@
-# demo_editors (Qt 全能输入与编辑组件实战工程)
+# demo_editors (Qt 常用输入与编辑器组件使用指南)
 
-## 1. 简介与功能
-本 Demo 是一个基于 Qt Widgets 的全功能输入与编辑组件实战工程。结合 **RPG 游戏管理与玩家交互控制中心（玩家登录、CDK 兑换码、神装模糊补全、数值微调、富文本活动公告排版、GM 脚本指令终端、音频与视角表盘）** 业务场景，深入剖析 Qt 提供的各类文本与数值输入组件。
+## 1. 简介与定位
+本 Demo 是一个纯粹的、面向教学与查阅参考的 Qt 输入与编辑器组件实战工程。按照**标准控件罗列 + 核心 API 演示 + 详细使用规范与注意事项**的形式组织，帮助开发者快速掌握各类文本、数值与下拉选择组件。
 
-## 2. 核心技术点与模块划分
+## 2. 核心控件与 API 对照表
 
-| 标签页 | 控件类型与专题 | 核心 API / 知识点 | 解决的工程问题 |
+| 标签页 | 控件类型 | 核心 API / 知识点 | 解决的问题 / 注意事项 |
 | :--- | :--- | :--- | :--- |
-| **Tab 1** | **QLineEdit 文本与校验** | `EchoMode`, `setInputMask()`, `QRegularExpressionValidator`, `QCompleter` | 账号密码掩码、CDK 格式约束、中英文角色名正则校验与神装模糊搜索补全。 |
-| **Tab 2** | **数值微调与下拉选择** | `QSpinBox`, `QDoubleSpinBox`, `QComboBox`, `QFontComboBox`, `QKeySequenceEdit`, `QDateTimeEdit` | 英雄等级前缀/后缀、暴击率与折扣步长控制、装备品质 UserData 映射、技能按键重映射与限时活动日历。 |
-| **Tab 3** | **富文本公告与 GM 脚本** | `QTextEdit`, `QTextCursor`, `QTextCharFormat`, `QPlainTextEdit` | 全服公告富文本加粗/变色排版与高性能开发者 GM 批处理脚本逐行解析执行。 |
-| **Tab 4** | **音频滑块与视角罗盘** | `QSlider`, `QDial`, `setWrapping(true)`, `setNotchesVisible(true)` | 主音量/BGM 水平滑块与 360 度视角罗盘方向自动换算（正东/东南/正南等）。 |
+| **Tab 1** | **QLineEdit** | `setEchoMode()`, `setInputMask()`, `setValidator()`, `setCompleter()`, `setClearButtonEnabled()` | 明文/密码/短暂可见回显；IP/序列号固定格式掩码；整型与正则输入校验；搜索动态自动补全。 |
+| **Tab 2** | **QSpinBox / QDoubleSpinBox** | `setRange()`, `setSingleStep()`, `setPrefix()`, `setSuffix()`, `setWrapping()`, `setSpecialValueText()` | 整数与浮点数值微调；支持前后缀修饰、单步增减控制、到达极值循环滚动以及 0 值特殊文本占位。 |
+| **Tab 3** | **QComboBox / QFontComboBox / QKeySequenceEdit / QDateTimeEdit** | `addItem(text, userData)`, `itemData()`, `currentFontChanged()`, `keySequenceChanged()`, `setCalendarPopup()` | 下拉选项绑定后台自定义数据对象；系统字体选择；按键事件快速捕获与映射；日历弹出视图。 |
+| **Tab 4** | **QTextEdit / QPlainTextEdit** | `setHtml()`, `toHtml()`, `textCursor().mergeCharFormat()`, `setMaximumBlockCount()` | 富文本编辑与 HTML 排版样式操作；海量日志/代码高性能渲染与最大行数防溢出控制。 |
 
-## 3. 适用场景
-- 客户端登录注册、激活码校验与敏感密码安全回显。
-- 复杂数值参数微调、游戏快捷键绑定与全局日期时间配置。
-- 运营富文本内容排版与工业/开发者控制台脚本输入。
-
-## 4. 运行与验证
+## 3. 运行与验证
 ```powershell
 # 编译
 powershell -ExecutionPolicy Bypass -File .\scripts\build.ps1 -Target demo_editors

@@ -6,17 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1060</width>
-    <height>740</height>
+    <width>1050</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Qt 常用展示控件与游戏界面实战 (demo_displays)</string>
+   <string>Qt 常用展示控件使用指南 (demo_displays)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayoutMain">
+   <layout class="QHBoxLayout" name="horizontalLayoutRoot">
     <item>
-     <widget class="QTabWidget" name="tabWidgetDisplays">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -24,25 +24,25 @@
       <!-- TAB 1: QLabel -->
       <widget class="QWidget" name="tabLabel">
        <attribute name="title">
-        <string>1. 图文展示与超链接 (QLabel / QMovie)</string>
+        <string>1. 标签与图文 (QLabel / QMovie)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab1">
+       <layout class="QVBoxLayout" name="vboxTab1">
         <item>
-         <widget class="QGroupBox" name="groupHyperlink">
+         <widget class="QGroupBox" name="groupRichLabel">
           <property name="title">
-           <string>【富文本、HTML 排版与可点击游戏超链接】</string>
+           <string>【QLabel 富文本与超链接】(setTextFormat &amp; linkActivated 信号)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutRich">
+          <layout class="QVBoxLayout" name="vboxRichLabel">
            <item>
-            <widget class="QLabel" name="labelRichLore">
+            <widget class="QLabel" name="labelRichText">
              <property name="styleSheet">
-              <string notr="true">background-color: #1e272e; color: #d2dae2; padding: 10px; border-radius: 6px; font-size: 13px;</string>
+              <string notr="true">background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px; font-size: 13px;</string>
              </property>
              <property name="text">
-              <string>&lt;h3 style='color:#f1c40f;'&gt;🗡️ 神兵纪元：灰烬使者 (Ashbringer)&lt;/h3&gt;
-&lt;p&gt;在大领主莫格莱尼手中，这把神圣巨剑曾斩杀无数亡灵天灾军团。&lt;/p&gt;
-&lt;p&gt;• 游戏内专属跳转：&lt;a href='item://2001' style='color:#3498db; font-weight:bold;'&gt;[🔍 查看神装全属性图鉴]&lt;/a&gt; | &lt;a href='quest://101' style='color:#e67e22; font-weight:bold;'&gt;[📜 接受【圣剑重铸】史诗任务]&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;• 官方外链跳转：&lt;a href='https://www.qt.io' style='color:#2ecc71;'&gt;[🌐 访问艾泽拉斯官方公报站 (Qt Official)]&lt;/a&gt;&lt;/p&gt;</string>
+              <string>&lt;h3 style='color:#2c3e50;'&gt;Qt 富文本与超链接跳转展示&lt;/h3&gt;
+&lt;p&gt;QLabel 支持标准的 HTML/CSS 基础子集排版，支持自动换行与鼠标选中文本复制。&lt;/p&gt;
+&lt;p&gt;• 内部自定义协议链接：&lt;a href='app://open-settings' style='color:#e67e22; font-weight:bold;'&gt;[打开系统设置弹窗 (app://open-settings)]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;• 外部网站链接：&lt;a href='https://doc.qt.io' style='color:#2980b9;'&gt;[访问 Qt 官方官方文档 (https://doc.qt.io)]&lt;/a&gt;&lt;/p&gt;</string>
              </property>
              <property name="textFormat">
               <enum>Qt::RichText</enum>
@@ -50,8 +50,8 @@
              <property name="wordWrap">
               <bool>true</bool>
              </property>
-             <property name="openExternalLinks">
-              <bool>false</bool>
+             <property name="textInteractionFlags">
+              <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
              </property>
             </widget>
            </item>
@@ -61,58 +61,56 @@
         <item>
          <widget class="QGroupBox" name="groupImageMovie">
           <property name="title">
-           <string>【英雄立绘绘制 (QPixmap) 与技能光效动图 (QMovie)】</string>
+           <string>【QPixmap 图像绘制 与 QMovie 动图播放控制】</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutImg">
+          <layout class="QHBoxLayout" name="hlayoutImgMovie">
            <item>
-            <widget class="QLabel" name="labelHeroImage">
+            <widget class="QLabel" name="labelPixmap">
              <property name="minimumSize">
               <size>
                <width>220</width>
-               <height>180</height>
+               <height>160</height>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">background-color: #2c3e50; border: 2px solid #34495e; border-radius: 8px; color: #ecf0f1; font-weight: bold; qproperty-alignment: AlignCenter;</string>
+              <string notr="true">background-color: #34495e; border: 2px solid #2c3e50; border-radius: 6px; color: white; font-weight: bold; qproperty-alignment: AlignCenter;</string>
              </property>
              <property name="text">
-              <string>🛡️ 圣骑士立绘 (QPixmap)
-[动态绘制渐变徽章背景]</string>
+              <string>QPixmap 绘图展示</string>
              </property>
             </widget>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutMovie">
+            <layout class="QVBoxLayout" name="vboxMovieControls">
              <item>
-              <widget class="QLabel" name="labelMovieAnim">
+              <widget class="QLabel" name="labelMovieDisplay">
                <property name="minimumSize">
                 <size>
                  <width>200</width>
-                 <height>120</height>
+                 <height>100</height>
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: #000000; border: 1px solid #7f8c8d; border-radius: 6px; color: #e74c3c; font-size: 14px; font-weight: bold; qproperty-alignment: AlignCenter;</string>
+                <string notr="true">background-color: #2c3e50; border: 1px solid #1abc9c; border-radius: 4px; color: #1abc9c; font-size: 14px; font-weight: bold; qproperty-alignment: AlignCenter;</string>
                </property>
                <property name="text">
-                <string>✨ 技能释放动态循环特效
-(QMovie 帧动画播放中)</string>
+                <string>QMovie 动态帧模拟展示</string>
                </property>
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayoutMovieCtrl">
+              <layout class="QHBoxLayout" name="hlayoutMovieBtns">
                <item>
                 <widget class="QPushButton" name="btnMoviePlay">
                  <property name="text">
-                  <string>▶ 播放动图</string>
+                  <string>▶ 播放 (start)</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="btnMoviePause">
                  <property name="text">
-                  <string>⏸ 暂停</string>
+                  <string>⏸ 暂停 (stop)</string>
                  </property>
                 </widget>
                </item>
@@ -130,23 +128,36 @@
           </layout>
          </widget>
         </item>
+        <item>
+         <spacer name="spacerTab1">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
 
       <!-- TAB 2: QProgressBar -->
       <widget class="QWidget" name="tabProgress">
        <attribute name="title">
-        <string>2. 进度条与状态加载 (QProgressBar)</string>
+        <string>2. 进度条模式 (QProgressBar)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab2">
+       <layout class="QVBoxLayout" name="vboxTab2">
         <item>
-         <widget class="QGroupBox" name="groupDownloadProgress">
+         <widget class="QGroupBox" name="groupDefiniteProgress">
           <property name="title">
-           <string>【确定进度模式 (Definite Progress)】- 游戏资源热更新下载</string>
+           <string>【确定进度模式 (Definite: setRange(0, 100))】与自定义显示文本格式 (setFormat)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutDownload">
+          <layout class="QVBoxLayout" name="vboxDefinite">
            <item>
-            <widget class="QProgressBar" name="progressBarDownload">
+            <widget class="QProgressBar" name="progressDefinite">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -157,23 +168,23 @@
               <number>0</number>
              </property>
              <property name="format">
-              <string>%p% - 下载进度 (%v / %m MB)</string>
+              <string>%p% - 任务完成度 (%v / %m)</string>
              </property>
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayoutProgressBtns">
+            <layout class="QHBoxLayout" name="hlayoutDefiniteBtns">
              <item>
-              <widget class="QPushButton" name="btnStartDownload">
+              <widget class="QPushButton" name="btnStartProgress">
                <property name="text">
-                <string>🚀 开始模拟热更新下载 (0 ~ 100%)</string>
+                <string>▶ 开始模拟递增 (0 ~ 100%)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnResetDownload">
+              <widget class="QPushButton" name="btnResetProgress">
                <property name="text">
-                <string>🔄 重置进度</string>
+                <string>🔄 重置为 0%</string>
                </property>
               </widget>
              </item>
@@ -183,13 +194,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupMarquee">
+         <widget class="QGroupBox" name="groupIndeterminateProgress">
           <property name="title">
-           <string>【不确定跑马灯模式 (Indeterminate Range: 0~0)】- 跨服天梯匹配中</string>
+           <string>【不确定跑马灯模式 (Indeterminate: setRange(0, 0))】</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutMarquee">
+          <layout class="QVBoxLayout" name="vboxIndeterminate">
            <item>
-            <widget class="QProgressBar" name="progressBarMatching">
+            <widget class="QProgressBar" name="progressMarquee">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -208,9 +219,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="labelMatchStatus">
+            <widget class="QLabel" name="labelMarqueeTip">
              <property name="text">
-              <string>🔍 正在为您寻找段位匹配的对手 (S9 巅峰赛)...</string>
+              <string>说明：当 setRange(0, 0) 时，进度条进入忙碌/跑马灯流动状态，用于无法预知总时间的耗时操作。</string>
              </property>
             </widget>
            </item>
@@ -218,17 +229,17 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupGauges">
+         <widget class="QGroupBox" name="groupVerticalProgress">
           <property name="title">
-           <string>【垂直血条与怒气槽 (Vertical QProgressBar)】</string>
+           <string>【垂直方向进度条 (Qt::Vertical) 与反向显示 (setInvertedAppearance)】</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutGauges">
+          <layout class="QHBoxLayout" name="hlayoutVerticalProgress">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutHpGauge">
+            <layout class="QVBoxLayout" name="vboxV1">
              <item>
-              <widget class="QLabel" name="labelHpGaugeTitle">
+              <widget class="QLabel" name="labelV1">
                <property name="text">
-                <string>❤️ 首领生命值 (HP)</string>
+                <string>标准从下往上增长</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -236,7 +247,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QProgressBar" name="progressBossHp">
+              <widget class="QProgressBar" name="progressVerticalNormal">
                <property name="minimumSize">
                 <size>
                  <width>40</width>
@@ -247,7 +258,7 @@
                 <enum>Qt::Vertical</enum>
                </property>
                <property name="value">
-                <number>75</number>
+                <number>70</number>
                </property>
                <property name="format">
                 <string>%p%</string>
@@ -257,11 +268,11 @@
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutRageGauge">
+            <layout class="QVBoxLayout" name="vboxV2">
              <item>
-              <widget class="QLabel" name="labelRageTitle">
+              <widget class="QLabel" name="labelV2">
                <property name="text">
-                <string>🔥 狂暴怒气值 (Rage)</string>
+                <string>反向从上往下增长 (Inverted)</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -269,7 +280,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QProgressBar" name="progressRage">
+              <widget class="QProgressBar" name="progressVerticalInverted">
                <property name="minimumSize">
                 <size>
                  <width>40</width>
@@ -280,31 +291,31 @@
                 <enum>Qt::Vertical</enum>
                </property>
                <property name="value">
-                <number>45</number>
+                <number>40</number>
                </property>
                <property name="format">
                 <string>%p%</string>
                </property>
                <property name="invertedAppearance">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutGaugeCtrl">
+            <layout class="QVBoxLayout" name="vboxVerticalCtrls">
              <item>
-              <widget class="QPushButton" name="btnBossDamage">
+              <widget class="QPushButton" name="btnVerticalPlus">
                <property name="text">
-                <string>💥 攻击首领 (-15% HP / +20% 怒气)</string>
+                <string>➕ 垂直数值 +10%</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnBossHeal">
+              <widget class="QPushButton" name="btnVerticalMinus">
                <property name="text">
-                <string>✨ 首领生命绽放 (+25% HP)</string>
+                <string>➖ 垂直数值 -10%</string>
                </property>
               </widget>
              </item>
@@ -319,21 +330,21 @@
       <!-- TAB 3: QLCDNumber -->
       <widget class="QWidget" name="tabLcd">
        <attribute name="title">
-        <string>3. 连击计数与副本倒计时 (QLCDNumber)</string>
+        <string>3. 液晶显示 (QLCDNumber)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab3">
+       <layout class="QVBoxLayout" name="vboxTab3">
         <item>
-         <widget class="QGroupBox" name="groupCountdown">
+         <widget class="QGroupBox" name="groupLcdClock">
           <property name="title">
-           <string>【副本限时通关倒计时 (QLCDNumber 仿真液晶钟表)】</string>
+           <string>【QLCDNumber 仿真时钟】display("HH:mm:ss") 与 风格切换 (setSegmentStyle)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutLcdTime">
+          <layout class="QVBoxLayout" name="vboxLcdClock">
            <item>
-            <widget class="QLCDNumber" name="lcdTimer">
+            <widget class="QLCDNumber" name="lcdClock">
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>70</height>
+               <height>60</height>
               </size>
              </property>
              <property name="digitCount">
@@ -345,25 +356,32 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayoutTimerBtns">
+            <layout class="QHBoxLayout" name="hlayoutLcdStyles">
              <item>
-              <widget class="QPushButton" name="btnStartTimer">
+              <widget class="QLabel" name="labelSegmentStyle">
                <property name="text">
-                <string>⏱ 开始倒计时 (10:00)</string>
+                <string>液晶风格：</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnPauseTimer">
+              <widget class="QPushButton" name="btnStyleFilled">
                <property name="text">
-                <string>⏸ 暂停计时</string>
+                <string>Filled (实心)</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnResetTimer">
+              <widget class="QPushButton" name="btnStyleOutline">
                <property name="text">
-                <string>🔄 重置时间</string>
+                <string>Outline (空心轮廓)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnStyleFlat">
+               <property name="text">
+                <string>Flat (扁平)</string>
                </property>
               </widget>
              </item>
@@ -373,21 +391,21 @@
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupComboHits">
+         <widget class="QGroupBox" name="groupLcdCounter">
           <property name="title">
-           <string>【战斗伤害连击数 (Combo Hit Counter - 进制与风格切换)】</string>
+           <string>【QLCDNumber 计数器与进制切换】(setDecMode / setHexMode / setBinMode)</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutComboLcd">
+          <layout class="QHBoxLayout" name="hlayoutLcdCounter">
            <item>
-            <widget class="QLCDNumber" name="lcdCombo">
+            <widget class="QLCDNumber" name="lcdCounter">
              <property name="minimumSize">
               <size>
                <width>180</width>
-               <height>70</height>
+               <height>60</height>
               </size>
              </property>
              <property name="digitCount">
-              <number>5</number>
+              <number>6</number>
              </property>
              <property name="segmentStyle">
               <enum>QLCDNumber::Flat</enum>
@@ -395,11 +413,11 @@
             </widget>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayoutComboControls">
+            <layout class="QVBoxLayout" name="vboxCounterCtrls">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayoutComboModes">
+              <layout class="QHBoxLayout" name="hlayoutBases">
                <item>
-                <widget class="QLabel" name="labelBaseMode">
+                <widget class="QLabel" name="labelBaseTitle">
                  <property name="text">
                   <string>进制模式：</string>
                  </property>
@@ -429,25 +447,25 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayoutComboHits">
+              <layout class="QHBoxLayout" name="hlayoutCounterOps">
                <item>
-                <widget class="QPushButton" name="btnHitAdd1">
+                <widget class="QPushButton" name="btnCountAdd1">
                  <property name="text">
-                  <string>🗡️ 连击 +1</string>
+                  <string>计数 +1</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="btnHitAdd10">
+                <widget class="QPushButton" name="btnCountAdd10">
                  <property name="text">
-                  <string>⚡ 狂暴连击 +10</string>
+                  <string>计数 +10</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="btnHitReset">
+                <widget class="QPushButton" name="btnCountReset">
                  <property name="text">
-                  <string>断连归零</string>
+                  <string>归零 (Reset)</string>
                  </property>
                 </widget>
                </item>
@@ -461,65 +479,40 @@
        </layout>
       </widget>
 
-      <!-- TAB 4: Settlement Card -->
-      <widget class="QWidget" name="tabCard">
+      <!-- TAB 4: ToolTip & WhatsThis -->
+      <widget class="QWidget" name="tabTips">
        <attribute name="title">
-        <string>4. 副本通关结算战报卡 (综合展示)</string>
+        <string>4. 提示与辅助展示 (ToolTip / WhatsThis)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab4">
+       <layout class="QVBoxLayout" name="vboxTab4">
         <item>
-         <widget class="QGroupBox" name="groupSettlement">
+         <widget class="QGroupBox" name="groupToolTips">
           <property name="title">
-           <string>🏆 恭喜！【暗黑神殿·深渊层】首通大捷！</string>
+           <string>【QToolTip &amp; QWhatsThis 上下文帮助】</string>
           </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #2c3e50; color: #ecf0f1; border-radius: 8px;</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayoutSettlement">
-           <item row="0" column="0">
-            <widget class="QLabel" name="labelScoreTitle">
+          <layout class="QVBoxLayout" name="vboxTips">
+           <item>
+            <widget class="QLabel" name="labelTipDesc">
              <property name="text">
-              <string>通关评价积分 (LCD)：</string>
+              <string>💡 核心知识点：
+1. setToolTip(QString): 设置鼠标悬停时的浮动气泡提示（支持 HTML 丰富样式）。
+2. setWhatsThis(QString): 设置“这是什么”详细帮助说明（按快捷键 Shift + F1 或点击标题栏帮助按钮唤起）。</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QLCDNumber" name="lcdScore">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>40</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="labelExpRewardTitle">
-             <property name="text">
-              <string>角色升级经验增长：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QProgressBar" name="progressExpGain">
-             <property name="value">
-              <number>95</number>
-             </property>
-             <property name="format">
-              <string>+120,000 EXP (95% 即将升级!)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="labelDropSummary">
+           <item>
+            <widget class="QPushButton" name="btnTooltipDemo">
              <property name="styleSheet">
-              <string notr="true">font-size: 14px; color: #f1c40f; font-weight: bold; padding: 6px;</string>
+              <string notr="true">min-height: 45px; font-weight: bold;</string>
              </property>
              <property name="text">
-              <string>🎁 战利品掉落：【SSR 灰烬使者】x1，【远古泰坦之握】x1，【金币】+88,888！</string>
+              <string>悬停鼠标查看富文本气泡 (Hover Me) | 按 Shift+F1 体验 WhatsThis</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+             <property name="toolTip">
+              <string>&lt;b style='color:#e74c3c;'&gt;QToolTip 提示&lt;/b&gt;&lt;br/&gt;支持 &lt;i&gt;HTML 格式化&lt;/i&gt; 文本排版！</string>
+             </property>
+             <property name="whatsThis">
+              <string>这是一个演示 QWhatsThis 上下文帮助特性的按钮。在实际工程中，可用于为复杂的参数配置项提供详细的技术背景和使用注意事项解释说明。</string>
              </property>
             </widget>
            </item>
@@ -527,7 +520,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacerTab4">
+         <spacer name="spacerTab4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -546,9 +539,9 @@
     <item>
      <widget class="QGroupBox" name="groupLog">
       <property name="title">
-       <string>🎮 展示控件事件与超链接监控</string>
+       <string>📡 展示控件事件与超链接拦截监控</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutLog">
+      <layout class="QVBoxLayout" name="vboxLog">
        <item>
         <widget class="QPlainTextEdit" name="textLog">
          <property name="readOnly">

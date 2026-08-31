@@ -7,42 +7,43 @@
     <x>0</x>
     <y>0</y>
     <width>1050</width>
-    <height>740</height>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Qt 全能输入与编辑组件实战 (demo_editors)</string>
+   <string>Qt 常用输入与编辑器组件使用指南 (demo_editors)</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayoutMain">
+   <layout class="QHBoxLayout" name="horizontalLayoutRoot">
     <item>
-     <widget class="QTabWidget" name="tabWidgetEditors">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
       </property>
+
       <!-- TAB 1: QLineEdit -->
       <widget class="QWidget" name="tabLineEdit">
        <attribute name="title">
-        <string>1. 单行文本与输入校验 (QLineEdit)</string>
+        <string>1. 单行文本 (QLineEdit)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab1">
+       <layout class="QVBoxLayout" name="vboxTab1">
         <item>
          <widget class="QGroupBox" name="groupEcho">
           <property name="title">
-           <string>【回显模式 (EchoMode) 与一键清除】</string>
+           <string>【回显模式 (setEchoMode)】与一键清除 (setClearButtonEnabled)</string>
           </property>
-          <layout class="QFormLayout" name="formLayoutEcho">
+          <layout class="QFormLayout" name="formEcho">
            <item row="0" column="0">
-            <widget class="QLabel" name="labelAcc">
+            <widget class="QLabel" name="labelEchoNormal">
              <property name="text">
-              <string>玩家账号 (Normal + 清除按钮)：</string>
+              <string>Normal (常规明文 + 清除按钮)：</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="editAccount">
+            <widget class="QLineEdit" name="editEchoNormal">
              <property name="text">
-              <string>arthur_pendragon</string>
+              <string>admin@example.com</string>
              </property>
              <property name="clearButtonEnabled">
               <bool>true</bool>
@@ -50,36 +51,36 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelPwd">
+            <widget class="QLabel" name="labelEchoPassword">
              <property name="text">
-              <string>登录密码 (Password)：</string>
+              <string>Password (密码密文圆点)：</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="editPassword">
+            <widget class="QLineEdit" name="editEchoPassword">
              <property name="echoMode">
               <enum>QLineEdit::Password</enum>
              </property>
              <property name="text">
-              <string>12345678</string>
+              <string>secret_password</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="labelSecPwd">
+            <widget class="QLabel" name="labelEchoOnEdit">
              <property name="text">
-              <string>二级交易密码 (PasswordEchoOnEdit)：</string>
+              <string>PasswordEchoOnEdit (编辑时短暂可见)：</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="editSecPassword">
+            <widget class="QLineEdit" name="editEchoOnEdit">
              <property name="echoMode">
               <enum>QLineEdit::PasswordEchoOnEdit</enum>
              </property>
              <property name="placeholderText">
-              <string>输入时短暂可见字符</string>
+              <string>键入字符时短暂显示明文，随后变密文</string>
              </property>
             </widget>
            </item>
@@ -89,40 +90,40 @@
         <item>
          <widget class="QGroupBox" name="groupMask">
           <property name="title">
-           <string>【输入掩码 (InputMask) 格式约束】</string>
+           <string>【输入掩码 (setInputMask)】</string>
           </property>
-          <layout class="QFormLayout" name="formLayoutMask">
+          <layout class="QFormLayout" name="formMask">
            <item row="0" column="0">
-            <widget class="QLabel" name="labelCdk">
+            <widget class="QLabel" name="labelMaskIp">
              <property name="text">
-              <string>CDK 礼包码 (XXXX-XXXX-XXXX-XXXX)：</string>
+              <string>IP 地址掩码 (000.000.000.000;_)：</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="editCdkMask">
-             <property name="inputMask">
-              <string>&gt;AAAA-AAAA-AAAA-AAAA;#</string>
-             </property>
-             <property name="text">
-              <string>HERO9999GOLD8888</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="labelIp">
-             <property name="text">
-              <string>跨服网关 IP (000.000.000.000)：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="editIpMask">
+            <widget class="QLineEdit" name="editMaskIp">
              <property name="inputMask">
               <string>000.000.000.000;_</string>
              </property>
              <property name="text">
-              <string>192.168.001.100</string>
+              <string>192.168.001.001</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="labelMaskSerial">
+             <property name="text">
+              <string>序列号掩码 (&gt;AAAA-AAAA-AAAA-AAAA;#)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="editMaskSerial">
+             <property name="inputMask">
+              <string>&gt;AAAA-AAAA-AAAA-AAAA;#</string>
+             </property>
+             <property name="text">
+              <string>QT5A-MSVC-2019-X64B</string>
              </property>
             </widget>
            </item>
@@ -132,37 +133,54 @@
         <item>
          <widget class="QGroupBox" name="groupValidator">
           <property name="title">
-           <string>【校验器 (Validator) 与自动补全 (QCompleter)】</string>
+           <string>【校验器 (setValidator)】与自动补全 (QCompleter)</string>
           </property>
-          <layout class="QFormLayout" name="formLayoutValidator">
+          <layout class="QFormLayout" name="formValidator">
            <item row="0" column="0">
-            <widget class="QLabel" name="labelNickname">
+            <widget class="QLabel" name="labelValInt">
              <property name="text">
-              <string>角色名 (正则校验 2~8位中英文/数字)：</string>
+              <string>QIntValidator (整数 1 ~ 65535)：</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="editNickname">
+            <widget class="QLineEdit" name="editValInt">
              <property name="placeholderText">
-              <string>输入合法的游戏角色昵称</string>
+              <string>仅允许输入 1 到 65535 的端口号</string>
              </property>
              <property name="text">
-              <string>光明骑士长</string>
+              <string>8080</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelSearch">
+            <widget class="QLabel" name="labelValRegex">
              <property name="text">
-              <string>神装图鉴搜索 (动态自动补全)：</string>
+              <string>正则校验器 (3~16位字母/数字/下划线)：</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="editSearchItem">
+            <widget class="QLineEdit" name="editValRegex">
              <property name="placeholderText">
-              <string>输入装备前缀，如“灰烬”、“霜之”、“誓约”...</string>
+              <string>^[a-zA-Z0-9_]{3,16}$</string>
+             </property>
+             <property name="text">
+              <string>developer_01</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="labelCompleter">
+             <property name="text">
+              <string>QCompleter (动态输入补全提示)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="editCompleter">
+             <property name="placeholderText">
+              <string>键入 QL, QV, QM 等体验自动补全...</string>
              </property>
             </widget>
            </item>
@@ -170,7 +188,7 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacerTab1">
+         <spacer name="spacerTab1">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -185,22 +203,22 @@
        </layout>
       </widget>
 
-      <!-- TAB 2: SpinBox & ComboBox & KeySequence -->
-      <widget class="QWidget" name="tabControls">
+      <!-- TAB 2: QSpinBox & QDoubleSpinBox -->
+      <widget class="QWidget" name="tabSpinBox">
        <attribute name="title">
-        <string>2. 数值微调与下拉选择 (SpinBox / ComboBox)</string>
+        <string>2. 数值微调框 (SpinBox)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab2">
+       <layout class="QVBoxLayout" name="vboxTab2">
         <item>
-         <widget class="QGroupBox" name="groupSpin">
+         <widget class="QGroupBox" name="groupIntSpin">
           <property name="title">
-           <string>【数值微调器 (QSpinBox &amp; QDoubleSpinBox)】</string>
+           <string>【QSpinBox 整数微调框】前缀、后缀、步长与循环滚动</string>
           </property>
-          <layout class="QGridLayout" name="gridLayoutSpin">
+          <layout class="QGridLayout" name="gridIntSpin">
            <item row="0" column="0">
-            <widget class="QLabel" name="labelLevel">
+            <widget class="QLabel" name="labelSpinLevel">
              <property name="text">
-              <string>英雄等级 (Lv.1~100)：</string>
+              <string>带前缀微调框 (Prefix: "Lv. ")：</string>
              </property>
             </widget>
            </item>
@@ -213,7 +231,7 @@
               <number>100</number>
              </property>
              <property name="value">
-              <number>85</number>
+              <number>50</number>
              </property>
              <property name="prefix">
               <string>Lv. </string>
@@ -221,42 +239,100 @@
             </widget>
            </item>
            <item row="0" column="2">
-            <widget class="QLabel" name="labelGoldRecharge">
+            <widget class="QLabel" name="labelSpinPort">
              <property name="text">
-              <string>充值金额 (步长 100 金币)：</string>
+              <string>带步长微调框 (SingleStep: 100)：</string>
              </property>
             </widget>
            </item>
            <item row="0" column="3">
-            <widget class="QSpinBox" name="spinGold">
+            <widget class="QSpinBox" name="spinStep">
              <property name="minimum">
               <number>100</number>
              </property>
              <property name="maximum">
-              <number>999999</number>
+              <number>10000</number>
              </property>
              <property name="singleStep">
               <number>100</number>
              </property>
              <property name="value">
-              <number>5000</number>
+              <number>1000</number>
              </property>
              <property name="suffix">
-              <string> 金币</string>
+              <string> ms</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="labelCritRate">
+            <widget class="QLabel" name="labelSpinWrap">
              <property name="text">
-              <string>暴击伤害倍率 (1.50x ~ 5.00x)：</string>
+              <string>循环滚动 (setWrapping: true)：</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QDoubleSpinBox" name="spinCritRate">
+            <widget class="QSpinBox" name="spinWrap">
              <property name="minimum">
-              <double>1.500000000000000</double>
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>10</number>
+             </property>
+             <property name="value">
+              <number>0</number>
+             </property>
+             <property name="wrapping">
+              <bool>true</bool>
+             </property>
+             <property name="specialValueText">
+              <string>0 (自动/无限制)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupDoubleSpin">
+          <property name="title">
+           <string>【QDoubleSpinBox 浮点微调框】小数精度 (Decimals) 与百分比</string>
+          </property>
+          <layout class="QGridLayout" name="gridDoubleSpin">
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelDoublePrice">
+             <property name="text">
+              <string>货币金额 (Prefix: "¥ ", 2位小数)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="doubleSpinPrice">
+             <property name="maximum">
+              <double>99999.990000000005239</double>
+             </property>
+             <property name="value">
+              <double>199.500000000000000</double>
+             </property>
+             <property name="prefix">
+              <string>¥ </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="labelDoubleRate">
+             <property name="text">
+              <string>缩放比率 (SingleStep: 0.05, 3位小数)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QDoubleSpinBox" name="doubleSpinRate">
+             <property name="decimals">
+              <number>3</number>
+             </property>
+             <property name="minimum">
+              <double>0.100000000000000</double>
              </property>
              <property name="maximum">
               <double>5.000000000000000</double>
@@ -265,97 +341,18 @@
               <double>0.050000000000000</double>
              </property>
              <property name="value">
-              <double>2.250000000000000</double>
+              <double>1.250000000000000</double>
              </property>
              <property name="suffix">
               <string> x</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="labelRechargeDiscount">
-             <property name="text">
-              <string>商城特惠折扣 (0.1 ~ 1.0 折)：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QDoubleSpinBox" name="spinDiscount">
-             <property name="minimum">
-              <double>0.100000000000000</double>
-             </property>
-             <property name="maximum">
-              <double>1.000000000000000</double>
-             </property>
-             <property name="singleStep">
-              <double>0.050000000000000</double>
-             </property>
-             <property name="value">
-              <double>0.800000000000000</double>
-             </property>
-             <property name="suffix">
-              <string> 折</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupComboAndFont">
-          <property name="title">
-           <string>【下拉选择框 (QComboBox &amp; QFontComboBox)】</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayoutCombo">
-           <item row="0" column="0">
-            <widget class="QLabel" name="labelRarity">
-             <property name="text">
-              <string>装备品质筛选：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="comboRarity"/>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="labelFont">
-             <property name="text">
-              <string>剧情对话字体选择：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QFontComboBox" name="fontComboDialogue"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="labelKeybind">
-             <property name="text">
-              <string>终极技能按键映射 (QKeySequenceEdit)：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QKeySequenceEdit" name="keySeqSkill"/>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="labelEventDate">
-             <property name="text">
-              <string>限时活动开启时间 (QDateTimeEdit)：</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QDateTimeEdit" name="dateTimeEvent">
-             <property name="calendarPopup">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacerTab2">
+         <spacer name="spacerTab2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -370,57 +367,144 @@
        </layout>
       </widget>
 
-      <!-- TAB 3: TextEdit & PlainTextEdit -->
-      <widget class="QWidget" name="tabTextEditors">
+      <!-- TAB 3: QComboBox & QDateTimeEdit & QKeySequenceEdit -->
+      <widget class="QWidget" name="tabComboEtc">
        <attribute name="title">
-        <string>3. 富文本公告与 GM 终端 (TextEdit)</string>
+        <string>3. 下拉框与快捷键 (ComboBox / Date / Key)</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab3">
+       <layout class="QVBoxLayout" name="vboxTab3">
+        <item>
+         <widget class="QGroupBox" name="groupCombos">
+          <property name="title">
+           <string>【QComboBox &amp; QFontComboBox 下拉选择框】绑定 UserData 与字体变更</string>
+          </property>
+          <layout class="QGridLayout" name="gridCombos">
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelComboNormal">
+             <property name="text">
+              <string>标准下拉框 (绑定 UserData)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="comboData"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="labelFontCombo">
+             <property name="text">
+              <string>系统字体选择器 (QFontComboBox)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QFontComboBox" name="fontCombo"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupKeyAndDate">
+          <property name="title">
+           <string>【快捷键录入 (QKeySequenceEdit) 与 日期时间选择 (QDateTimeEdit)】</string>
+          </property>
+          <layout class="QGridLayout" name="gridKeyDate">
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelKeySeq">
+             <property name="text">
+              <string>快捷键捕获 (QKeySequenceEdit)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QKeySequenceEdit" name="keySequenceEdit"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="labelDateTime">
+             <property name="text">
+              <string>日历弹出时间 (setCalendarPopup)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QDateTimeEdit" name="dateTimeEdit">
+             <property name="calendarPopup">
+              <bool>true</bool>
+             </property>
+             <property name="displayFormat">
+              <string>yyyy-MM-dd HH:mm:ss</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacerTab3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- TAB 4: QTextEdit & QPlainTextEdit -->
+      <widget class="QWidget" name="tabText">
+       <attribute name="title">
+        <string>4. 多行文本 (QTextEdit / QPlainTextEdit)</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxTab4">
         <item>
          <widget class="QGroupBox" name="groupRichText">
           <property name="title">
-           <string>【全服富文本公告编辑器 (QTextEdit 支持 HTML/格式工具栏)】</string>
+           <string>【QTextEdit 富文本编辑器】支持 HTML、光标选区格式化 (mergeCharFormat)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutRich">
+          <layout class="QVBoxLayout" name="vboxRich">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayoutRichToolbar">
+            <layout class="QHBoxLayout" name="hlayoutRichTools">
              <item>
               <widget class="QPushButton" name="btnBold">
                <property name="text">
-                <string>加粗 (B)</string>
+                <string>加粗 (Bold)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnItalic">
                <property name="text">
-                <string>斜体 (I)</string>
+                <string>斜体 (Italic)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnUnderline">
                <property name="text">
-                <string>下划线 (U)</string>
+                <string>下划线 (Underline)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="btnColorRed">
                <property name="text">
-                <string>🔴 红色警告</string>
+                <string>🔴 红色文字</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnColorGold">
+              <widget class="QPushButton" name="btnColorBlue">
                <property name="text">
-                <string>🟡 金色传说</string>
+                <string>🔵 蓝色文字</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacerRich">
+              <spacer name="spacerRich">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -435,11 +519,11 @@
             </layout>
            </item>
            <item>
-            <widget class="QTextEdit" name="textEditAnnouncement">
+            <widget class="QTextEdit" name="textEditRich">
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>120</height>
+               <height>100</height>
               </size>
              </property>
             </widget>
@@ -450,11 +534,11 @@
         <item>
          <widget class="QGroupBox" name="groupPlainText">
           <property name="title">
-           <string>【GM 开发者控制台脚本指令编辑器 (QPlainTextEdit)】</string>
+           <string>【QPlainTextEdit 高性能纯文本框】针对海量日志/代码优化、行数上限限制 (setMaximumBlockCount)</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayoutPlain">
+          <layout class="QVBoxLayout" name="vboxPlain">
            <item>
-            <widget class="QPlainTextEdit" name="plainTextGmScript">
+            <widget class="QPlainTextEdit" name="plainTextEditCode">
              <property name="font">
               <font>
                <family>Consolas</family>
@@ -462,190 +546,31 @@
               </font>
              </property>
              <property name="plainText">
-              <string># GM 调试批处理脚本
-/setlevel 100
-/giveitem 2001 1
-/addgold 1000000
-/godmode on</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayoutGmBtns">
-             <item>
-              <spacer name="horizontalSpacerGm">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btnExecuteGm">
-               <property name="text">
-                <string>⚡ 逐行执行 GM 脚本指令</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+              <string>// QPlainTextEdit 高性能文本编辑示例
+#include &lt;iostream&gt;
 
-      <!-- TAB 4: Slider & Dial -->
-      <widget class="QWidget" name="tabSliderDial">
-       <attribute name="title">
-        <string>4. 音效滑块与视角罗盘 (Slider / Dial)</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayoutTab4">
-        <item>
-         <widget class="QGroupBox" name="groupAudioSliders">
-          <property name="title">
-           <string>【游戏音频音量滑块控制 (QSlider)】</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayoutAudio">
-           <item row="0" column="0">
-            <widget class="QLabel" name="labelMasterVol">
-             <property name="text">
-              <string>主音量 (Master):</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QSlider" name="sliderMaster">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>80</number>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="labelMasterVal">
-             <property name="text">
-              <string>80 %</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="labelBgmVol">
-             <property name="text">
-              <string>背景音乐 (BGM):</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QSlider" name="sliderBgm">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="value">
-              <number>65</number>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="labelBgmVal">
-             <property name="text">
-              <string>65 %</string>
+int main() {
+    std::cout &lt;&lt; "Hello Qt5!" &lt;&lt; std::endl;
+    return 0;
+}</string>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupDialCompass">
-          <property name="title">
-           <string>【3D 游戏视角罗盘表盘 (QDial)】</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayoutDial">
-           <item>
-            <widget class="QDial" name="dialCamera">
-             <property name="minimumSize">
-              <size>
-               <width>120</width>
-               <height>120</height>
-              </size>
-             </property>
-             <property name="maximum">
-              <number>359</number>
-             </property>
-             <property name="value">
-              <number>90</number>
-             </property>
-             <property name="wrapping">
-              <bool>true</bool>
-             </property>
-             <property name="notchesVisible">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayoutDialInfo">
-             <item>
-              <widget class="QLabel" name="labelCameraAngle">
-               <property name="styleSheet">
-                <string notr="true">font-size: 16px; font-weight: bold; color: #e67e22;</string>
-               </property>
-               <property name="text">
-                <string>当前主视角朝向：90° (正东)</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="labelDialTips">
-               <property name="text">
-                <string>旋转罗盘表盘可 360 度循环调整视角，步长刻度已开启。</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacerTab4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupOutputLog">
+     <widget class="QGroupBox" name="groupLogMonitor">
       <property name="title">
-       <string>🎮 编辑器交互事件与状态实时监控</string>
+       <string>📡 编辑器事件与数据变更实时监控</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutLogRight">
+      <layout class="QVBoxLayout" name="vboxLog">
        <item>
-        <widget class="QPlainTextEdit" name="textLogRight">
+        <widget class="QPlainTextEdit" name="textLog">
          <property name="readOnly">
           <bool>true</bool>
          </property>
