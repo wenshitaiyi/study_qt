@@ -85,13 +85,15 @@
 - **描述**：全面演示 Qt 几何与空间计算类型体系（`QPoint / QPointF`, `QSize / QSizeF`, `QRect / QRectF`, `QMargins / QMarginsF`, `QPolygon / QPolygonF`），掌握矩形碰撞/交集/包含检测（`contains()`, `intersects()`, `intersected()`, `united()`）、保持纵横比等比例缩放（`scaled(KeepAspectRatio)`）、浮点精度对齐转换（`toAlignedRect()`）以及内/外边距边界扩张与收缩。  
 - **应用场景**：自定义控件绘制排版（`paintEvent`）、画布视口缩放与平移、图像居中自适应裁剪、鼠标选区检测与图形碰撞判定。
 
-#### 1.2.7 demo_url ⏳ [待实现]
-**描述**：使用 `QUrl` 与 `QUrlQuery` 实现网络 URL 与本地 URI 的全面解析与构建，掌握本地文件路径与 `file:///` 协议双向互转（`fromLocalFile()`, `toLocalFile()`）、Query 参数键值对提取与编码、Percent Encoding 百分号编码与特殊字符转义。  
-**应用场景**：RESTful HTTP API 请求参数拼装、网络文件下载器、跨平台本地文件协议解析、WebView 混合应用数据交互。
+#### 1.2.7 demo_url ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_url](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_url/)
+- **描述**：使用 `QUrl` 与 `QUrlQuery` 实现网络 URL 与本地 URI 的全面解析与构建，掌握本地文件路径与 `file:///` 协议双向互转（`fromLocalFile()`, `toLocalFile()`）、Query 参数键值对提取与编码、Percent Encoding 百分号编码与特殊字符转义。  
+- **应用场景**：RESTful HTTP API 请求参数拼装、网络文件下载器、跨平台本地文件协议解析、WebView 混合应用数据交互。
 
-#### 1.2.8 demo_smart_pointers ⏳ [待实现]
-**描述**：深入掌握 Qt 专属智能指针与内存管理工具（`QPointer`, `QScopedPointer`, `QSharedPointer`, `QWeakPointer`, `QSharedDataPointer`），对比 STL 智能指针异同，重点掌握 `QPointer` 针对 `QObject` 自动置 `nullptr` 的防悬挂指针机制，以及利用 `QSharedDataPointer` 手写具备隐式数据共享（写时复制 COW）特性的自定义值类型。  
-**应用场景**：异步跨线程对象安全监听、RAII 异常安全内存释放、构建高性能轻量级自定义业务数据类。
+#### 1.2.8 demo_smart_pointers ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_smart_pointers](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_smart_pointers/)
+- **描述**：深入掌握 Qt 专属智能指针（`QPointer`, `QScopedPointer`, `QSharedPointer`, `QWeakPointer`, `QSharedDataPointer`）与现代 C++ 标准库智能指针（`std::unique_ptr`, `std::shared_ptr`, `std::weak_ptr`）横向全方位对比，重点掌握 `QPointer` 针对 `QObject` 自动置 `nullptr` 的防悬挂指针机制，以及利用 `QSharedDataPointer` 手写具备隐式数据共享（写时复制 COW）特性的自定义值类型。  
+- **应用场景**：异步跨线程对象安全监听、RAII 异常安全内存释放、构建高性能轻量级自定义业务数据类。
 
 #### 1.2.9 demo_variant ⏳ [待实现]
 **描述**：使用 `QVariant` 存储和传递任意基本类型与自定义结构体，掌握 `qRegisterMetaType` 注册自定义类型并在跨模块/信号槽中安全流转。  
