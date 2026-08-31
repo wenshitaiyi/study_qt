@@ -80,7 +80,20 @@
 - **描述**：系统演示 `QColor` 与 `QRgb` / `uint32_t`（无符号 32 位整型）双向转换，ARGB 与 RGBA 字节序差异与位运算通道提取合成（`qAlpha()`, `qRed()`, `(argb >> 24) & 0xFF`, `qRgba()`），HSV / HSL 色彩空间色相旋转调色，十六进制颜色字符串（`#RRGGBB`, `#AARRGGBB`）解析，以及基于感知亮度公式的 `lighter()`, `darker()` 与自动黑白文字反色判定。  
 - **应用场景**：图像底层像素处理、自定义换肤与动态主题调色板、图表色彩梯度生成、网络/硬件颜色数据协议编解码。
 
-#### 1.2.6 demo_variant ⏳ [待实现]
+#### 1.2.6 demo_geometry ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_geometry](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_geometry/)
+- **描述**：全面演示 Qt 几何与空间计算类型体系（`QPoint / QPointF`, `QSize / QSizeF`, `QRect / QRectF`, `QMargins / QMarginsF`, `QPolygon / QPolygonF`），掌握矩形碰撞/交集/包含检测（`contains()`, `intersects()`, `intersected()`, `united()`）、保持纵横比等比例缩放（`scaled(KeepAspectRatio)`）、浮点精度对齐转换（`toAlignedRect()`）以及内/外边距边界扩张与收缩。  
+- **应用场景**：自定义控件绘制排版（`paintEvent`）、画布视口缩放与平移、图像居中自适应裁剪、鼠标选区检测与图形碰撞判定。
+
+#### 1.2.7 demo_url ⏳ [待实现]
+**描述**：使用 `QUrl` 与 `QUrlQuery` 实现网络 URL 与本地 URI 的全面解析与构建，掌握本地文件路径与 `file:///` 协议双向互转（`fromLocalFile()`, `toLocalFile()`）、Query 参数键值对提取与编码、Percent Encoding 百分号编码与特殊字符转义。  
+**应用场景**：RESTful HTTP API 请求参数拼装、网络文件下载器、跨平台本地文件协议解析、WebView 混合应用数据交互。
+
+#### 1.2.8 demo_smart_pointers ⏳ [待实现]
+**描述**：深入掌握 Qt 专属智能指针与内存管理工具（`QPointer`, `QScopedPointer`, `QSharedPointer`, `QWeakPointer`, `QSharedDataPointer`），对比 STL 智能指针异同，重点掌握 `QPointer` 针对 `QObject` 自动置 `nullptr` 的防悬挂指针机制，以及利用 `QSharedDataPointer` 手写具备隐式数据共享（写时复制 COW）特性的自定义值类型。  
+**应用场景**：异步跨线程对象安全监听、RAII 异常安全内存释放、构建高性能轻量级自定义业务数据类。
+
+#### 1.2.9 demo_variant ⏳ [待实现]
 **描述**：使用 `QVariant` 存储和传递任意基本类型与自定义结构体，掌握 `qRegisterMetaType` 注册自定义类型并在跨模块/信号槽中安全流转。  
 **应用场景**：通用属性字典、表格单元格多类型数据存储、跨线程消息万能载体。
 
@@ -239,18 +252,25 @@
 **章节概述**：脱离常规控件的外观束缚，掌握利用 `QPainter` 绘制高颜值现代自绘组件，掌握 QSS 样式表编写与动态换肤机制，以及属性动画系统。
 
 #### 2.5.1 demo_painter_basics ⏳ [待实现]
-**描述**：使用 `QPainter` 演示画笔（QPen）、画刷（QBrush）、线性/径向渐变（QGradient）、抗锯齿渲染（RenderHints）以及平移/旋转/缩放坐标系变换。  
+**描述**：使用 `QPainter` 演示画笔（QPen）、画刷（QBrush）、线性/径向渐变（QGradient）、抗锯齿渲染（RenderHints）以及基本几何图形绘制。  
 **应用场景**：自绘网格背景、刻度标尺、几何图元与水印绘制。
 
-#### 2.5.2 demo_custom_widget ⏳ [待实现]
+#### 2.5.2 demo_coordinate_system ⏳ [待实现]
+**描述**：深入剖析 Qt 多层级坐标系统与空间变换机制：
+1. **控件与屏幕坐标映射**：物理屏幕全局坐标（Global）、顶层窗口坐标与父子控件相对坐标的双向映射（`mapToGlobal()`, `mapFromGlobal()`, `mapToParent()`, `mapFromParent()`）。
+2. **QPainter 视口与逻辑坐标变换**：物理设备视口（Viewport）与逻辑窗口（Window）映射（`setViewport()`, `setWindow()`），实现分辨率无关的自适应矢量绘图。
+3. **QTransform 仿射变换与状态栈**：矩阵平移（`translate`）、旋转（`rotate`）、缩放（`scale`）、错切（`shear`）以及 `painter.save()` / `painter.restore()` 坐标栈保护。  
+**应用场景**：右键菜单精准屏幕定位、CAD/矢量画布平移与无级滚轮缩放、雷达扫描旋转自绘。
+
+#### 2.5.3 demo_custom_widget ⏳ [待实现]
 **描述**：重写 `paintEvent` 封装一个高复用性、带动态刻度与平滑指针动画的汽车速度仪表盘与环形渐变进度条组件。  
 **应用场景**：车载 HMI 仪表盘、工控上位机状态指示仪、圆形健康度打分盘。
 
-#### 2.5.3 demo_qss_styling ⏳ [待实现]
+#### 2.5.4 demo_qss_styling ⏳ [待实现]
 **描述**：演示盒模型（Margin/Border/Padding）、状态伪类（`:hover`, `:pressed`, `:checked`）、子控件选择器（`::drop-down`）以及结合动态属性的一键深色/浅色主题无缝切换。  
 **应用场景**：企业级客户端主题切换系统、现代扁平化与磨砂玻璃质感 UI 打造。
 
-#### 2.5.4 demo_animation ⏳ [待实现]
+#### 2.5.5 demo_animation ⏳ [待实现]
 **描述**：使用 `QPropertyAnimation`, `QParallelAnimationGroup`, `QSequentialAnimationGroup` 配合缓动曲线（QEasingCurve）实现窗口平滑展开、淡入淡出与弹性位移动效。  
 **应用场景**：折叠侧边栏平滑弹出收起、卡片翻转与弹窗弹性弹出效果。
 
