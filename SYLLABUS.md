@@ -153,13 +153,23 @@
   5. 动态布局调参实验室：滑块实时调节外边距（Margins）、间距（Spacing）与 `1:1:1`、`1:2:1`、`1:3:2` 阶梯拉伸比。  
 - **应用场景**：多分辨率游戏/工业软件界面自适应排版、分步向导流程（Wizard）、表单对齐与网格矩阵。
 
-#### 1.4.3 demo_editors ⏳ [待实现]
-**描述**：演示 `QLineEdit`（输入掩码、Validator 校验器、回显模式）、`QTextEdit`/`QPlainTextEdit`（富文本与纯文本高效编辑）、`QSpinBox`、`QComboBox`（下拉框）等输入组件。  
-**应用场景**：IP/MAC 地址受限输入、登录密码安全输入、代码文本高亮编辑器。
+#### 1.4.3 demo_editors ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_editors](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_editors/)
+- **描述**：采用 RPG 游戏管理与交互控制中心思维，通过 4 个专属 Tab 标签页全面剖析 Qt 全能输入组件：
+  1. `QLineEdit`：回显模式（Password/PasswordEchoOnEdit）、输入掩码（CDK 激活码/网关 IP）、正则校验器（中英文昵称限制）与神装图鉴动态搜索补全（`QCompleter`）。
+  2. 数值微调与下拉选择：`QSpinBox` / `QDoubleSpinBox`（等级/金币/暴击倍率/特惠折扣）、`QComboBox`（装备品质 UserData 映射）、`QFontComboBox`（对话字体实时变更）、`QKeySequenceEdit`（技能快捷键映射）与 `QDateTimeEdit`（限时活动日历）。
+  3. 富文本与 GM 终端：`QTextEdit`（全服活动公告富文本排版加粗/变色）与 `QPlainTextEdit`（开发者 GM 脚本指令逐行解析批处理执行）。
+  4. 音频与视角罗盘：`QSlider`（主音量与 BGM 滑块）与 `QDial`（360 度循环视角罗盘方向自动换算）。  
+- **应用场景**：客户端登录注册与 CDK 校验、参数微调与快捷键绑定、富文本公告排版与 GM 调试终端。
 
-#### 1.4.4 demo_displays ⏳ [待实现]
-**描述**：使用 `QLabel` 展示富文本/超链接/图片/GIF 动图、`QProgressBar` 展示动态进度与跑马灯模式、`QLCDNumber` 仿真数字显示。  
-**应用场景**：系统欢迎启动页、任务下载与文件解压进度指示条、数字时钟与仪表读数。
+#### 1.4.4 demo_displays ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_displays](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_displays/)
+- **描述**：采用 RPG 游戏数据与战场监控展示思维，通过 4 个专属 Tab 标签页全面剖析 Qt 各类核心展示组件：
+  1. `QLabel`：富文本排版、自定义协议内链（`item://`、`quest://` 弹窗拦截）与外链（`http` 浏览器唤醒）、`QPainter` 动态绘制英雄徽章卡片、`QMovie` 技能动态帧循环播放/暂停/倍速控制。
+  2. `QProgressBar`：资源热更新确定百分比下载进度、跨服天梯匹配不确定跑马灯（`setRange(0, 0)`）、首领垂直血条与狂暴怒气槽增减交互。
+  3. `QLCDNumber`：副本限时 10 分钟倒计时时钟（`MM:SS`）、战斗连击数（Hits Counter）动态递增与 10/16/2 进制自由切换。
+  4. 副本通关结算战报卡：综合混排 `QLabel` + `QLCDNumber` + `QProgressBar` 战报卡片。  
+- **应用场景**：游戏/桌面应用公告栏与内外部超链接拦截、资源下载/解压进度反馈、数字液晶钟表与高频计数器展示。
 
 #### 1.4.5 demo_containers_ui ⏳ [待实现]
 **描述**：使用 `QGroupBox` 分组框、`QTabWidget` 多标签页、`QToolBox` 抽屉式折叠面板、`QScrollArea` 滚动视图、`QSplitter` 动态可拖拽分割条。  
