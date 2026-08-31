@@ -138,13 +138,20 @@
 
 **章节概述**：系统掌握 Qt 提供的经典 Widget 控件库，理解布局管理器（Layout）的弹性拉伸、间距控制与自适应响应原理，能够快速拼装复杂且规范的软件交互界面。
 
-#### 1.4.1 demo_buttons ⏳ [待实现]
-**描述**：采用 RPG 游戏战斗与控制台设计思维（技能施放 CD 倒计时、副本难度弹出菜单、阵营/画质单选、三态自动拾取勾选），综合展示 `QPushButton`, `QToolButton`（三种 PopupMode 下拉菜单与 ArrowType 箭头）, `QRadioButton`（`QButtonGroup` 互斥管理与 ID 绑定）, `QCheckBox`（双态与三态勾选）；并系统化集成与展示 Qt 消息弹窗族（`QMessageBox`：信息公告、体力警告、严重错误、分解确认与自定义复活按钮弹窗）。  
-**应用场景**：游戏技能释放控制台、系统设置开关面板、各类确认/拦截消息弹窗与操作日志展示。
+#### 1.4.1 demo_buttons ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_buttons](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_buttons/)
+- **描述**：采用 RPG 游戏战斗与控制台设计思维（技能施放 CD 倒计时、副本难度弹出菜单、阵营/画质单选、三态自动拾取勾选），综合展示 `QPushButton`, `QToolButton`（三种 PopupMode 下拉菜单与 ArrowType 箭头）, `QRadioButton`（`QButtonGroup` 互斥管理与 ID 绑定）, `QCheckBox`（双态与三态勾选）；并系统化集成与展示 Qt 消息弹窗族（`QMessageBox`：信息公告、体力警告、严重错误、分解确认与自定义复活按钮弹窗）。  
+- **应用场景**：游戏技能释放控制台、系统设置开关面板、各类确认/拦截消息弹窗与操作日志展示。
 
-#### 1.4.2 demo_layouts ⏳ [待实现]
-**描述**：深入演示 `QHBoxLayout`, `QVBoxLayout`, `QGridLayout`, `QFormLayout`, `QStackedLayout` 的弹性比例（Stretch）、外边距（Margins）、间距（Spacing）与尺寸策略（QSizePolicy）。  
-**应用场景**：多分辨率屏幕自适应适配、用户注册表单对齐、向导式多步骤界面切换。
+#### 1.4.2 demo_layouts ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_layouts](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_layouts/)
+- **描述**：采用 RPG 游戏全景交互思维，通过 5 个专属 Tab 标签页全面剖析 Qt 五大核心布局管理器：
+  1. `QHBoxLayout` & `QVBoxLayout`：英雄 HUD 状态栏（头像、血条/蓝条、右对齐财富钱包）与底部等宽技能动作栏（弹性拉伸 Stretch 与对齐）。
+  2. `QGridLayout`：英雄立绘（跨 3行 x 2列 占据大单元格）与 4x4 物品背包网格自适应对齐。
+  3. `QFormLayout`：角色昵称、职业选择、力量/敏捷/智力微调框与英雄传记表单对齐。
+  4. `QStackedLayout` / `QStackedWidget`：职业二转觉醒向导流程切换（资格考核 $\to$ 专精选择 $\to$ 誓约完成）。
+  5. 动态布局调参实验室：滑块实时调节外边距（Margins）、间距（Spacing）与 `1:1:1`、`1:2:1`、`1:3:2` 阶梯拉伸比。  
+- **应用场景**：多分辨率游戏/工业软件界面自适应排版、分步向导流程（Wizard）、表单对齐与网格矩阵。
 
 #### 1.4.3 demo_editors ⏳ [待实现]
 **描述**：演示 `QLineEdit`（输入掩码、Validator 校验器、回显模式）、`QTextEdit`/`QPlainTextEdit`（富文本与纯文本高效编辑）、`QSpinBox`、`QComboBox`（下拉框）等输入组件。  
@@ -458,6 +465,13 @@
 2. **多配置格式无缝双向导入导出**：原生支持 **JSON 树与 XML 树双向无损互转**（Import JSON -> Export XML / Import XML -> Export JSON）。
 3. **可视化交互与实时渲染**：基于 `QTreeWidget` / `QTreeView` 提供节点可视化增删改查、属性就地编辑修改、以及左右分栏实时预览生成的 JSON 和 XML 文本流。  
 **应用场景**：游戏剧情/关卡/技能树通用可视化配置器、跨平台多格式配置文件转换工具。
+
+#### 4.1.10 demo_ui_notifier ⏳ [待实现]
+**描述**：工业级通用桌面 UI 消息悬浮通知/Toast 动画小框架（带完整 UI 演示）：
+1. **4 级状态通知**：集成 Info（蓝色通知）、Success（绿色成功）、Warning（黄色警告）、Error（红色异常）。
+2. **多气泡层叠管理与平滑动画**：支持屏幕右下角/右上角多气泡排队堆叠、进入/移出平滑淡入淡出与位移动画（`QPropertyAnimation` / `QParallelAnimationGroup`）、鼠标悬浮暂停倒计时、定时自动关闭。
+3. **单例与跨线程极速调用**：封装极简调用 API（如 `UiNotifier::success("强化成功 +15！")`、`UiNotifier::warning("体力不足！")`），支持子线程通过事件派发安全弹窗。  
+**应用场景**：游戏/桌面应用全局非阻塞浮窗消息提醒、操作成功反馈 Toast、下载/网络状态异步提醒。
 
 ### 4.2 图形与多媒体类 (02_media_graphics)
 

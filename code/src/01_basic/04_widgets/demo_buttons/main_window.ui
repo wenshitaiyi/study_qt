@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>980</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>RPG 游戏控制台与全能按钮/弹窗实战 (demo_buttons)</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayoutMain">
+    <item>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>540</width>
+         <height>650</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayoutScroll">
+        <item>
+         <widget class="QGroupBox" name="groupSkills">
+          <property name="title">
+           <string>1. 英雄技能施放与状态定制 (QPushButton)</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutSkills">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnNormalAttack">
+             <property name="text">
+              <string>⚔️ 普通攻击 (Normal)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnUltimateSkill">
+             <property name="text">
+              <string>🔥 终极奥义 (CD 5s)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="btnToggleStance">
+             <property name="text">
+              <string>🛡️ 狂暴战姿 (Checkable 开关)</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="btnComboMenu">
+             <property name="text">
+              <string>⚡ 连招选择 (带下拉菜单) ▼</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupTools">
+          <property name="title">
+           <string>2. 快捷指令与地图工具 (QToolButton)</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayoutTools">
+           <item>
+            <widget class="QToolButton" name="toolBtnDungeon">
+             <property name="text">
+              <string>🏰 副本难度</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::MenuButtonPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolBtnRadar">
+             <property name="text">
+              <string>📡 全图雷达</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolBtnPrev">
+             <property name="text">
+              <string>上一关</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolBtnNext">
+             <property name="text">
+              <string>下一关</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolBtnAutoRaise">
+             <property name="text">
+              <string>✨ 悬浮凸起</string>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupRadios">
+          <property name="title">
+           <string>3. 阵营与画质互斥单选 (QRadioButton &amp; QButtonGroup)</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayoutRadios">
+           <item>
+            <widget class="QLabel" name="labelCamp">
+             <property name="text">
+              <string>【选择出生阵营】(QButtonGroup 1)：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutCamp">
+             <item>
+              <widget class="QRadioButton" name="radioAlliance">
+               <property name="text">
+                <string>🦁 荣耀联盟</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioHorde">
+               <property name="text">
+                <string>🐺 钢铁部落</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioNeutral">
+               <property name="text">
+                <string>🕊️ 中立游侠</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="labelQuality">
+             <property name="text">
+              <string>【渲染引擎画质】(QButtonGroup 2)：</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutQuality">
+             <item>
+              <widget class="QRadioButton" name="radioQualityUltra">
+               <property name="text">
+                <string>4K 极致</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioQualityHigh">
+               <property name="text">
+                <string>高清均衡</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioQualityPower">
+               <property name="text">
+                <string>省电流畅</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupChecks">
+          <property name="title">
+           <string>4. 挂机辅助与三态自动拾取 (QCheckBox)</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayoutChecks">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutAuto">
+             <item>
+              <widget class="QCheckBox" name="chkAutoBattle">
+               <property name="text">
+                <string>🤖 开启挂机自动寻路与战斗</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chkAutoPotion">
+               <property name="text">
+                <string>🧪 低血量自动饮用生命药剂</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="chkLootAll">
+             <property name="text">
+              <string>📦 自动拾取掉落物 (三态支持：全选 / 半选 / 全不选)</string>
+             </property>
+             <property name="tristate">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutLootSub">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <item>
+              <widget class="QCheckBox" name="chkLootGold">
+               <property name="text">
+                <string>💰 金币钻石</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chkLootEquip">
+               <property name="text">
+                <string>🗡️ 史诗装备</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chkLootMaterial">
+               <property name="text">
+                <string>💎 强化晶石</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupMessages">
+          <property name="title">
+           <string>5. 游戏系统消息与拦截弹窗族 (QMessageBox 全家桶)</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayoutMessages">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnMsgInfo">
+             <property name="text">
+              <string>ℹ️ 停服维护公告 (Information)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnMsgWarning">
+             <property name="text">
+              <string>⚠️ 体力不足警告 (Warning)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="btnMsgCritical">
+             <property name="text">
+              <string>❌ 网关断开严重错误 (Critical)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="btnMsgQuestion">
+             <property name="text">
+              <string>❓ 分解神装确认 (Question)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="btnMsgCustom">
+             <property name="text">
+              <string>👑 战败复活选择 (Custom Buttons)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="btnMsgAbout">
+             <property name="text">
+              <string>📜 关于客户端 (About / AboutQt)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="groupLog">
+      <property name="title">
+       <string>🎮 实时战斗与操作日志监控</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayoutLog">
+       <item>
+        <widget class="QPlainTextEdit" name="textLog">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnClearLog">
+         <property name="text">
+          <string>清空日志面板</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
