@@ -235,9 +235,15 @@
 
 **章节概述**：理解 Qt 区别于标准 C++ 的核心基础设施——MOC（Meta-Object Compiler）、动态反射机制、对象树生命周期管理与信号槽连接的底层机制。
 
-#### 2.1.1 demo_metaobject ⏳ [待实现]
-**描述**：深入探索 `QMetaObject`, `QMetaProperty`, `QMetaMethod`，演示 `Q_PROPERTY` 宏声明、运行时动态属性 `setProperty`/`property` 获取，以及通过 `invokeMethod` 实现动态方法调用。  
-**应用场景**：低代码属性配置面板、脚本引擎动态绑定 C++ 对象、QSS 动态状态选择器绑定。
+#### 2.1.1 demo_metaobject ✅ [已实现]
+- **源码工程**：[code/src/02_advanced/01_meta_object/demo_metaobject](file:///d:/zcode/study/study_qt/code/src/02_advanced/01_meta_object/demo_metaobject/)
+- **描述**：`QMetaObject` 元对象系统与反射机制深度实战（控制台程序）：
+  1. **类层次与类元信息内省**：`className()`, `superClass()`, `inherits()`, `Q_CLASSINFO` 附加类级键值对。
+  2. **静态属性系统 (Q_PROPERTY)**：声明 `READ / WRITE / NOTIFY / RESET` 属性，通过 `QMetaProperty` 遍历与 `QObject::property / setProperty` 反射读写。
+  3. **运行时动态属性**：无侵入式动态附加自定义业务属性（`dynamicPropertyNames`），广泛用于 QSS 状态选择器与业务标签。
+  4. **枚举双向反射 (Q_ENUM / QMetaEnum)**：字符串与枚举常量的双向高可靠无缝转换（`keyToValue` / `valueToKey`）。
+  5. **方法/信号/槽内省与动态调用**：通过 `QMetaMethod` 内省方法签名与类型，通过 `QMetaObject::invokeMethod` 实现按字符串函数名动态调度带参及带返回值的方法（`Q_ARG` / `Q_RETURN_ARG`）。  
+- **应用场景**：低代码属性配置面板、脚本引擎动态绑定 C++ 对象、QSS 动态状态选择器绑定、自动化测试与序列化框架。
 
 #### 2.1.2 demo_signalslot ⏳ [待实现]
 **描述**：全方位演示 `Qt::AutoConnection`, `Qt::DirectConnection`, `Qt::QueuedConnection`, `Qt::BlockingQueuedConnection` 4 种连接模式在跨线程与同线程下的执行时机与表现，对比新旧信号槽语法与 Lambda 表达式捕获安全。  
