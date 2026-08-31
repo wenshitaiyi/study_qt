@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>780</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QTableWidget 深度实战与避坑指南 (全服英雄天梯榜) - demo_table_widget</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="hlayoutRoot">
+    <!-- 左侧主表格区域 -->
+    <item>
+     <layout class="QVBoxLayout" name="vboxLeftArea">
+      <!-- 顶部表格行为模式与表头控制面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupTableConfig">
+        <property name="title">
+         <string>【表格交互控制】选择行为、编辑触发与表头列宽模式</string>
+        </property>
+        <layout class="QGridLayout" name="gridConfig">
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelSelBehavior">
+           <property name="text">
+            <string>选择行为：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="comboSelBehavior">
+           <item>
+            <property name="text">
+             <string>行选择 (SelectRows)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>列选择 (SelectColumns)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>单元格选择 (SelectItems)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="labelEditTrigger">
+           <property name="text">
+            <string>编辑触发：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QComboBox" name="comboEditTrigger">
+           <item>
+            <property name="text">
+             <string>双击触发编辑 (DoubleClicked)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>选中后单击 (SelectedClicked)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>禁止编辑 (NoEditTriggers)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelHeaderMode">
+           <property name="text">
+            <string>列宽模式：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboHeaderMode">
+           <item>
+            <property name="text">
+             <string>自适应均分拉伸 (Stretch)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>根据内容自适应 (ResizeToContents)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>手动交互自由拖拽 (Interactive)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="labelFilter">
+           <property name="text">
+            <string>🔍 检索：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="editFilter">
+           <property name="placeholderText">
+            <string>输入英雄名/公会/职业实时过滤行...</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 主 QTableWidget 表格 -->
+      <item>
+       <widget class="QTableWidget" name="tableRank">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <property name="columnCount">
+         <number>8</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>排名 (Rank)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>英雄姓名 (Name)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>职业宗门 (Class)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>综合战力 (Power)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>胜率仪表 (Win Rate)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>等级 (Level)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>所属公会 (Guild)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>交互操作 (Action)</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+
+      <!-- 底部统计与交互提示 -->
+      <item>
+       <widget class="QLabel" name="labelTableTips">
+        <property name="styleSheet">
+         <string notr="true">background-color: #ecf0f1; padding: 5px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
+        </property>
+        <property name="text">
+         <string>💡 提示：点击表头可按数值真正大小升降排序（防文本字符串排序Bug）；支持整行/整列/单元格选中；单元格嵌入了进度条与按钮组控件。</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- 右侧操作与日志监控区 -->
+    <item>
+     <layout class="QVBoxLayout" name="vboxRightArea">
+      <!-- 英雄数据增删改查 -->
+      <item>
+       <widget class="QGroupBox" name="groupCrud">
+        <property name="title">
+         <string>【表格数据管理 (CRUD)】</string>
+        </property>
+        <layout class="QFormLayout" name="formCrud">
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelHeroName">
+           <property name="text">
+            <string>英雄姓名：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="editHeroName">
+           <property name="text">
+            <string>乌瑟尔·光明使者</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelHeroClass">
+           <property name="text">
+            <string>职业宗门：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboHeroClass">
+           <item>
+            <property name="text">
+             <string>🛡️ 圣骑士 (Paladin)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>⚔️ 狂战士 (Berserker)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🔮 奥术法皇 (Archmage)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🗡️ 暗影潜行者 (Rogue)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="labelHeroPower">
+           <property name="text">
+            <string>战斗力数值：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinHeroPower">
+           <property name="minimum">
+            <number>1000</number>
+           </property>
+           <property name="maximum">
+            <number>9999999</number>
+           </property>
+           <property name="value">
+            <number>895000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutAddHeroBtns">
+           <item>
+            <widget class="QPushButton" name="btnAddHero">
+             <property name="text">
+              <string>➕ 追加新英雄</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnInsertHero">
+             <property name="text">
+              <string>📌 插入当前行</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutTableOps">
+           <item>
+            <widget class="QPushButton" name="btnDeleteSelected">
+             <property name="text">
+              <string>🗑 删除选中行</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnBatchBenchmark">
+             <property name="text">
+              <string>⚡ 批量插入100行</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnResetTable">
+             <property name="text">
+              <string>重置表格</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 避坑指南要点框 -->
+      <item>
+       <widget class="QGroupBox" name="groupPitfalls">
+        <property name="title">
+         <string>【QTableWidget 核心避坑指南 (Gotchas)】</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxPitfalls">
+         <item>
+          <widget class="QLabel" name="labelPitfallNotes">
+           <property name="styleSheet">
+            <string notr="true">color: #7f8c8d; font-size: 11px;</string>
+           </property>
+           <property name="text">
+            <string>1. 数值科学排序避坑：必须使用 setData(Qt::DisplayRole, intValue) 存入数字型 QVariant，防止默认按字符串比较导致 '100' 排在 '20' 之前。
+2. 批量刷表防卡顿：大批量插行前调用 setUpdatesEnabled(false)，完成后恢复 true，避免 UI 重复重绘卡死。
+3. setCellWidget 开销：每个嵌入控件都是独立 QWidget，百行以内适合；海量数据建议用 QStyledItemDelegate。</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 实时日志监控面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupLog">
+        <property name="title">
+         <string>📡 QTableWidget 点击/选中/变更实时监控</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxLog">
+         <item>
+          <widget class="QPlainTextEdit" name="textLog">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnClearLog">
+           <property name="text">
+            <string>清空监控日志</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1150</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>QTreeWidget 深度实战与避坑指南 (游戏技能天赋树) - demo_tree_widget</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="hlayoutRoot">
+    <!-- 左侧主区域：工具栏 + QTreeWidget -->
+    <item>
+     <layout class="QVBoxLayout" name="vboxLeftArea">
+      <!-- 顶部搜索与快捷折叠展开工具栏 -->
+      <item>
+       <widget class="QGroupBox" name="groupTreeTools">
+        <property name="title">
+         <string>【工具栏】实时检索过滤、分支展开与排序</string>
+        </property>
+        <layout class="QHBoxLayout" name="hlayoutTools">
+         <item>
+          <widget class="QLabel" name="labelSearch">
+           <property name="text">
+            <string>🔍 技能过滤：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="editFilter">
+           <property name="placeholderText">
+            <string>输入技能名/类型/状态进行递归过滤...</string>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnExpandAll">
+           <property name="text">
+            <string>📂 全部展开</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCollapseAll">
+           <property name="text">
+            <string>📁 全部折叠</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnSortName">
+           <property name="text">
+            <string>🔤 按名称排序</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <!-- 主 QTreeWidget -->
+      <item>
+       <widget class="QTreeWidget" name="treeSkills">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::ExtendedSelection</enum>
+        </property>
+        <property name="animated">
+         <bool>true</bool>
+        </property>
+        <property name="allColumnsShowFocus">
+         <bool>true</bool>
+        </property>
+        <column>
+         <property name="text">
+          <string>天赋与技能名称 (Name)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>专精类型 (Type)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>已投点数 (Rank)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>消耗/冷却 (Cost/CD)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>解锁状态 (Status)</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <!-- 底部统计状态提示 -->
+      <item>
+       <widget class="QLabel" name="labelTreeTips">
+        <property name="styleSheet">
+         <string notr="true">background-color: #ecf0f1; padding: 5px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
+        </property>
+        <property name="text">
+         <string>💡 提示：勾选父节点自动级联全选子节点（支持三态半选）；右键顶层/子节点/空白处弹出专属上下文菜单；双击技能名可就地重命名。</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+
+    <!-- 右侧操作与日志监控区 -->
+    <item>
+     <layout class="QVBoxLayout" name="vboxRightArea">
+      <!-- 节点 CRUD 管理面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupCrud">
+        <property name="title">
+         <string>【天赋树节点管理 (CRUD)】</string>
+        </property>
+        <layout class="QFormLayout" name="formCrud">
+         <item row="0" column="0">
+          <widget class="QLabel" name="labelNodeName">
+           <property name="text">
+            <string>技能/分支名：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="editNodeName">
+           <property name="text">
+            <string>圣光洗礼</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelNodeType">
+           <property name="text">
+            <string>技能类型：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboNodeType">
+           <item>
+            <property name="text">
+             <string>⚔️ 核心主动技能</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>🛡️ 被动强化光环</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>✨ 终极觉醒奥义</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>📂 顶级天赋分支</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="labelRank">
+           <property name="text">
+            <string>初始等级/点数：</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinRank">
+           <property name="minimum">
+            <number>0</number>
+           </property>
+           <property name="maximum">
+            <number>5</number>
+           </property>
+           <property name="value">
+            <number>1</number>
+           </property>
+           <property name="suffix">
+            <string> / 5 点</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutAddNodeBtns">
+           <item>
+            <widget class="QPushButton" name="btnAddTopLevel">
+             <property name="text">
+              <string>🌲 新增顶层分支</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnAddChild">
+             <property name="text">
+              <string>➕ 添加为子技能</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <layout class="QHBoxLayout" name="hlayoutNodeOps">
+           <item>
+            <widget class="QPushButton" name="btnUpgrade">
+             <property name="text">
+              <string>✨ 学习升阶 (+1)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnDeleteNode">
+             <property name="text">
+              <string>🗑 移除当前节点</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 避坑指南要点框 -->
+      <item>
+       <widget class="QGroupBox" name="groupPitfalls">
+        <property name="title">
+         <string>【QTreeWidget 核心避坑指南 (Gotchas)】</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxPitfalls">
+         <item>
+          <widget class="QLabel" name="labelPitfallNotes">
+           <property name="styleSheet">
+            <string notr="true">color: #7f8c8d; font-size: 11px;</string>
+           </property>
+           <property name="text">
+            <string>1. 父子级联勾选：父更新子、子更新父时，必须使用 blockSignals(true/false) 避免 itemChanged 产生死循环信号风暴！
+2. 树节点过滤：子节点命中时，必须递归确保其所有祖先父节点保持可见 (setHidden(false)) 并自动展开 (setExpanded(true))。
+3. takeChild(index) / takeTopLevelItem(index) 仅解除关系，必须手动 delete 释放 C++ 内存！</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+
+      <!-- 实时日志监控面板 -->
+      <item>
+       <widget class="QGroupBox" name="groupLog">
+        <property name="title">
+         <string>📡 QTreeWidget 事件与信号实时监控</string>
+        </property>
+        <layout class="QVBoxLayout" name="vboxLog">
+         <item>
+          <widget class="QPlainTextEdit" name="textLog">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <family>Consolas</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnClearLog">
+           <property name="text">
+            <string>清空监控日志</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

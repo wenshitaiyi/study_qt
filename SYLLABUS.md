@@ -193,7 +193,8 @@
      - **实时过滤与检索**：搜索框输入关键字时动态遍历并隐藏不匹配项（`item->setHidden(!matched)`）。  
 - **应用场景**：道具背包列表、下载任务清单、玩家好友列表、配置项选择器。
 
-#### 1.4.7 demo_tree_widget ⏳ [待实现]
+#### 1.4.7 demo_tree_widget ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_tree_widget](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_tree_widget/)
 - **描述**：`QTreeWidget` 专属深度实战工程（游戏技能天赋树与世界地下城多级目录）：
   1. **多级层次树构建**：顶层节点（`addTopLevelItem`）与子节点层级挂载（`addChild`）、自定义多列标题（`setHeaderLabels`）。
   2. **父子级联智能勾选**：勾选父节点自动联动所有子节点全选/全不选，子节点部分勾选自动将父节点置为三态半选（`Qt::PartiallyChecked`）。
@@ -203,19 +204,26 @@
      - **树节点排序避坑**：`sortItems(column, order)`，重载或绑定 `Qt::UserRole` 解决数值按字符串字典序排序的经典 Bug。  
 - **应用场景**：技能天赋分支树、多级关卡目录、文件目录树形结构、权限组织架构。
 
-#### 1.4.8 demo_table_widget ⏳ [待实现]
+#### 1.4.8 demo_table_widget ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_table_widget](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_table_widget/)
 - **描述**：`QTableWidget` 专属深度实战工程（游戏全服天梯排行榜与装备数值矩阵大表）：
-  1. **二维表格矩阵管理**：行列动态设置（`setRowCount`, `setColumnCount`）、表头定制（`setHorizontalHeaderLabels`）、整行选中（`SelectRows`）。
-  2. **单元格富控件与样式**：文本居中对齐、只读锁定、单元格嵌入自定义控件（`setCellWidget` 嵌入操作按钮组/进度条）、单元格背景根据战斗力高低自动渐变着色。
-  3. **高级交互与避坑指南**：
-     - **数值排序避坑**：数字列（如战力、等级）默认按字符串排序导致 "100" 排在 "20" 前面，通过重写 `QTableWidgetItem::<` 运算符或 `setData(Qt::DisplayRole, int)` 实现真正的数值排序。
-     - **表格刷新与闪烁抑制**：批量插入成百上千行数据时调用 `setUpdatesEnabled(false)`，插入完成后再恢复并刷新，消除界面卡顿与白屏闪烁。
-     - **列宽自适应与弹性拉伸**：`horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch / ResizeToContents)`。  
-- **应用场景**：天梯排行榜、物品交易行大表、学生/员工信息台账、传感器多通道数据表格。
+  1. **二维表格矩阵管理**：行列动态设置（`setRowCount`, `setColumnCount`）、表头定制（`setHorizontalHeaderLabels`）、整行选中（`SelectRows`）、整列选中（`SelectColumns`）与单个单元格选择（`SelectItems`）无缝切换。
+  2. **编辑触发与列宽模式**：双击编辑（`DoubleClicked`）、单击选中编辑（`SelectedClicked`）、只读锁定（`NoEditTriggers`）；列宽均分拉伸（`Stretch`）、根据内容紧凑自适应（`ResizeToContents`）与自由拖拽调节（`Interactive`）。
+  3. **单元格富控件与样式**：文本对齐、只读锁定、单元格嵌入操作按钮组（`setCellWidget` 嵌入“⚔️ 挑战”/“🔍 查房”）与胜率进度条（`QProgressBar`）、金银铜牌榜首前景色与战力紫色高亮。
+  4. **高级交互与避坑指南**：
+     - **数值科学排序避坑**：数字列（战力、等级、排名）必须使用 `setData(Qt::DisplayRole, intVal)` 存入整型 `QVariant`，彻底避免默认按字符串字典序比较导致 `"100" < "20"` 的经典 Bug。
+     - **大批量刷表防卡顿刷新**：大批量插入行数据时调用 `setUpdatesEnabled(false)` 阻断重绘，插入完成后恢复开启，耗时由数百毫秒骤降至个位数毫秒。
+     - **多行安全删除**：使用降序排序 `std::greater<int>()` 倒序删除选中行，避免行索引动态偏移 Bug。
+     - **右键菜单与 Viewport 避坑**：`tableWidget->viewport()->mapToGlobal(pos)` 换算屏幕绝对坐标。  
+- **应用场景**：全服天梯排行榜、物品装备数值大表、学生/员工信息台账、传感器多通道监控报表。
 
-#### 1.4.9 demo_json_tree_editor ⏳ [待实现]
-- **描述**：结合 `QTreeWidget` 与 `QJsonDocument` 构建可视化 JSON 树形结构编辑器：支持从磁盘读取 JSON 文件递归解析填充为树形节点（Object/Array/Key-Value）、支持就地双击编辑键值与类型转换、动态增删子节点、以及校验格式并同步写回磁盘。  
-- **应用场景**：游戏/应用 JSON 配置文件可视化修改器、RESTful 响应报文结构可视化调试工具。
+#### 1.4.9 demo_json_tree_editor ✅ [已实现]
+- **源码工程**：[code/src/01_basic/04_widgets/demo_json_tree_editor](file:///d:/zcode/study/study_qt/code/src/01_basic/04_widgets/demo_json_tree_editor/)
+- **描述**：结合 `QTreeWidget` 与 `QJsonDocument` 构建专业级 JSON 树形结构可视化编辑器：
+  1. **纯右键驱动与双击就地编辑**：摒弃多余侧边栏，将全部节点创建、子字段追加、重命名 Key、值修改、数据类型转换（String ↔ Number ↔ Bool ↔ Null）与删除操作完全收敛于**右键上下文菜单（Context Menu）与就地双击编辑**。
+  2. **毫秒级双向实时同步**：左侧树形结构任何增删改自动触发递归逆向序列化为 `QJsonDocument`，格式化更新至右侧 `QPlainTextEdit` 源码视图；修改右侧源码亦可一键反向解析刷新树形。
+  3. **持久化文件 I/O 与测试样例**：支持打开磁盘任意 `.json` 配置文件、内置 RPG 游戏配置预置样例、修改后一键同步持久化保存回写到磁盘。  
+- **应用场景**：游戏/应用 JSON 配置文件可视化修改器、RESTful 响应报文结构可视化调试工具、配置热更编辑器。
 
 ---
 

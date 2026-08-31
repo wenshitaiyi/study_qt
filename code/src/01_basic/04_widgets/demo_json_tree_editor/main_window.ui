@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1180</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>JSON 树形可视化编辑器 (QTreeWidget 与 QJsonDocument 双向同步) - demo_json_tree_editor</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="vboxRoot">
+    <!-- 顶部操作工具栏 -->
+    <item>
+     <widget class="QGroupBox" name="groupToolbar">
+      <property name="title">
+       <string>【工具栏】文件操作、视图同步与检索</string>
+      </property>
+      <layout class="QHBoxLayout" name="hlayoutToolbar">
+       <item>
+        <widget class="QPushButton" name="btnOpenFile">
+         <property name="text">
+          <string>📂 打开 JSON 文件</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSaveFile">
+         <property name="text">
+          <string>💾 保存回写到磁盘</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnLoadSample">
+         <property name="text">
+          <string>🎮 载入游戏配置样例</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSyncTextToTree">
+         <property name="text">
+          <string>⬅️ 源码同步至树形</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnExpandAll">
+         <property name="text">
+          <string>📂 全部展开</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnCollapseAll">
+         <property name="text">
+          <string>📁 全部折叠</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelSearch">
+         <property name="text">
+          <string>🔍 检索：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="editFilter">
+         <property name="placeholderText">
+          <string>输入 Key 或 Value 过滤树节点...</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- 中央分栏编辑区 (左侧树形编辑器 + 右侧源码视图) -->
+    <item>
+     <widget class="QSplitter" name="splitterMain">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <!-- 左侧可视化树形编辑器 -->
+      <widget class="QGroupBox" name="groupTree">
+       <property name="title">
+        <string>🌲 可视化 JSON 树形结构 (双击就地编辑，右键菜单进行增删与类型转换)</string>
+       </property>
+       <layout class="QVBoxLayout" name="vboxTree">
+        <item>
+         <widget class="QTreeWidget" name="treeJson">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="animated">
+           <bool>true</bool>
+          </property>
+          <property name="allColumnsShowFocus">
+           <bool>true</bool>
+          </property>
+          <property name="columnCount">
+           <number>3</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>键名 / 索引 (Key / Index)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>数据类型 (Type)</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>数值内容 (Value)</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- 右侧原始 JSON 源码视图 -->
+      <widget class="QGroupBox" name="groupJsonText">
+       <property name="title">
+        <string>📜 原始 JSON 源码实时双向同步视图</string>
+       </property>
+       <layout class="QVBoxLayout" name="vboxJsonText">
+        <item>
+         <widget class="QPlainTextEdit" name="textJsonRaw">
+          <property name="font">
+           <font>
+            <family>Consolas</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+
+    <!-- 底部状态栏 -->
+    <item>
+     <widget class="QLabel" name="labelStatus">
+      <property name="styleSheet">
+       <string notr="true">background-color: #f1f2f6; padding: 4px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
+      </property>
+      <property name="text">
+       <string>💡 提示：在树节点上点击右键可添加子项、修改类型、复制或删除；树形修改实时自动同步回写右侧 JSON 源码。</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
