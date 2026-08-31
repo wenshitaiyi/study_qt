@@ -70,11 +70,17 @@
 - **描述**：创建纯控制台应用程序，全面演示 5 大模块：`QVector` 与 `reserve()` 内存预分配提速、`QMap` (红黑树有序) vs `QHash` (哈希表) 性能比对与自定义结构体 Key 注入 `qHash()`、`QSet` 集合运算 (交/并/差) 与高效去重、STL 风格与 Java 风格迭代器、Qt 隐式数据共享 (Copy-On-Write) 与 Detach 避坑准则。  
 - **应用场景**：高频内存数据缓存、字典键值快速检索、去重与集合运算。
 
-#### 1.2.4 demo_datetime ⏳ [待实现]
-**描述**：使用 `QDateTime`, `QDate`, `QTime` 进行时间格式化、时区计算与时间戳转换，结合 `QElapsedTimer` 实现微秒级代码执行耗时统计。  
-**应用场景**：日志时间标记、定时任务调度判定、算法性能基准测试。
+#### 1.2.4 demo_datetime ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_datetime](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_datetime/)
+- **描述**：创建纯控制台应用程序，全面演示 5 大核心模块：`QDateTime`, `QDate`, `QTime` 常用构造与 ISO/RFC/自定义多格式逆向解析、时间加减与跨度天数/秒数差值、Unix 秒级与毫秒级时间戳互转、多时区（UTC/Local/QTimeZone）转换及 `QElapsedTimer` 高精度纳秒/微秒耗时评测。  
+- **应用场景**：日志时间标记、定时任务调度判定、跨时区业务适配与算法性能基准测试。
 
-#### 1.2.5 demo_variant ⏳ [待实现]
+#### 1.2.5 demo_color ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_color](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_color/)
+- **描述**：系统演示 `QColor` 与 `QRgb` / `uint32_t`（无符号 32 位整型）双向转换，ARGB 与 RGBA 字节序差异与位运算通道提取合成（`qAlpha()`, `qRed()`, `(argb >> 24) & 0xFF`, `qRgba()`），HSV / HSL 色彩空间色相旋转调色，十六进制颜色字符串（`#RRGGBB`, `#AARRGGBB`）解析，以及基于感知亮度公式的 `lighter()`, `darker()` 与自动黑白文字反色判定。  
+- **应用场景**：图像底层像素处理、自定义换肤与动态主题调色板、图表色彩梯度生成、网络/硬件颜色数据协议编解码。
+
+#### 1.2.6 demo_variant ⏳ [待实现]
 **描述**：使用 `QVariant` 存储和传递任意基本类型与自定义结构体，掌握 `qRegisterMetaType` 注册自定义类型并在跨模块/信号槽中安全流转。  
 **应用场景**：通用属性字典、表格单元格多类型数据存储、跨线程消息万能载体。
 
