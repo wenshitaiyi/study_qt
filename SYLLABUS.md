@@ -95,9 +95,10 @@
 - **描述**：深入掌握 Qt 专属智能指针（`QPointer`, `QScopedPointer`, `QSharedPointer`, `QWeakPointer`, `QSharedDataPointer`）与现代 C++ 标准库智能指针（`std::unique_ptr`, `std::shared_ptr`, `std::weak_ptr`）横向全方位对比，重点掌握 `QPointer` 针对 `QObject` 自动置 `nullptr` 的防悬挂指针机制，以及利用 `QSharedDataPointer` 手写具备隐式数据共享（写时复制 COW）特性的自定义值类型。  
 - **应用场景**：异步跨线程对象安全监听、RAII 异常安全内存释放、构建高性能轻量级自定义业务数据类。
 
-#### 1.2.9 demo_variant ⏳ [待实现]
-**描述**：使用 `QVariant` 存储和传递任意基本类型与自定义结构体，掌握 `qRegisterMetaType` 注册自定义类型并在跨模块/信号槽中安全流转。  
-**应用场景**：通用属性字典、表格单元格多类型数据存储、跨线程消息万能载体。
+#### 1.2.9 demo_variant ✅ [已实现]
+- **源码工程**：[code/src/01_basic/02_core_types/demo_variant](file:///d:/zcode/study/study_qt/code/src/01_basic/02_core_types/demo_variant/)
+- **描述**：借用经典 RPG 游戏角色、背包系统、装备道具与副本掉落等概念，深入浅出地演示 Qt 万能类型 `QVariant`、`QVariantMap`、`QVariantList` 的多态存储能力，以及使用 `Q_DECLARE_METATYPE` 和 `qRegisterMetaType` 注册自定义结构体并安全打包/解包流转。  
+- **应用场景**：游戏与复杂业务动态属性字典、跨线程万能消息载体、Model/View 多角色数据返回。
 
 ### 1.3 文件读写与配置持久化 (03_io_storage)
 
