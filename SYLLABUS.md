@@ -114,17 +114,19 @@
 - **描述**：使用 `QTextStream` 实现流操纵符（Manipulators）格式化报表表格输出、多字符集编码（UTF-8, UTF-8 带 BOM, GBK/GB18030）读写无乱码处理、跨平台换行符（CRLF/LF）透明适配、CSV 报表文件结构化导出与逆向解析、以及内存字符串流（`QString` 内存缓冲）。  
 - **应用场景**：读取与导出 CSV 数据报表、导出系统巡检日志文本、导入脚本文件。
 
-#### 1.3.3 demo_datastream ⏳ [待实现]
-**描述**：使用 `QDataStream` 结合操作符重载 `<<` 和 `>>` 实现复杂 C++ 对象与结构体的二进制持久化保存与版本兼容机制。  
-**应用场景**：自定义工程文件存档（如 CAD/设计器项目保存）、私有协议网络包打包与解包。
+#### 1.3.3 demo_datastream ✅ [已实现]
+- **源码工程**：[code/src/01_basic/03_io_storage/demo_datastream](file:///d:/zcode/study/study_qt/code/src/01_basic/03_io_storage/demo_datastream/)
+- **描述**：全面演示 `QDataStream` 二进制序列化体系：大小端字节序（BigEndian/LittleEndian）、Qt 容器与内置对象流式存取、操作符重载（`<<` / `>>`）实现 CAD 复杂工程文件持久化存档（`.cadproj`）、魔数（Magic Header）校验与数据格式版本向前/向后兼容机制、以及内存二进制私有网络协议封包与解包。  
+- **应用场景**：自定义工程文件持久化存档（CAD/设计器项目保存）、私有协议网络/串口数据包打包与解包。
 
-#### 1.3.4 demo_settings ⏳ [待实现]
-**描述**：使用 `QSettings` 读写 INI 格式配置文件与 Windows 注册表，封装应用程序的全局用户偏好设置。  
-**应用场景**：保存软件上次关闭时的窗口位置大小、记住密码选项、深浅主题配置。
+#### 1.3.4 demo_settings ✅ [已实现]
+- **源码工程**：[code/src/01_basic/03_io_storage/demo_settings](file:///d:/zcode/study/study_qt/code/src/01_basic/03_io_storage/demo_settings/)
+- **描述**：带 UI 界面的企业级配置管理工程。对标工业级项目架构，将 `QSettings` 深度封装为强类型、带默认值回退、支持单例访问的 `AppSettings` 配置管理类；支持 INI 格式读写、UTF-8 字符集编码、实时 INI 文件双向同步预览、一键重置默认配置，以及窗口位置与几何尺寸（Geometry / State）的自动持久化与还原。  
+- **应用场景**：企业级软件全局偏好设置、服务器通信参数配置、窗口上次关闭位置与布局记忆。
 
 #### 1.3.5 demo_json ⏳ [待实现]
-**描述**：利用 `QJsonDocument`, `QJsonObject`, `QJsonArray`, `QJsonValue` 进行复杂嵌套 JSON 字符串的解析、序列化、格式化输出与字段合法性校验。  
-**应用场景**：RESTful API 接口通信、前后端数据交互、现代软件配置文件解析。
+**描述**：全面演示 `QJsonDocument`, `QJsonObject`, `QJsonArray`, `QJsonValue` 的解析、序列化、格式化缩进输出与类型校验；提供高级实用工具库：**JSON 对象深度递归合并（Deep Merge）** 与 **基于点分路径（Path-based/Dot-notation）的数据安全读取与写入更新**（如 `database.cluster[0].port`）。  
+**应用场景**：RESTful API 接口通信、前后端数据交互、差异补丁（JSON Patch）合并与配置深层项快速读写。
 
 #### 1.3.6 demo_xml ⏳ [待实现]
 **描述**：使用基于流的高性能 `QXmlStreamReader` 和 `QXmlStreamWriter` 进行 XML 文档的增量解析与构造。  
@@ -157,6 +159,10 @@
 #### 1.4.6 demo_item_widgets ⏳ [待实现]
 **描述**：快速使用 `QListWidget`, `QTreeWidget`, `QTableWidget` 实现简易列表、多级树形目录与二维表格数据的增删改查、图标绑定与排序。  
 **应用场景**：本地音乐播放列表、文件目录树形导航、简易学生成绩统计表格。
+
+#### 1.4.7 demo_json_tree_editor ⏳ [待实现]
+**描述**：结合 `QTreeWidget` 与 `QJsonDocument` 构建可视化 JSON 树形结构编辑器：支持从磁盘读取 JSON 文件递归解析填充为树形节点（Object/Array/Key-Value）、支持就地双击编辑键值与类型转换、动态增删子节点、以及校验格式并同步写回磁盘。  
+**应用场景**：游戏/应用 JSON 配置文件可视化修改器、RESTful 响应报文结构可视化调试工具。
 
 ---
 
