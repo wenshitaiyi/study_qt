@@ -124,21 +124,23 @@
 - **描述**：带 UI 界面的企业级配置管理工程。对标工业级项目架构，将 `QSettings` 深度封装为强类型、带默认值回退、支持单例访问的 `AppSettings` 配置管理类；支持 INI 格式读写、UTF-8 字符集编码、实时 INI 文件双向同步预览、一键重置默认配置，以及窗口位置与几何尺寸（Geometry / State）的自动持久化与还原。  
 - **应用场景**：企业级软件全局偏好设置、服务器通信参数配置、窗口上次关闭位置与布局记忆。
 
-#### 1.3.5 demo_json ⏳ [待实现]
-**描述**：全面演示 `QJsonDocument`, `QJsonObject`, `QJsonArray`, `QJsonValue` 的解析、序列化、格式化缩进输出与类型校验；提供高级实用工具库：**JSON 对象深度递归合并（Deep Merge）** 与 **基于点分路径（Path-based/Dot-notation）的数据安全读取与写入更新**（如 `database.cluster[0].port`）。  
-**应用场景**：RESTful API 接口通信、前后端数据交互、差异补丁（JSON Patch）合并与配置深层项快速读写。
+#### 1.3.5 demo_json ✅ [已实现]
+- **源码工程**：[code/src/01_basic/03_io_storage/demo_json](file:///d:/zcode/study/study_qt/code/src/01_basic/03_io_storage/demo_json/)
+- **描述**：全面演示 `QJsonDocument`, `QJsonObject`, `QJsonArray`, `QJsonValue` 的解析、序列化、格式化缩进输出与类型校验；提供高级实用工具库：**JSON 对象深度递归合并（Deep Merge）** 与 **基于点分路径（Path-based/Dot-notation）的数据安全读取与写入更新**（如 `database.cluster[0].port`）。  
+- **应用场景**：RESTful API 接口通信、前后端数据交互、差异补丁（JSON Patch）合并与配置深层项快速读写。
 
-#### 1.3.6 demo_xml ⏳ [待实现]
-**描述**：使用基于流的高性能 `QXmlStreamReader` 和 `QXmlStreamWriter` 进行 XML 文档的增量解析与构造。  
-**应用场景**：读取 SVG 矢量图元数据、解析 Office/工业标准 XML 报文。
+#### 1.3.6 demo_xml ✅ [已实现]
+- **源码工程**：[code/src/01_basic/03_io_storage/demo_xml](file:///d:/zcode/study/study_qt/code/src/01_basic/03_io_storage/demo_xml/)
+- **描述**：采用游戏开发思维（RPG 游戏任务系统、装备神装图鉴数据库与 NPC 分支对话树），使用基于流的高性能 `QXmlStreamReader` 与 `QXmlStreamWriter` 进行 XML 树状文档的增量高效解析与流式构造，掌握标记流处理（`StartElement`, `EndElement`, `Characters`, `Attributes`）与 XML 语法异常精准行/列号定位。  
+- **应用场景**：游戏任务/装备/剧情对话配置表读取、SVG 矢量图元数据解析、Office/工业标准 XML 报文解析。
 
 ### 1.4 常用基础控件与布局管理 (04_widgets)
 
 **章节概述**：系统掌握 Qt 提供的经典 Widget 控件库，理解布局管理器（Layout）的弹性拉伸、间距控制与自适应响应原理，能够快速拼装复杂且规范的软件交互界面。
 
 #### 1.4.1 demo_buttons ⏳ [待实现]
-**描述**：综合展示 `QPushButton`, `QToolButton`（带下拉菜单/箭头模式）, `QRadioButton`（互斥分组 QButtonGroup）, `QCheckBox`（三态勾选）的信号槽与状态定制。  
-**应用场景**：表单操作工具栏、参数互斥单选框、批量全选/半选勾选框。
+**描述**：采用 RPG 游戏战斗与控制台设计思维（技能施放 CD 倒计时、副本难度弹出菜单、阵营/画质单选、三态自动拾取勾选），综合展示 `QPushButton`, `QToolButton`（三种 PopupMode 下拉菜单与 ArrowType 箭头）, `QRadioButton`（`QButtonGroup` 互斥管理与 ID 绑定）, `QCheckBox`（双态与三态勾选）；并系统化集成与展示 Qt 消息弹窗族（`QMessageBox`：信息公告、体力警告、严重错误、分解确认与自定义复活按钮弹窗）。  
+**应用场景**：游戏技能释放控制台、系统设置开关面板、各类确认/拦截消息弹窗与操作日志展示。
 
 #### 1.4.2 demo_layouts ⏳ [待实现]
 **描述**：深入演示 `QHBoxLayout`, `QVBoxLayout`, `QGridLayout`, `QFormLayout`, `QStackedLayout` 的弹性比例（Stretch）、外边距（Margins）、间距（Spacing）与尺寸策略（QSizePolicy）。  
@@ -449,6 +451,13 @@
 4. **智能秒级回填粘贴**：用户双击或回车选中记录后，窗口自动失焦隐藏，并调用 Win32 `SendInput` 自动向目标激活窗口模拟 `Ctrl + V` 粘贴。
 5. **系统托盘与自适应交互**：`QSystemTrayIcon` 常驻托盘、鼠标邻近自动弹窗与失焦自动隐藏。  
 **应用场景**：跨应用极速代码与文案多段复制粘贴、高频日常桌面生产力增强工具。
+
+#### 4.1.9 demo_tree_editor ⏳ [待实现]
+**描述**：通用树形配置引擎与可视化编辑器（带完整 UI 界面）：
+1. **通用树形模型 (`GenericTreeNode`)**：设计内部层次化树形节点数据结构，抽象统一节点标签、属性映射表（Attributes）与子节点列表。
+2. **多配置格式无缝双向导入导出**：原生支持 **JSON 树与 XML 树双向无损互转**（Import JSON -> Export XML / Import XML -> Export JSON）。
+3. **可视化交互与实时渲染**：基于 `QTreeWidget` / `QTreeView` 提供节点可视化增删改查、属性就地编辑修改、以及左右分栏实时预览生成的 JSON 和 XML 文本流。  
+**应用场景**：游戏剧情/关卡/技能树通用可视化配置器、跨平台多格式配置文件转换工具。
 
 ### 4.2 图形与多媒体类 (02_media_graphics)
 

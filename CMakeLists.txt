@@ -27,7 +27,7 @@ if(NOT DEFINED CMAKE_PREFIX_PATH AND EXISTS "D:/app/qt/qt-5.15.2/5.15.2/msvc2019
 endif()
 
 # Find Core Qt5 Packages
-find_package(Qt5 COMPONENTS Core Gui Widgets Network Sql Concurrent REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets Network Sql Concurrent Xml REQUIRED)
 find_package(Qt5 COMPONENTS SerialPort Charts OPTIONAL_COMPONENTS)
 
 # Unified Executable Output Directory: app/debug and app/release
