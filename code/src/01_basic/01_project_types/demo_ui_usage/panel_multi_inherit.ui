@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PanelMultiInherit</class>
+ <widget class="QWidget" name="PanelMultiInherit">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupIntro">
+     <property name="title">
+      <string>【形式 3】多重继承方式 (Multiple Inheritance)</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutIntro">
+      <item>
+       <widget class="QLabel" name="labelIntro">
+        <property name="text">
+         <string>&lt;b&gt;原理与特点：&lt;/b&gt;&lt;br&gt;
+• 类声明同时继承 QWidget 与生成的 Ui 类：&lt;code&gt;class PanelMultiInherit : public QWidget, private Ui::PanelMultiInherit&lt;/code&gt;。&lt;br&gt;
+• 构造函数中直接调用 &lt;code&gt;setupUi(this)&lt;/code&gt;。&lt;br&gt;
+• UI 中定义的所有控件（如 &lt;code&gt;btnAction&lt;/code&gt;、&lt;code&gt;comboCategory&lt;/code&gt;）直接成为当前类的成员，在类方法中访问&lt;b&gt;无需任何前缀&lt;/b&gt;。&lt;br&gt;
+• 代码书写最简短，但控件命名可能会与类私有成员产生命名污染冲突。</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupInteractive">
+     <property name="title">
+      <string>组件交互区</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QComboBox" name="comboCategory">
+        <item>
+         <property name="text">
+          <string>🚀 选项 A：网络通信模块</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>💾 选项 B：数据库存储模块</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>🎨 选项 C：图形视图模块</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnAction">
+        <property name="text">
+         <string>点击触发 (直接 btnAction)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelResult">
+     <property name="styleSheet">
+      <string notr="true">QLabel { background: #f0f9eb; border: 1px solid #e1f3d8; padding: 10px; border-radius: 4px; color: #67c23a; font-family: Consolas; }</string>
+     </property>
+     <property name="text">
+      <string>就绪：等待交互操作...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

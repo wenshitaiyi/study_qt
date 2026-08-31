@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PanelDirectMember</class>
+ <widget class="QWidget" name="PanelDirectMember">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>680</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupIntro">
+     <property name="title">
+      <string>【形式 2】值对象成员方式 (Direct Member / Value Member)</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutIntro">
+      <item>
+       <widget class="QLabel" name="labelIntro">
+        <property name="text">
+         <string>&lt;b&gt;原理与特点：&lt;/b&gt;&lt;br&gt;
+• 头文件直接包含生成的 &lt;code&gt;#include &quot;ui_panel_direct_member.h&quot;&lt;/code&gt;。&lt;br&gt;
+• 类内直接声明对象成员：&lt;code&gt;Ui::PanelDirectMember m_ui;&lt;/code&gt;。&lt;br&gt;
+• 构造函数中直接调用 &lt;code&gt;m_ui.setupUi(this)&lt;/code&gt;，通过点操作符 &lt;code&gt;m_ui.控件名&lt;/code&gt; 访问。&lt;br&gt;
+• 免除堆内存动态分配（new/delete/smart pointer），但修改 UI 会引起包含该头文件的外部代码重新编译。</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupInteractive">
+     <property name="title">
+      <string>组件交互区</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QSpinBox" name="spinValue">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnAction">
+        <property name="text">
+         <string>点击触发 (m_ui.btnAction)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelResult">
+     <property name="styleSheet">
+      <string notr="true">QLabel { background: #fdf6ec; border: 1px solid #faecd8; padding: 10px; border-radius: 4px; color: #e6a23c; font-family: Consolas; }</string>
+     </property>
+     <property name="text">
+      <string>就绪：等待交互操作...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
