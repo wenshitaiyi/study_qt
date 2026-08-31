@@ -39,6 +39,36 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->treeJson, &QTreeWidget::itemChanged, this, &MainWindow::onTreeItemChanged);
     connect(ui->treeJson, &QTreeWidget::customContextMenuRequested, this, &MainWindow::onCustomContextMenu);
 
+    // 全局美化 QSS：彻底解决 QGroupBox 标题高度截断/显示不完整问题，并提升现代感
+    setStyleSheet(QStringLiteral(
+        "QGroupBox {"
+        "   font-size: 12px;"
+        "   font-weight: bold;"
+        "   color: #2c3e50;"
+        "   border: 1px solid #dcdde1;"
+        "   border-radius: 6px;"
+        "   margin-top: 14px;"
+        "   padding-top: 16px;"
+        "}"
+        "QGroupBox::title {"
+        "   subcontrol-origin: margin;"
+        "   subcontrol-position: top left;"
+        "   left: 10px;"
+        "   padding: 0 6px;"
+        "   background-color: transparent;"
+        "}"
+        "QPushButton {"
+        "   padding: 4px 10px;"
+        "   border: 1px solid #bdc3c7;"
+        "   border-radius: 4px;"
+        "   background-color: #ecf0f1;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: #dfe6e9;"
+        "   border-color: #95a5a6;"
+        "}"
+    ));
+
     // 默认载入游戏样例配置
     onLoadSampleClicked();
 }

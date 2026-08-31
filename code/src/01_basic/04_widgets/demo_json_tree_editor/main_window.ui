@@ -14,10 +14,31 @@
    <string>JSON 树形可视化编辑器 (QTreeWidget 与 QJsonDocument 双向同步) - demo_json_tree_editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="vboxRoot">
+   <layout class="QVBoxLayout" name="vboxRoot" stretch="0,1,0">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="leftMargin">
+     <number>8</number>
+    </property>
+    <property name="topMargin">
+     <number>8</number>
+    </property>
+    <property name="rightMargin">
+     <number>8</number>
+    </property>
+    <property name="bottomMargin">
+     <number>8</number>
+    </property>
     <!-- 顶部操作工具栏 -->
     <item>
      <widget class="QGroupBox" name="groupToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="title">
        <string>【工具栏】文件操作、视图同步与检索</string>
       </property>
@@ -88,17 +109,47 @@
     <!-- 中央分栏编辑区 (左侧树形编辑器 + 右侧源码视图) -->
     <item>
      <widget class="QSplitter" name="splitterMain">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <!-- 左侧可视化树形编辑器 -->
       <widget class="QGroupBox" name="groupTree">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>3</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>🌲 可视化 JSON 树形结构 (双击就地编辑，右键菜单进行增删与类型转换)</string>
        </property>
        <layout class="QVBoxLayout" name="vboxTree">
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>8</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
         <item>
          <widget class="QTreeWidget" name="treeJson">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
@@ -133,12 +184,36 @@
 
       <!-- 右侧原始 JSON 源码视图 -->
       <widget class="QGroupBox" name="groupJsonText">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>2</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>📜 原始 JSON 源码实时双向同步视图</string>
        </property>
        <layout class="QVBoxLayout" name="vboxJsonText">
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>8</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
         <item>
          <widget class="QPlainTextEdit" name="textJsonRaw">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <family>Consolas</family>
@@ -155,8 +230,14 @@
     <!-- 底部状态栏 -->
     <item>
      <widget class="QLabel" name="labelStatus">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #f1f2f6; padding: 4px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
+       <string notr="true">background-color: #f1f2f6; padding: 5px; border-radius: 3px; color: #2c3e50; font-weight: bold;</string>
       </property>
       <property name="text">
        <string>💡 提示：在树节点上点击右键可添加子项、修改类型、复制或删除；树形修改实时自动同步回写右侧 JSON 源码。</string>
