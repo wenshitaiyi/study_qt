@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QThread>
 #include <QMessageBox>
+#include <QDebug>
 #include <thread>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     initStylesAndConnections();
 
-    appendLog(QStringLiteral("系统"), QStringLiteral("信号与槽机制全景实战 Demo 初始化完成。主 UI 线程 ID: %1")
+    appendLog(QStringLiteral("系统初始化"),
+              QStringLiteral("demo_signalslot 界面与控制台就绪！主 UI 线程 ID: %1")
               .arg(reinterpret_cast<quintptr>(QThread::currentThreadId())));
 }
 
@@ -27,13 +29,14 @@ void MainWindow::initStylesAndConnections()
     // 全局美化 QSS：解决 QGroupBox 标题高度截断与视觉现代感
     setStyleSheet(QStringLiteral(
         "QGroupBox {"
-        "   font-size: 12px;"
+        "   font-size: 13px;"
         "   font-weight: bold;"
         "   color: #2c3e50;"
         "   border: 1px solid #dcdde1;"
         "   border-radius: 6px;"
         "   margin-top: 14px;"
         "   padding-top: 16px;"
+        "   background-color: #fafafa;"
         "}"
         "QGroupBox::title {"
         "   subcontrol-origin: margin;"
@@ -43,20 +46,20 @@ void MainWindow::initStylesAndConnections()
         "   background-color: transparent;"
         "}"
         "QPushButton {"
-        "   padding: 5px 12px;"
+        "   padding: 5px 10px;"
         "   border: 1px solid #bdc3c7;"
         "   border-radius: 4px;"
-        "   background-color: #ecf0f1;"
+        "   background-color: #ffffff;"
         "   font-size: 12px;"
         "}"
         "QPushButton:hover {"
-        "   background-color: #dfe6e9;"
-        "   border-color: #95a5a6;"
+        "   background-color: #ecf0f1;"
+        "   border-color: #3498db;"
         "}"
     ));
 
     // ========================================================================
-    // Tab 1 绑定 (语法范式、Lambda、重载、句柄)
+    // 1. 语法范式、Lambda、重载
     // ========================================================================
     connect(ui->btnQt4Syntax, &QPushButton::clicked, this, &MainWindow::onQt4SyntaxClicked);
     connect(ui->btnQt5Syntax, &QPushButton::clicked, this, &MainWindow::onQt5SyntaxClicked);
@@ -65,40 +68,36 @@ void MainWindow::initStylesAndConnections()
     connect(ui->btnOverloadStaticCast, &QPushButton::clicked, this, &MainWindow::onOverloadStaticCastClicked);
     connect(ui->btnLambdaNoContext, &QPushButton::clicked, this, &MainWindow::onLambdaNoContextClicked);
     connect(ui->btnLambdaWithContext, &QPushButton::clicked, this, &MainWindow::onLambdaWithContextClicked);
-    connect(ui->btnConnectHandle, &QPushButton::clicked, this, &MainWindow::onConnectHandleClicked);
-    connect(ui->btnTriggerHandleSignal, &QPushButton::clicked, this, &MainWindow::onTriggerHandleSignalClicked);
-    connect(ui->btnDisconnectHandle, &QPushButton::clicked, this, &MainWindow::onDisconnectHandleClicked);
 
     // ========================================================================
-    // Tab 2 绑定 (信号联动、执行顺序、重复绑定、解绑大全)
+    // 2. 信号联动、执行顺序、重复绑定、解绑大全
     // ========================================================================
-    // 1. 信号三级级联联动链: chainSignal1 -> chainSignal2 -> chainSignal3 -> onChainFinalSlot
+    // 信号三级级联联动链: chainSignal1 -> chainSignal2 -> chainSignal3 -> onChainFinalSlot
     connect(this, &MainWindow::chainSignal1, this, &MainWindow::chainSignal2);
     connect(this, &MainWindow::chainSignal2, this, &MainWindow::chainSignal3);
     connect(this, &MainWindow::chainSignal3, this, &MainWindow::onChainFinalSlot);
     connect(ui->btnTriggerSignalChain, &QPushButton::clicked, this, &MainWindow::onTriggerSignalChainClicked);
 
-    // 2. 绑定顺序与执行顺序
+    // 绑定顺序与执行顺序
     connect(ui->btnConnectOrder123, &QPushButton::clicked, this, &MainWindow::onConnectOrder123Clicked);
     connect(ui->btnConnectOrder321, &QPushButton::clicked, this, &MainWindow::onConnectOrder321Clicked);
     connect(ui->btnTriggerOrderSignal, &QPushButton::clicked, this, &MainWindow::onTriggerOrderSignalClicked);
 
-    // 3. 重复绑定问题与 UniqueConnection
+    // 重复绑定问题与 UniqueConnection
     connect(ui->btnRepeatConnect3Times, &QPushButton::clicked, this, &MainWindow::onRepeatConnect3TimesClicked);
     connect(ui->btnUniqueConnect3Times, &QPushButton::clicked, this, &MainWindow::onUniqueConnect3TimesClicked);
     connect(ui->btnTriggerDupTestSignal, &QPushButton::clicked, this, &MainWindow::onTriggerDupTestSignalClicked);
 
-    // 4. 多维度解绑
+    // 多维度解绑
     connect(ui->btnDisconnectAllSender, &QPushButton::clicked, this, &MainWindow::onDisconnectAllSenderClicked);
     connect(ui->btnDisconnectSpecificSignal, &QPushButton::clicked, this, &MainWindow::onDisconnectSpecificSignalClicked);
     connect(ui->btnDisconnectSpecificReceiver, &QPushButton::clicked, this, &MainWindow::onDisconnectSpecificReceiverClicked);
     connect(ui->btnDisconnectExactPair, &QPushButton::clicked, this, &MainWindow::onDisconnectExactPairClicked);
 
     // ========================================================================
-    // Tab 3 绑定 (自定义类型与 void* 通用传递)
+    // 3. 自定义类型与 void* 通用传递
     // ========================================================================
     connect(ui->btnRegisterMetaType, &QPushButton::clicked, this, &MainWindow::onRegisterMetaTypeClicked);
-    connect(ui->btnEmitCustomStructDirect, &QPushButton::clicked, this, &MainWindow::onEmitCustomStructDirectClicked);
     connect(ui->btnEmitCustomStructQueued, &QPushButton::clicked, this, &MainWindow::onEmitCustomStructQueuedClicked);
     connect(ui->btnEmitVoidPointerDirect, &QPushButton::clicked, this, &MainWindow::onEmitVoidPointerDirectClicked);
     connect(ui->btnEmitVoidPointerAsyncSafe, &QPushButton::clicked, this, &MainWindow::onEmitVoidPointerAsyncSafeClicked);
@@ -110,14 +109,14 @@ void MainWindow::initStylesAndConnections()
     connect(this, &MainWindow::variantSignal, this, &MainWindow::slotReceiveVariant);
 
     // ========================================================================
-    // Tab 4 绑定 (5 种连接类型与跨线程)
+    // 4. 5 种连接类型与跨线程
     // ========================================================================
     connect(ui->btnStartWorkerThread, &QPushButton::clicked, this, &MainWindow::onStartWorkerThreadClicked);
     connect(ui->btnTestBlockingQueue, &QPushButton::clicked, this, &MainWindow::onTestBlockingQueueClicked);
     connect(ui->btnInvokeMethodQApp, &QPushButton::clicked, this, &MainWindow::onInvokeMethodQAppClicked);
 
     // ========================================================================
-    // Tab 5 绑定 (自动命名绑定与高级特性)
+    // 5. 自动命名绑定与高级特性
     // ========================================================================
     connect(ui->btnTriggerBlocked, &QPushButton::clicked, this, [this]() {
         emit testBlockSignal(QStringLiteral("这是一条用于测试 blockSignals 状态的测试信号！"));
@@ -135,9 +134,6 @@ void MainWindow::initStylesAndConnections()
     connect(ui->btnCheckSender, &QPushButton::clicked, this, &MainWindow::onCheckSenderClicked);
     connect(ui->btnQueryReceivers, &QPushButton::clicked, this, &MainWindow::onQueryReceiversClicked);
 
-    // 清空日志
-    connect(ui->btnClearLog, &QPushButton::clicked, ui->textLog, &QPlainTextEdit::clear);
-
     // 重载信号响应 Lambda
     connect(this, QOverload<int>::of(&MainWindow::signalOverloaded), this, [this](int val) {
         appendLog(QStringLiteral("QOverload<int>"), QStringLiteral("捕获到整型重载信号 -> int 值为: %1").arg(val));
@@ -151,12 +147,13 @@ void MainWindow::appendLog(const QString &category, const QString &message)
 {
     QString timeStr = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss.zzz"));
     quintptr currentThreadId = reinterpret_cast<quintptr>(QThread::currentThreadId());
-    QString line = QStringLiteral("[%1] [线程: %2] [%3] %4")
-                       .arg(timeStr)
-                       .arg(currentThreadId)
-                       .arg(category.leftJustified(18, ' '))
-                       .arg(message);
-    ui->textLog->appendPlainText(line);
+    
+    // 直接输出到标准控制台终端，消除 UI 控件嵌套负担
+    qInfo().noquote() << QStringLiteral("[%1] [线程:%2] [%3] %4")
+                         .arg(timeStr)
+                         .arg(currentThreadId)
+                         .arg(category.leftJustified(20, ' '))
+                         .arg(message);
 }
 
 Qt::ConnectionType MainWindow::getSelectedConnectionType() const
@@ -173,7 +170,7 @@ Qt::ConnectionType MainWindow::getSelectedConnectionType() const
 }
 
 // ============================================================================
-// Tab 1: 语法范式与 Lambda 表达式
+// 1. 语法范式与 Lambda 表达式
 // ============================================================================
 void MainWindow::onQt4SyntaxClicked()
 {
@@ -235,7 +232,7 @@ void MainWindow::onConnectHandleClicked()
         return;
     }
 
-    m_dynamicConnection = connect(ui->btnTriggerHandleSignal, &QPushButton::clicked, this, [this]() {
+    m_dynamicConnection = connect(ui->btnTriggerOrderSignal, &QPushButton::clicked, this, [this]() {
         ++m_handleSignalCount;
         appendLog(QStringLiteral("句柄响应"), QStringLiteral("🔔 捕获到动态句柄绑定的触发信号 (第 %1 次)").arg(m_handleSignalCount));
     });
@@ -246,7 +243,7 @@ void MainWindow::onConnectHandleClicked()
 void MainWindow::onTriggerHandleSignalClicked()
 {
     if (!m_dynamicConnection) {
-        appendLog(QStringLiteral("句柄触发"), QStringLiteral("⚠️ 当前没有通过句柄建立的连接，请先点击【建立连接并保存句柄】按钮。"));
+        appendLog(QStringLiteral("句柄触发"), QStringLiteral("⚠️ 当前没有通过句柄建立的连接。"));
     }
 }
 
@@ -261,7 +258,7 @@ void MainWindow::onDisconnectHandleClicked()
 }
 
 // ============================================================================
-// Tab 2: 信号联动、执行顺序、重复绑定与解绑大全
+// 2. 信号联动、执行顺序、重复绑定与解绑大全
 // ============================================================================
 void MainWindow::onTriggerSignalChainClicked()
 {
@@ -302,7 +299,7 @@ void MainWindow::onConnectOrder321Clicked()
 
 void MainWindow::onTriggerOrderSignalClicked()
 {
-    appendLog(QStringLiteral("执行顺序检验"), QStringLiteral("🔔 发射 orderTestSignal 信号，观察下方槽函数执行先后日志："));
+    appendLog(QStringLiteral("执行顺序检验"), QStringLiteral("🔔 发射 orderTestSignal 信号，观察槽函数执行先后日志："));
     emit orderTestSignal(QStringLiteral("顺序测试数据包"));
 }
 
@@ -409,15 +406,10 @@ void MainWindow::slotDisconnectTarget2(const QString &msg)
 }
 
 // ============================================================================
-// Tab 3: 自定义类型与 void* 通用传递
+// 3. 自定义类型与 void* 通用传递
 // ============================================================================
 void MainWindow::onRegisterMetaTypeClicked()
 {
-    // ========================================================================
-    // 【核心知识点：qRegisterMetaType 注册自定义类型】
-    //  QueuedConnection 跨线程通信时，Qt 需要将参数对象拷贝存储在事件中。
-    //  为了能在运行时构造、拷贝与析构该类型，必须调用 qRegisterMetaType<T>() 注册到元类型表。
-    // ========================================================================
     qRegisterMetaType<PlayerPacket>("PlayerPacket");
     qRegisterMetaType<RawContextData*>("RawContextData*");
     m_isMetaTypeRegistered = true;
@@ -438,7 +430,6 @@ void MainWindow::onEmitCustomStructDirectClicked()
 
 void MainWindow::onEmitCustomStructQueuedClicked()
 {
-    // 在独立后台异步 std::thread 中发射自定义类型信号跨线程到主 UI 线程
     std::thread([this]() {
         quintptr subId = reinterpret_cast<quintptr>(QThread::currentThreadId());
         QThread::msleep(200);
@@ -461,13 +452,9 @@ void MainWindow::slotReceiveCustomStruct(const PlayerPacket &packet)
 
 void MainWindow::onEmitVoidPointerDirectClicked()
 {
-    // ========================================================================
-    // 【void* 场景 1：同线程栈上分配指针传递】
-    //  同线程 Direct 模式下，发射时槽函数立即同步执行，此时栈内存未销毁，安全可用。
-    // ========================================================================
     RawContextData stackContext{501, QStringLiteral("同线程栈内存上下文数据包"), 12345678};
     appendLog(QStringLiteral("void* 同线程发射"),
-              QStringLiteral("🚀 发射栈地址 void* 指针: %1").arg(reinterpret_cast<quintptr>(&stackContext), 0, 16));
+              QStringLiteral("🚀 发射栈地址 void* 指针: 0x%1").arg(reinterpret_cast<quintptr>(&stackContext), 0, 16));
     emit voidPointerSignal(static_cast<void*>(&stackContext));
 }
 
@@ -481,11 +468,6 @@ void MainWindow::slotReceiveVoidPointerDirect(void *ptr)
 
 void MainWindow::onEmitVoidPointerAsyncSafeClicked()
 {
-    // ========================================================================
-    // 【void* 场景 2：跨线程堆内存分配与所有权转移 (Ownership Transfer)】
-    //  在异步子线程中必须在堆 (heap) 上 new 出对象，传递 void* 给主线程；
-    //  主线程槽函数在消费完之后，**必须由接收方负责 delete 释放**，避免内存泄漏与野指针崩溃！
-    // ========================================================================
     std::thread([this]() {
         quintptr subId = reinterpret_cast<quintptr>(QThread::currentThreadId());
         QThread::msleep(200);
@@ -518,10 +500,6 @@ void MainWindow::slotReceiveVoidPointerAsyncSafe(void *ptr)
 
 void MainWindow::onEmitQVariantWrappedClicked()
 {
-    // ========================================================================
-    // 【QVariant 通用类型包装方案】
-    //  将自定义结构体使用 QVariant::fromValue 打包，通过 const QVariant& 传递。
-    // ========================================================================
     PlayerPacket packet{9999, QStringLiteral("大领主·提里奥·弗丁"), 100, 999999.0};
     QVariant var = QVariant::fromValue(packet);
 
@@ -543,7 +521,7 @@ void MainWindow::slotReceiveVariant(const QVariant &data)
 }
 
 // ============================================================================
-// Tab 4: 5 种连接类型与跨线程交互
+// 4. 5 种连接类型与跨线程交互
 // ============================================================================
 void MainWindow::onStartWorkerThreadClicked()
 {
@@ -611,7 +589,7 @@ void MainWindow::onInvokeMethodQAppClicked()
 }
 
 // ============================================================================
-// Tab 5: 自动命名绑定与高级特性
+// 5. 自动命名绑定与高级特性
 // ============================================================================
 void MainWindow::on_btnAutoBound_clicked()
 {
