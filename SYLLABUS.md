@@ -245,9 +245,16 @@
   5. **方法/信号/槽内省与动态调用**：通过 `QMetaMethod` 内省方法签名与类型，通过 `QMetaObject::invokeMethod` 实现按字符串函数名动态调度带参及带返回值的方法（`Q_ARG` / `Q_RETURN_ARG`）。  
 - **应用场景**：低代码属性配置面板、脚本引擎动态绑定 C++ 对象、QSS 动态状态选择器绑定、自动化测试与序列化框架。
 
-#### 2.1.2 demo_signalslot ⏳ [待实现]
-**描述**：全方位演示 `Qt::AutoConnection`, `Qt::DirectConnection`, `Qt::QueuedConnection`, `Qt::BlockingQueuedConnection` 4 种连接模式在跨线程与同线程下的执行时机与表现，对比新旧信号槽语法与 Lambda 表达式捕获安全。  
-**应用场景**：后台工作线程向 UI 线程安全传递进度通知、跨模块解耦通信。
+#### 2.1.2 demo_signalslot ✅ [已实现]
+- **源码工程**：[code/src/02_advanced/01_meta_object/demo_signalslot](file:///d:/zcode/study/study_qt/code/src/02_advanced/01_meta_object/demo_signalslot/)
+- **描述**：`Qt` 信号与槽机制深度探索与全景实战（可视化 GUI 程序）：
+  1. **语法范式与重载二义性**：Qt4 字符串宏语法（`SIGNAL/SLOT`）对比 Qt5 函数指针语法（`&Sender::sig, &Receiver::slot`）；`QOverload<int>::of` 消除同名重载二义性。
+  2. **Lambda 表达式安全绑定**：无 Context 对象的潜在野指针悬空风险 vs 传入 Context（`this`）的生命周期自动断开与线程安全托管。
+  3. **连接句柄与信号转发**：`QMetaObject::Connection` 句柄精准单点断开；信号转发链（`SigA -> SigB -> Slot`）。
+  4. **5 种连接模式跨线程对比**：`AutoConnection`、`DirectConnection`、`QueuedConnection`、`BlockingQueuedConnection`（阻塞同步与死锁防范警告）、`UniqueConnection`（防重复绑定）。
+  5. **qApp 调度与线程无锁切换**：在独立后台 `std::thread` / 子线程中调用 `QMetaObject::invokeMethod(qApp, ...)` 极速安全切回主 UI 线程更新控件。
+  6. **自动命名绑定与高级特性**：`connectSlotsByName` 自动命名规范绑定（`on_btn_clicked`）、`blockSignals` 静音信号、`sender()` 触发源探测与 `receivers()` 槽计数。  
+- **应用场景**：后台工作线程与主 UI 线程解耦安全通信、低代码事件总线、三方库异步回调无锁调度。
 
 #### 2.1.3 demo_object_tree ⏳ [待实现]
 **描述**：演示 `QObject` 父子关系构成的对象树系统，探索子对象析构顺序、`deleteLater` 的延迟销毁时机与野指针防范（`QPointer` 弱引用）。  

@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1220</width>
+    <height>780</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Qt 信号与槽机制深度探索与全景实战 - demo_signalslot</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="hlayoutRoot">
+    <!-- 左侧标签页控制区 -->
+    <item>
+     <widget class="QTabWidget" name="tabMain">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+
+      <!-- Tab 1: 连接语法范式与 Lambda -->
+      <widget class="QWidget" name="tabSyntax">
+       <attribute name="title">
+        <string>🔌 语法范式与 Lambda 保护</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxSyntax">
+        <!-- 语法演练组 -->
+        <item>
+         <widget class="QGroupBox" name="groupSyntax">
+          <property name="title">
+           <string>【1. Qt4 宏语法 vs Qt5 函数指针语法 vs 重载二义性消除 (3种写法)】</string>
+          </property>
+          <layout class="QGridLayout" name="gridSyntax">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnQt4Syntax">
+             <property name="text">
+              <string>🅰️ Qt4 宏语法: SIGNAL(...) / SLOT(...)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnQt5Syntax">
+             <property name="text">
+              <string>🅱️ Qt5 函数指针语法: &amp;Sender::sig, &amp;Recv::slot</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="labelOverload">
+             <property name="text">
+              <string>重载信号消除二义性 (3种主流写法测试)：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="hlayoutOverload">
+             <item>
+              <widget class="QSpinBox" name="spinOverload">
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="value">
+                <number>42</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnOverloadQOverload">
+               <property name="text">
+                <string>1️⃣ QOverload&lt;int&gt;::of</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnOverloadqOverload">
+               <property name="text">
+                <string>2️⃣ qOverload&lt;int&gt; 宏/模板</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnOverloadStaticCast">
+               <property name="text">
+                <string>3️⃣ static_cast&lt;void(*)(int)&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- Lambda 表达式组 -->
+        <item>
+         <widget class="QGroupBox" name="groupLambda">
+          <property name="title">
+           <string>【2. C++11 Lambda 表达式连接与上下文对象 (Context) 保护】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxLambda">
+           <item>
+            <widget class="QLabel" name="labelLambdaDesc">
+             <property name="text">
+              <string>💡 核心知识点：connect(sender, &amp;sig, [=](){}) 缺少 context 对象时，若接收方被销毁，信号触发可能导致悬空指针野引用崩溃！推荐：connect(sender, &amp;sig, this, [=](){}) 由 Qt 自动管理上下文生命周期与线程调度。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutLambdaBtns">
+             <item>
+              <widget class="QPushButton" name="btnLambdaNoContext">
+               <property name="text">
+                <string>⚠️ 无 Context 对象的 Lambda (野指针风险)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnLambdaWithContext">
+               <property name="text">
+                <string>🛡️ 带 Context (this) 的安全 Lambda</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 句柄连接与单点断开 -->
+        <item>
+         <widget class="QGroupBox" name="groupHandleConnect">
+          <property name="title">
+           <string>【3. QMetaObject::Connection 句柄管理与单点精准断开】</string>
+          </property>
+          <layout class="QGridLayout" name="gridHandle">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnConnectHandle">
+             <property name="text">
+              <string>🔗 建立连接并保存 Connection 句柄</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnTriggerHandleSignal">
+             <property name="text">
+              <string>🔔 发射句柄关联的信号</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QPushButton" name="btnDisconnectHandle">
+             <property name="text">
+              <string>✂️ QObject::disconnect(m_dynamicConnection) 句柄精准断开</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="spacerSyntax">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Tab 2: 信号联动、执行顺序、重复绑定与解绑大全 -->
+      <widget class="QWidget" name="tabBindingRules">
+       <attribute name="title">
+        <string>🔗 联动、顺序、重复绑定与解绑</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxBindingRules">
+        <!-- 信号与信号联动组 -->
+        <item>
+         <widget class="QGroupBox" name="groupSignalCascade">
+          <property name="title">
+           <string>【1. 信号与信号之间的联动转发 (Signal-to-Signal)】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxSignalCascade">
+           <item>
+            <widget class="QLabel" name="labelCascadeDesc">
+             <property name="text">
+              <string>💡 信号转发链：connect(sig1, sig2) 使得发射 sig1 时自动级联发射 sig2，无需显式手写中间槽函数中转，常用于多层架构数据向上冒泡与模块扁平解耦。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutCascadeBtns">
+             <item>
+              <widget class="QPushButton" name="btnTriggerSignalChain">
+               <property name="text">
+                <string>⏩ 发射三级级联转发链: sigLevel1 -&gt; sigLevel2 -&gt; sigLevel3 -&gt; 槽函数</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 绑定顺序与执行顺序组 -->
+        <item>
+         <widget class="QGroupBox" name="groupExecutionOrder">
+          <property name="title">
+           <string>【2. 绑定顺序与槽函数执行顺序 (FIFO 先入先出原则)】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxOrder">
+           <item>
+            <widget class="QLabel" name="labelOrderDesc">
+             <property name="text">
+              <string>💡 核心规则：当一个信号绑定了多个槽函数时，Qt 在同线程下严格按照 connect 的先后顺序依次同步执行（FIFO 队列）。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutOrderBtns">
+             <item>
+              <widget class="QPushButton" name="btnConnectOrder123">
+               <property name="text">
+                <string>1️⃣ 顺序绑定 [槽A -&gt; 槽B -&gt; 槽C]</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnConnectOrder321">
+               <property name="text">
+                <string>2️⃣ 逆序绑定 [槽C -&gt; 槽B -&gt; 槽A]</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTriggerOrderSignal">
+               <property name="text">
+                <string>🔔 发射信号检验执行顺序</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 重复绑定问题组 -->
+        <item>
+         <widget class="QGroupBox" name="groupDuplicateConnect">
+          <property name="title">
+           <string>【3. 重复绑定问题与 Qt::UniqueConnection 唯一连接防重】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxDup">
+           <item>
+            <widget class="QLabel" name="labelDupDesc">
+             <property name="text">
+              <string>⚠️ 重复绑定陷阱：Qt 默认允许同一对信号槽多次 connect，发射 1 次信号将触发 N 次槽函数（常见 Bug：在弹窗初始化或事件函数中反复 connect）！解决方案：使用 Qt::UniqueConnection 确保连接唯一性。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutDupBtns">
+             <item>
+              <widget class="QPushButton" name="btnRepeatConnect3Times">
+               <property name="text">
+                <string>⚠️ 默认模式重复绑定 3 次</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnUniqueConnect3Times">
+               <property name="text">
+                <string>🛡️ Qt::UniqueConnection 防重绑定 3 次</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTriggerDupTestSignal">
+               <property name="text">
+                <string>🔔 发射测试信号观察触发次数</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 解绑全景演示组 -->
+        <item>
+         <widget class="QGroupBox" name="groupDisconnectAll">
+          <property name="title">
+           <string>【4. 多维度解绑全解 (5 种 QObject::disconnect 形式)】</string>
+          </property>
+          <layout class="QGridLayout" name="gridDisconnectForms">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="btnDisconnectAllSender">
+             <property name="text">
+              <string>1️⃣ 解绑发送者的全部信号与槽 (sender-&gt;disconnect())</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnDisconnectSpecificSignal">
+             <property name="text">
+              <string>2️⃣ 解绑指定信号的所有槽 (disconnect(sender, &amp;sig, 0, 0))</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="btnDisconnectSpecificReceiver">
+             <property name="text">
+              <string>3️⃣ 解绑特定接收者的所有槽 (disconnect(sender, 0, recv, 0))</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="btnDisconnectExactPair">
+             <property name="text">
+              <string>4️⃣ 精准解绑单对信号与槽 (disconnect(s, &amp;sig, r, &amp;slot))</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="spacerBindingRules">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Tab 3: 自定义类型与 void* 传递 -->
+      <widget class="QWidget" name="tabCustomTypes">
+       <attribute name="title">
+        <string>📦 自定义类型与 void* 传递</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxCustomTypes">
+        <!-- 自定义类型与 qRegisterMetaType 组 -->
+        <item>
+         <widget class="QGroupBox" name="groupCustomStruct">
+          <property name="title">
+           <string>【1. 跨线程 QueuedConnection 自定义结构体与 qRegisterMetaType】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxCustomStruct">
+           <item>
+            <widget class="QLabel" name="labelCustomStructDesc">
+             <property name="text">
+              <string>💡 跨线程传递核心规则：同线程 DirectConnection 可以直接传递任意自定义类型；但跨线程 QueuedConnection 必须将参数深拷贝至事件队列，因此必须调用 qRegisterMetaType&lt;PlayerPacket&gt;(&quot;PlayerPacket&quot;)，且结构体必须具备默认构造、拷贝构造与析构函数！</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutCustomStructBtns">
+             <item>
+              <widget class="QPushButton" name="btnRegisterMetaType">
+               <property name="text">
+                <string>1️⃣ 执行 qRegisterMetaType&lt;PlayerPacket&gt;() 注册</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnEmitCustomStructDirect">
+               <property name="text">
+                <string>2️⃣ 同线程 Direct 传递自定义结构体</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnEmitCustomStructQueued">
+               <property name="text">
+                <string>3️⃣ 跨线程 Queued 传递自定义结构体</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- void* 通用指针传递组 -->
+        <item>
+         <widget class="QGroupBox" name="groupVoidPointer">
+          <property name="title">
+           <string>【2. void* 通用泛型指针传递与内存所有权 (Ownership) 防坑】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxVoid">
+           <item>
+            <widget class="QLabel" name="labelVoidDesc">
+             <property name="text">
+              <string>⚠️ void* 核心隐患：void* 仅传递内存地址。在跨线程 Queued 异步模式下，若发送者是在栈上分配或提早 delete，接收者执行时将访问悬空野指针发生段错误！正确规范：明确所有权协议（由接收者负责 delete，或改用智能指针 / QVariant 包装）。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutVoidBtns">
+             <item>
+              <widget class="QPushButton" name="btnEmitVoidPointerDirect">
+               <property name="text">
+                <string>1️⃣ 同线程发射 void* 指针 (reinterpret_cast 还原)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnEmitVoidPointerAsyncSafe">
+               <property name="text">
+                <string>2️⃣ 跨线程堆内存 void* 传递 (转移所有权安全释放)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- QVariant 通用类型包装组 -->
+        <item>
+         <widget class="QGroupBox" name="groupQVariantWrap">
+          <property name="title">
+           <string>【3. QVariant 统一通用包装传递 (类型安全与解包)】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxQVariantWrap">
+           <item>
+            <widget class="QLabel" name="labelVariantDesc">
+             <property name="text">
+              <string>💡 推荐的泛型传递解耦方案：通过 QVariant::fromValue(packet) 将自定义结构体包装为 QVariant。信号参数声明为 const QVariant&amp;，接收端通过 var.value&lt;PlayerPacket&gt;() 或 canConvert 安全解包，兼具动态通用性与内存安全性。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="hlayoutVariantBtns">
+             <item>
+              <widget class="QPushButton" name="btnEmitQVariantWrapped">
+               <property name="text">
+                <string>🎁 发射 QVariant 包装的自定义类型</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="spacerCustomTypes">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Tab 4: 5种连接类型与跨线程交互 -->
+      <widget class="QWidget" name="tabThreading">
+       <attribute name="title">
+        <string>⚡ 5种连接类型与跨线程交互</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxThreading">
+        <!-- 5种连接类型组 -->
+        <item>
+         <widget class="QGroupBox" name="groupConnTypes">
+          <property name="title">
+           <string>【1. Qt::ConnectionType 5 种连接机制演练】</string>
+          </property>
+          <layout class="QGridLayout" name="gridConnTypes">
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelConnType">
+             <property name="text">
+              <string>选择连接类型：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="comboConnType">
+             <item>
+              <property name="text">
+               <string>AutoConnection (同线程Direct/跨线程Queued)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>DirectConnection (发射线程立即同步执行)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>QueuedConnection (投递到接收者线程事件队列)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>BlockingQueuedConnection (阻塞等待子线程/同线程死锁警告)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>UniqueConnection (唯一连接防重复绑定)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="hlayoutThreadActions">
+             <item>
+              <widget class="QPushButton" name="btnStartWorkerThread">
+               <property name="text">
+                <string>🚀 启动后台工作线程 (测试当前连接类型)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnTestBlockingQueue">
+               <property name="text">
+                <string>⏳ BlockingQueuedConnection 同步阻塞调用</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="labelPbar">
+             <property name="text">
+              <string>子线程运算进度：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QProgressBar" name="pbarWorker">
+             <property name="value">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- qApp 绑定与主线程切换 -->
+        <item>
+         <widget class="QGroupBox" name="groupQAppDispatch">
+          <property name="title">
+           <string>【2. qApp 绑定与 QMetaObject::invokeMethod 主线程无锁快速切换】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxQApp">
+           <item>
+            <widget class="QLabel" name="labelQAppDesc">
+             <property name="text">
+              <string>💡 跨线程无侵入式切回主线程：在任意子线程或无 QObject 依赖的底层 C++ 线程中，调用 QMetaObject::invokeMethod(qApp, [=](){ ... }, Qt::QueuedConnection)，即可直接将代码块投递到主 UI 线程执行，安全更新界面控件！</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnInvokeMethodQApp">
+             <property name="text">
+              <string>🎯 从独立异步 std::thread 中使用 invokeMethod(qApp) 极速切回主线程</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="spacerThreading">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Tab 4: 自动命名绑定与高级特性 -->
+      <widget class="QWidget" name="tabAdvanced">
+       <attribute name="title">
+        <string>🪄 自动命名绑定与高级特性</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="vboxAdvanced">
+        <!-- 自动绑定组 -->
+        <item>
+         <widget class="QGroupBox" name="groupAutoConnect">
+          <property name="title">
+           <string>【1. 界面规范自动绑定 (QMetaObject::connectSlotsByName)】</string>
+          </property>
+          <layout class="QVBoxLayout" name="vboxAuto">
+           <item>
+            <widget class="QLabel" name="labelAutoDesc">
+             <property name="text">
+              <string>💡 在 setupUi(this) 中会自动调用 QMetaObject::connectSlotsByName(this)，匹配 on_&lt;objectName&gt;_&lt;signalName&gt; 格式的槽函数实现无需手动 connect 的全自动绑定。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnAutoBound">
+             <property name="text">
+              <string>✨ 点击测试自动绑定的按钮 (on_btnAutoBound_clicked)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <!-- 信号阻断与反射探测组 -->
+        <item>
+         <widget class="QGroupBox" name="groupAdvancedOps">
+          <property name="title">
+           <string>【2. blockSignals 信号阻断、sender() 触发源探测与 receivers 计数】</string>
+          </property>
+          <layout class="QGridLayout" name="gridAdvOps">
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="chkBlockSignals">
+             <property name="text">
+              <string>🔇 启用 blockSignals(true) 静音信号</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="btnTriggerBlocked">
+             <property name="text">
+              <string>🔔 发射测试信号 (测试阻断状态)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="btnCheckSender">
+             <property name="text">
+              <string>🕵️ sender() 获取发送者对象与局限性</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="btnQueryReceivers">
+             <property name="text">
+              <string>📊 receivers(SIGNAL(...)) 查询连接槽数量</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+        <item>
+         <spacer name="spacerAdvanced">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+
+    <!-- 右侧日志监控区 -->
+    <item>
+     <widget class="QGroupBox" name="groupLog">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="title">
+       <string>📡 信号与槽触发、调度与跨线程监控</string>
+      </property>
+      <layout class="QVBoxLayout" name="vboxLog">
+       <item>
+        <widget class="QPlainTextEdit" name="textLog">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnClearLog">
+         <property name="text">
+          <string>清空监控日志</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
