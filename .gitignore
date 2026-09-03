@@ -6,7 +6,9 @@ AGENTS.md
 
 # Build output directories
 build/
-app/
+app/*
+!app/data/
+app/data/ScientificColourMaps8/
 out/
 bin/
 
