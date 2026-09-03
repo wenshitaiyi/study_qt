@@ -1,5 +1,6 @@
 #include "control_panel.h"
 #include "colourmap_manager.h"
+#include "visualizer_widget.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -16,12 +17,16 @@
 #include <QScrollArea>
 #include <QIcon>
 #include <QPixmap>
+#include <QSettings>
+#include <QDir>
+#include <QFile>
 
 ControlPanel::ControlPanel(QWidget *parent)
     : QWidget(parent)
 {
     setupUi();
     populateColourMaps();
+    loadConfig();
 }
 
 void ControlPanel::setupUi()
@@ -136,7 +141,22 @@ void ControlPanel::createNoiseControls(QVBoxLayout *layout)
 
     connect(m_generateBtn, &QPushButton::clicked, this, [this]() {
         emit generateRequested(currentParams());
+        saveConfig();
     });
+
+    auto onNoiseParamChanged = [this]() {
+        saveConfig();
+    };
+    connect(m_noiseTypeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, onNoiseParamChanged);
+    connect(m_rowsSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_colsSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_xMinSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_xMaxSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_yMinSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_yMaxSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_seedSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_freqSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onNoiseParamChanged);
+    connect(m_octavesSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, onNoiseParamChanged);
 
     layout->addWidget(group);
 }
@@ -157,6 +177,7 @@ void ControlPanel::createColourMapControls(QVBoxLayout *layout)
         if (map) {
             emit colourMapChanged(map);
         }
+        saveConfig();
     });
 
     m_filterCheck = new QCheckBox(QStringLiteral("启用数值/色彩过滤"), group);
@@ -181,6 +202,7 @@ void ControlPanel::createColourMapControls(QVBoxLayout *layout)
 
     auto onFilterChanged = [this]() {
         emit filterChanged(m_filterMinSpin->value(), m_filterMaxSpin->value(), m_filterCheck->isChecked());
+        saveConfig();
     };
     connect(m_filterCheck, &QCheckBox::toggled, this, onFilterChanged);
     connect(m_filterMinSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, onFilterChanged);
@@ -198,7 +220,10 @@ void ControlPanel::createAppearanceControls(QVBoxLayout *layout)
     m_borderCheck = new QCheckBox(QStringLiteral("显示单元格边框"), group);
     m_borderCheck->setChecked(true);
     form->addRow(m_borderCheck);
-    connect(m_borderCheck, &QCheckBox::toggled, this, &ControlPanel::borderToggled);
+    connect(m_borderCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        emit borderToggled(checked);
+        saveConfig();
+    });
 
     auto *colorLayout = new QHBoxLayout();
     m_borderColorBtn = new QPushButton(QStringLiteral("选择颜色"), group);
@@ -220,14 +245,21 @@ void ControlPanel::createAppearanceControls(QVBoxLayout *layout)
                 .arg(color.name())
                 .arg(color.lightness() > 128 ? "black" : "white"));
             emit borderColorChanged(color);
+            saveConfig();
         }
     });
-    connect(m_borderWidthSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, &ControlPanel::borderWidthChanged);
+    connect(m_borderWidthSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int w) {
+        emit borderWidthChanged(w);
+        saveConfig();
+    });
 
     m_showValuesCheck = new QCheckBox(QStringLiteral("在格内显示数值 (需放大 >= 36px)"), group);
     m_showValuesCheck->setChecked(true);
     form->addRow(m_showValuesCheck);
-    connect(m_showValuesCheck, &QCheckBox::toggled, this, &ControlPanel::showValuesToggled);
+    connect(m_showValuesCheck, &QCheckBox::toggled, this, [this](bool show) {
+        emit showValuesToggled(show);
+        saveConfig();
+    });
 
     layout->addWidget(group);
 }
@@ -241,7 +273,10 @@ void ControlPanel::createAnimationControls(QVBoxLayout *layout)
     m_hoverEffectCheck = new QCheckBox(QStringLiteral("鼠标圆域浮起动效 (3D立体凸出)"), group);
     m_hoverEffectCheck->setChecked(true);
     form->addRow(m_hoverEffectCheck);
-    connect(m_hoverEffectCheck, &QCheckBox::toggled, this, &ControlPanel::hoverEffectToggled);
+    connect(m_hoverEffectCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        emit hoverEffectToggled(checked);
+        saveConfig();
+    });
 
     auto *radiusLayout = new QHBoxLayout();
     m_hoverRadiusSlider = new QSlider(Qt::Horizontal, group);
@@ -255,6 +290,7 @@ void ControlPanel::createAnimationControls(QVBoxLayout *layout)
     connect(m_hoverRadiusSlider, &QSlider::valueChanged, this, [this](int val) {
         m_hoverRadiusLabel->setText(QStringLiteral("%1px").arg(val));
         emit hoverRadiusChanged(val);
+        saveConfig();
     });
 
     auto *elevationLayout = new QHBoxLayout();
@@ -269,12 +305,62 @@ void ControlPanel::createAnimationControls(QVBoxLayout *layout)
     connect(m_elevationSlider, &QSlider::valueChanged, this, [this](int val) {
         m_elevationLabel->setText(QStringLiteral("%1px").arg(val));
         emit elevationIntensityChanged(static_cast<double>(val));
+        saveConfig();
     });
 
     m_minimapCheck = new QCheckBox(QStringLiteral("显示鹰眼缩略图小地图"), group);
     m_minimapCheck->setChecked(true);
     form->addRow(m_minimapCheck);
-    connect(m_minimapCheck, &QCheckBox::toggled, this, &ControlPanel::showMinimapToggled);
+    connect(m_minimapCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        emit showMinimapToggled(checked);
+        saveConfig();
+    });
+
+    // 悬停高光边框样式与开关
+    m_hoverHighlightCheck = new QCheckBox(QStringLiteral("启用悬停格点高光边框"), group);
+    m_hoverHighlightCheck->setChecked(true);
+    form->addRow(m_hoverHighlightCheck);
+    connect(m_hoverHighlightCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        emit hoverHighlightToggled(checked);
+        saveConfig();
+    });
+
+    auto *hlLayout = new QHBoxLayout();
+    m_hoverHighlightColorBtn = new QPushButton(QStringLiteral("选择高光色"), group);
+    m_hoverHighlightColorBtn->setStyleSheet(QStringLiteral("background-color: rgb(0, 220, 255); color: black; font-weight: bold;"));
+    hlLayout->addWidget(m_hoverHighlightColorBtn);
+
+    m_hoverHighlightWidthSpin = new QSpinBox(group);
+    m_hoverHighlightWidthSpin->setRange(1, 6);
+    m_hoverHighlightWidthSpin->setValue(2);
+    hlLayout->addWidget(new QLabel(QStringLiteral("宽:"), group));
+    hlLayout->addWidget(m_hoverHighlightWidthSpin);
+    form->addRow(QStringLiteral("高光样式:"), hlLayout);
+
+    connect(m_hoverHighlightColorBtn, &QPushButton::clicked, this, [this]() {
+        QColor color = QColorDialog::getColor(m_currentHighlightColor, this, QStringLiteral("选择悬停格点高光颜色"));
+        if (color.isValid()) {
+            m_currentHighlightColor = color;
+            m_hoverHighlightColorBtn->setStyleSheet(QStringLiteral("background-color: %1; color: %2; font-weight: bold;")
+                .arg(color.name())
+                .arg(color.lightness() > 128 ? "black" : "white"));
+            emit hoverHighlightColorChanged(color);
+            saveConfig();
+        }
+    });
+
+    connect(m_hoverHighlightWidthSpin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int w) {
+        emit hoverHighlightWidthChanged(w);
+        saveConfig();
+    });
+
+    m_hoverInfoCardCheck = new QCheckBox(QStringLiteral("显示光标悬浮信息框 (HUD)"), group);
+    m_hoverInfoCardCheck->setChecked(true);
+    form->addRow(m_hoverInfoCardCheck);
+    connect(m_hoverInfoCardCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        emit showHoverInfoCardToggled(checked);
+        saveConfig();
+    });
 
     layout->addWidget(group);
 }
@@ -349,4 +435,145 @@ void ControlPanel::updateDataStats(float minVal, float maxVal, int totalCells)
                            .arg(totalCells)
                            .arg(minVal, 0, 'f', 2)
                            .arg(maxVal, 0, 'f', 2));
+}
+
+void ControlPanel::saveConfig()
+{
+    QString configPath = QDir::tempPath() + QStringLiteral("/study_qt_demo_array2d_config.ini");
+    QSettings s(configPath, QSettings::IniFormat);
+
+    s.beginGroup(QStringLiteral("Noise"));
+    s.setValue(QStringLiteral("noiseType"), m_noiseTypeCombo->currentIndex());
+    s.setValue(QStringLiteral("rows"), m_rowsSpin->value());
+    s.setValue(QStringLiteral("cols"), m_colsSpin->value());
+    s.setValue(QStringLiteral("xMin"), m_xMinSpin->value());
+    s.setValue(QStringLiteral("xMax"), m_xMaxSpin->value());
+    s.setValue(QStringLiteral("yMin"), m_yMinSpin->value());
+    s.setValue(QStringLiteral("yMax"), m_yMaxSpin->value());
+    s.setValue(QStringLiteral("seed"), m_seedSpin->value());
+    s.setValue(QStringLiteral("frequency"), m_freqSpin->value());
+    s.setValue(QStringLiteral("octaves"), m_octavesSpin->value());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Colour"));
+    s.setValue(QStringLiteral("mapName"), m_colourMapCombo->currentData().toString());
+    s.setValue(QStringLiteral("filterEnabled"), m_filterCheck->isChecked());
+    s.setValue(QStringLiteral("filterMin"), m_filterMinSpin->value());
+    s.setValue(QStringLiteral("filterMax"), m_filterMaxSpin->value());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Appearance"));
+    s.setValue(QStringLiteral("borderEnabled"), m_borderCheck->isChecked());
+    s.setValue(QStringLiteral("borderColor"), m_currentBorderColor.name(QColor::HexArgb));
+    s.setValue(QStringLiteral("borderWidth"), m_borderWidthSpin->value());
+    s.setValue(QStringLiteral("showValues"), m_showValuesCheck->isChecked());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Animation"));
+    s.setValue(QStringLiteral("hoverEffectEnabled"), m_hoverEffectCheck->isChecked());
+    s.setValue(QStringLiteral("hoverRadius"), m_hoverRadiusSlider->value());
+    s.setValue(QStringLiteral("elevationIntensity"), m_elevationSlider->value());
+    s.setValue(QStringLiteral("showMinimap"), m_minimapCheck->isChecked());
+    s.setValue(QStringLiteral("hoverHighlightEnabled"), m_hoverHighlightCheck->isChecked());
+    s.setValue(QStringLiteral("hoverHighlightColor"), m_currentHighlightColor.name(QColor::HexArgb));
+    s.setValue(QStringLiteral("hoverHighlightWidth"), m_hoverHighlightWidthSpin->value());
+    s.setValue(QStringLiteral("showHoverInfoCard"), m_hoverInfoCardCheck->isChecked());
+    s.endGroup();
+
+    s.sync();
+}
+
+void ControlPanel::loadConfig()
+{
+    QString configPath = QDir::tempPath() + QStringLiteral("/study_qt_demo_array2d_config.ini");
+    if (!QFile::exists(configPath)) {
+        return;
+    }
+
+    QSettings s(configPath, QSettings::IniFormat);
+
+    s.beginGroup(QStringLiteral("Noise"));
+    if (s.contains(QStringLiteral("noiseType"))) {
+        int idx = s.value(QStringLiteral("noiseType")).toInt();
+        if (idx >= 0 && idx < m_noiseTypeCombo->count()) m_noiseTypeCombo->setCurrentIndex(idx);
+    }
+    if (s.contains(QStringLiteral("rows"))) m_rowsSpin->setValue(s.value(QStringLiteral("rows")).toInt());
+    if (s.contains(QStringLiteral("cols"))) m_colsSpin->setValue(s.value(QStringLiteral("cols")).toInt());
+    if (s.contains(QStringLiteral("xMin"))) m_xMinSpin->setValue(s.value(QStringLiteral("xMin")).toDouble());
+    if (s.contains(QStringLiteral("xMax"))) m_xMaxSpin->setValue(s.value(QStringLiteral("xMax")).toDouble());
+    if (s.contains(QStringLiteral("yMin"))) m_yMinSpin->setValue(s.value(QStringLiteral("yMin")).toDouble());
+    if (s.contains(QStringLiteral("yMax"))) m_yMaxSpin->setValue(s.value(QStringLiteral("yMax")).toDouble());
+    if (s.contains(QStringLiteral("seed"))) m_seedSpin->setValue(s.value(QStringLiteral("seed")).toInt());
+    if (s.contains(QStringLiteral("frequency"))) m_freqSpin->setValue(s.value(QStringLiteral("frequency")).toDouble());
+    if (s.contains(QStringLiteral("octaves"))) m_octavesSpin->setValue(s.value(QStringLiteral("octaves")).toInt());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Colour"));
+    if (s.contains(QStringLiteral("mapName"))) {
+        QString mapName = s.value(QStringLiteral("mapName")).toString();
+        int mapIdx = m_colourMapCombo->findData(mapName);
+        if (mapIdx >= 0) m_colourMapCombo->setCurrentIndex(mapIdx);
+    }
+    if (s.contains(QStringLiteral("filterEnabled"))) m_filterCheck->setChecked(s.value(QStringLiteral("filterEnabled")).toBool());
+    if (s.contains(QStringLiteral("filterMin"))) m_filterMinSpin->setValue(s.value(QStringLiteral("filterMin")).toDouble());
+    if (s.contains(QStringLiteral("filterMax"))) m_filterMaxSpin->setValue(s.value(QStringLiteral("filterMax")).toDouble());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Appearance"));
+    if (s.contains(QStringLiteral("borderEnabled"))) m_borderCheck->setChecked(s.value(QStringLiteral("borderEnabled")).toBool());
+    if (s.contains(QStringLiteral("borderColor"))) {
+        m_currentBorderColor = QColor(s.value(QStringLiteral("borderColor")).toString());
+        m_borderColorBtn->setStyleSheet(QStringLiteral("background-color: %1; color: %2;")
+            .arg(m_currentBorderColor.name())
+            .arg(m_currentBorderColor.lightness() > 128 ? "black" : "white"));
+    }
+    if (s.contains(QStringLiteral("borderWidth"))) m_borderWidthSpin->setValue(s.value(QStringLiteral("borderWidth")).toInt());
+    if (s.contains(QStringLiteral("showValues"))) m_showValuesCheck->setChecked(s.value(QStringLiteral("showValues")).toBool());
+    s.endGroup();
+
+    s.beginGroup(QStringLiteral("Animation"));
+    if (s.contains(QStringLiteral("hoverEffectEnabled"))) m_hoverEffectCheck->setChecked(s.value(QStringLiteral("hoverEffectEnabled")).toBool());
+    if (s.contains(QStringLiteral("hoverRadius"))) {
+        int r = s.value(QStringLiteral("hoverRadius")).toInt();
+        m_hoverRadiusSlider->setValue(r);
+        m_hoverRadiusLabel->setText(QStringLiteral("%1px").arg(r));
+    }
+    if (s.contains(QStringLiteral("elevationIntensity"))) {
+        int e = s.value(QStringLiteral("elevationIntensity")).toInt();
+        m_elevationSlider->setValue(e);
+        m_elevationLabel->setText(QStringLiteral("%1px").arg(e));
+    }
+    if (s.contains(QStringLiteral("showMinimap"))) m_minimapCheck->setChecked(s.value(QStringLiteral("showMinimap")).toBool());
+    if (s.contains(QStringLiteral("hoverHighlightEnabled"))) m_hoverHighlightCheck->setChecked(s.value(QStringLiteral("hoverHighlightEnabled")).toBool());
+    if (s.contains(QStringLiteral("hoverHighlightColor"))) {
+        m_currentHighlightColor = QColor(s.value(QStringLiteral("hoverHighlightColor")).toString());
+        m_hoverHighlightColorBtn->setStyleSheet(QStringLiteral("background-color: %1; color: %2; font-weight: bold;")
+            .arg(m_currentHighlightColor.name())
+            .arg(m_currentHighlightColor.lightness() > 128 ? "black" : "white"));
+    }
+    if (s.contains(QStringLiteral("hoverHighlightWidth"))) m_hoverHighlightWidthSpin->setValue(s.value(QStringLiteral("hoverHighlightWidth")).toInt());
+    if (s.contains(QStringLiteral("showHoverInfoCard"))) m_hoverInfoCardCheck->setChecked(s.value(QStringLiteral("showHoverInfoCard")).toBool());
+    s.endGroup();
+}
+
+void ControlPanel::syncToVisualizer(VisualizerWidget *vis)
+{
+    if (!vis) return;
+    QString mapName = m_colourMapCombo->currentData().toString();
+    auto map = ColourMapManager::instance().getMap(mapName);
+    if (map) vis->setColourMap(map);
+
+    vis->setFilterRange(m_filterMinSpin->value(), m_filterMaxSpin->value(), m_filterCheck->isChecked());
+    vis->setBorderEnabled(m_borderCheck->isChecked());
+    vis->setBorderColor(m_currentBorderColor);
+    vis->setBorderWidth(m_borderWidthSpin->value());
+    vis->setShowValues(m_showValuesCheck->isChecked());
+    vis->setHoverEffectEnabled(m_hoverEffectCheck->isChecked());
+    vis->setHoverRadius(m_hoverRadiusSlider->value());
+    vis->setElevationIntensity(static_cast<double>(m_elevationSlider->value()));
+    vis->setShowMinimap(m_minimapCheck->isChecked());
+    vis->setHoverHighlightEnabled(m_hoverHighlightCheck->isChecked());
+    vis->setHoverHighlightColor(m_currentHighlightColor);
+    vis->setHoverHighlightWidth(m_hoverHighlightWidthSpin->value());
+    vis->setShowHoverInfoCard(m_hoverInfoCardCheck->isChecked());
 }

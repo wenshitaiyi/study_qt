@@ -15,10 +15,15 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override = default;
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     void setupUi();
     void setupConnections();
     void initialDataGeneration();
+    void saveWindowState();
+    void loadWindowState();
 
     GridDataModel *m_model{nullptr};
     ControlPanel *m_controlPanel{nullptr};

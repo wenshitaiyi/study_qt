@@ -10,6 +10,9 @@
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
+#include <QSettings>
+#include <QDir>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,7 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupUi();
     setupConnections();
+    m_controlPanel->syncToVisualizer(m_visualizer);
     initialDataGeneration();
+    loadWindowState();
 }
 
 void MainWindow::setupUi()
@@ -101,6 +106,10 @@ void MainWindow::setupConnections()
     connect(m_controlPanel, &ControlPanel::hoverEffectToggled, m_visualizer, &VisualizerWidget::setHoverEffectEnabled);
     connect(m_controlPanel, &ControlPanel::hoverRadiusChanged, m_visualizer, &VisualizerWidget::setHoverRadius);
     connect(m_controlPanel, &ControlPanel::elevationIntensityChanged, m_visualizer, &VisualizerWidget::setElevationIntensity);
+    connect(m_controlPanel, &ControlPanel::hoverHighlightToggled, m_visualizer, &VisualizerWidget::setHoverHighlightEnabled);
+    connect(m_controlPanel, &ControlPanel::hoverHighlightColorChanged, m_visualizer, &VisualizerWidget::setHoverHighlightColor);
+    connect(m_controlPanel, &ControlPanel::hoverHighlightWidthChanged, m_visualizer, &VisualizerWidget::setHoverHighlightWidth);
+    connect(m_controlPanel, &ControlPanel::showHoverInfoCardToggled, m_visualizer, &VisualizerWidget::setShowHoverInfoCard);
     connect(m_controlPanel, &ControlPanel::showValuesToggled, m_visualizer, &VisualizerWidget::setShowValues);
     connect(m_controlPanel, &ControlPanel::showMinimapToggled, m_visualizer, &VisualizerWidget::setShowMinimap);
     connect(m_controlPanel, &ControlPanel::resetViewRequested, m_visualizer, &VisualizerWidget::resetView);
@@ -135,4 +144,39 @@ void MainWindow::initialDataGeneration()
     // 初始化生成默认数据
     m_model->generateSync(m_controlPanel->currentParams());
     m_visualizer->fitToWindow();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    m_controlPanel->saveConfig();
+    saveWindowState();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::saveWindowState()
+{
+    QString configPath = QDir::tempPath() + QStringLiteral("/study_qt_demo_array2d_config.ini");
+    QSettings s(configPath, QSettings::IniFormat);
+    s.beginGroup(QStringLiteral("MainWindow"));
+    s.setValue(QStringLiteral("geometry"), saveGeometry());
+    s.setValue(QStringLiteral("splitter"), m_splitter->saveState());
+    s.endGroup();
+    s.sync();
+}
+
+void MainWindow::loadWindowState()
+{
+    QString configPath = QDir::tempPath() + QStringLiteral("/study_qt_demo_array2d_config.ini");
+    if (!QFile::exists(configPath)) {
+        return;
+    }
+    QSettings s(configPath, QSettings::IniFormat);
+    s.beginGroup(QStringLiteral("MainWindow"));
+    if (s.contains(QStringLiteral("geometry"))) {
+        restoreGeometry(s.value(QStringLiteral("geometry")).toByteArray());
+    }
+    if (s.contains(QStringLiteral("splitter"))) {
+        m_splitter->restoreState(s.value(QStringLiteral("splitter")).toByteArray());
+    }
+    s.endGroup();
 }

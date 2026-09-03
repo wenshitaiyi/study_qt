@@ -111,6 +111,30 @@ void VisualizerWidget::setShowMinimap(bool show)
     update();
 }
 
+void VisualizerWidget::setHoverHighlightEnabled(bool enabled)
+{
+    m_hoverHighlightEnabled = enabled;
+    update();
+}
+
+void VisualizerWidget::setHoverHighlightColor(const QColor &color)
+{
+    m_hoverHighlightColor = color;
+    update();
+}
+
+void VisualizerWidget::setHoverHighlightWidth(int width)
+{
+    m_hoverHighlightWidth = std::clamp(width, 1, 6);
+    update();
+}
+
+void VisualizerWidget::setShowHoverInfoCard(bool show)
+{
+    m_showHoverInfoCard = show;
+    update();
+}
+
 QPointF VisualizerWidget::gridToScreen(double col, double row) const
 {
     return QPointF(m_offset.x() + col * m_zoom, m_offset.y() + row * m_zoom);
@@ -411,6 +435,21 @@ void VisualizerWidget::paintEvent(QPaintEvent * /*event*/)
         }
     }
 
+    // 绘制当前悬停选中的格点高亮外框
+    if (m_hoverHighlightEnabled && m_mouseInWidget && m_hoveredRow >= 0 && m_hoveredCol >= 0 && m_zoom >= 2.5) {
+        double hx = m_offset.x() + m_hoveredCol * m_zoom;
+        double hy = m_offset.y() + m_hoveredRow * m_zoom;
+        QRectF highlightRect(hx, hy, m_zoom, m_zoom);
+        painter.setPen(QPen(m_hoverHighlightColor, m_hoverHighlightWidth));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRect(highlightRect);
+    }
+
+    // 绘制悬浮格点详细信息卡片 (HUD 信息框)
+    if (m_showHoverInfoCard) {
+        drawHoverInfoCard(painter);
+    }
+
     double frameTime = timer.nsecsElapsed() / 1e6;
     emit renderStatsUpdated(frameTime, visibleCellsCount);
 }
@@ -442,10 +481,14 @@ void VisualizerWidget::mouseMoveEvent(QMouseEvent *event)
     int row = static_cast<int>(std::floor(gridPos.y()));
 
     if (m_model && row >= 0 && row < m_model->rows() && col >= 0 && col < m_model->cols()) {
-        float rawVal = m_model->valueAt(row, col);
-        float normVal = m_model->normalizedValueAt(row, col);
-        emit cellHovered(row, col, rawVal, normVal);
+        m_hoveredRow = row;
+        m_hoveredCol = col;
+        m_hoveredRawVal = m_model->valueAt(row, col);
+        m_hoveredNormVal = m_model->normalizedValueAt(row, col);
+        emit cellHovered(row, col, m_hoveredRawVal, m_hoveredNormVal);
     } else {
+        m_hoveredRow = -1;
+        m_hoveredCol = -1;
         emit cellHovered(-1, -1, 0.0, 0.0);
     }
 
@@ -489,6 +532,89 @@ void VisualizerWidget::wheelEvent(QWheelEvent *event)
 void VisualizerWidget::leaveEvent(QEvent * /*event*/)
 {
     m_mouseInWidget = false;
+    m_hoveredRow = -1;
+    m_hoveredCol = -1;
     emit cellHovered(-1, -1, 0.0, 0.0);
     update();
+}
+
+void VisualizerWidget::drawHoverInfoCard(QPainter &painter)
+{
+    if (!m_mouseInWidget || m_hoveredRow < 0 || m_hoveredCol < 0 || !m_model) {
+        return;
+    }
+
+    int rows = m_model->rows();
+    int cols = m_model->cols();
+    if (m_hoveredRow >= rows || m_hoveredCol >= cols) {
+        return;
+    }
+
+    // 计算空间连续坐标
+    double spatialX = m_model->xMin();
+    double spatialY = m_model->yMin();
+    if (cols > 1) {
+        spatialX += m_hoveredCol * (m_model->xMax() - m_model->xMin()) / (cols - 1);
+    }
+    if (rows > 1) {
+        spatialY += m_hoveredRow * (m_model->yMax() - m_model->yMin()) / (rows - 1);
+    }
+
+    QString title = QStringLiteral("📍 当前格点信息");
+    QString lineCoord = QStringLiteral("网格位置: 第 %1 行, 第 %2 列 (格号 #%3)")
+                            .arg(m_hoveredRow)
+                            .arg(m_hoveredCol)
+                            .arg(m_hoveredRow * cols + m_hoveredCol);
+    QString lineSpatial = QStringLiteral("空间范围: X = %1,  Y = %2")
+                              .arg(spatialX, 0, 'f', 3)
+                              .arg(spatialY, 0, 'f', 3);
+    QString lineValue = QStringLiteral("采样数值: %1  (归一化: %2%)")
+                            .arg(m_hoveredRawVal, 0, 'f', 3)
+                            .arg(m_hoveredNormVal * 100.0f, 0, 'f', 1);
+
+    QFont cardFont = painter.font();
+    cardFont.setPointSize(9);
+    cardFont.setBold(false);
+    painter.setFont(cardFont);
+
+    int cardW = 285;
+    int cardH = 90;
+    int margin = 14;
+
+    // 默认在鼠标光标右下方偏移，若触碰边界则自适应翻转
+    int cardX = m_currentCursorPos.x() + 18;
+    int cardY = m_currentCursorPos.y() + 18;
+
+    if (cardX + cardW > width() - margin) {
+        cardX = m_currentCursorPos.x() - cardW - 14;
+    }
+    if (cardY + cardH > height() - margin) {
+        cardY = m_currentCursorPos.y() - cardH - 14;
+    }
+    cardX = std::max(margin, cardX);
+    cardY = std::max(margin, cardY);
+
+    QRect cardRect(cardX, cardY, cardW, cardH);
+
+    // 绘制半透明发光背景与圆角边框
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setBrush(QColor(18, 22, 28, 230));
+    painter.setPen(QPen(QColor(0, 210, 255, 180), 1.3));
+    painter.drawRoundedRect(cardRect, 6, 6);
+
+    // 标题
+    QFont titleFont = cardFont;
+    titleFont.setBold(true);
+    painter.setFont(titleFont);
+    painter.setPen(QColor(0, 220, 255));
+    painter.drawText(cardX + 12, cardY + 22, title);
+
+    // 内容行
+    painter.setFont(cardFont);
+    painter.setPen(QColor(230, 230, 230));
+    painter.drawText(cardX + 12, cardY + 43, lineCoord);
+    painter.setPen(QColor(170, 200, 230));
+    painter.drawText(cardX + 12, cardY + 62, lineSpatial);
+    painter.setPen(QColor(255, 215, 80));
+    painter.drawText(cardX + 12, cardY + 81, lineValue);
 }

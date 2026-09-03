@@ -41,6 +41,10 @@ public slots:
     void setElevationIntensity(double intensity);
     void setShowValues(bool show);
     void setShowMinimap(bool show);
+    void setHoverHighlightEnabled(bool enabled);
+    void setHoverHighlightColor(const QColor &color);
+    void setHoverHighlightWidth(int width);
+    void setShowHoverInfoCard(bool show);
 
     // 视图导航
     void resetView();
@@ -95,12 +99,16 @@ private:
     QPoint m_currentCursorPos{-1000, -1000};
     bool m_mouseInWidget{false};
 
-    // 格点悬浮信息展示
+    // 格点悬浮信息与高亮
     int m_hoveredRow{-1};
     int m_hoveredCol{-1};
     float m_hoveredRawVal{0.0f};
     float m_hoveredNormVal{0.0f};
     bool m_initialFitDone{false};
+    bool m_hoverHighlightEnabled{true};
+    QColor m_hoverHighlightColor{QColor(0, 220, 255, 240)};
+    int m_hoverHighlightWidth{2};
+    bool m_showHoverInfoCard{true};
 
     // 格内数值显示
     bool m_showValues{true};

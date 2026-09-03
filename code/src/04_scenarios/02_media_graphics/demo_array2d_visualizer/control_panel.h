@@ -14,6 +14,7 @@ class QPushButton;
 class QSlider;
 class QLabel;
 class QVBoxLayout;
+class VisualizerWidget;
 
 class ControlPanel : public QWidget {
     Q_OBJECT
@@ -27,6 +28,13 @@ public:
     // 填充色带列表
     void populateColourMaps();
 
+    // 配置缓存与恢复
+    void saveConfig();
+    void loadConfig();
+
+    // 将控制面板状态完整同步至画布
+    void syncToVisualizer(VisualizerWidget *vis);
+
 signals:
     void generateRequested(const GridParams &params);
     void colourMapChanged(const std::shared_ptr<ColourMap> &map);
@@ -37,6 +45,10 @@ signals:
     void hoverEffectToggled(bool enabled);
     void hoverRadiusChanged(int radius);
     void elevationIntensityChanged(double intensity);
+    void hoverHighlightToggled(bool enabled);
+    void hoverHighlightColorChanged(const QColor &color);
+    void hoverHighlightWidthChanged(int width);
+    void showHoverInfoCardToggled(bool show);
     void showValuesToggled(bool show);
     void showMinimapToggled(bool show);
     void resetViewRequested();
@@ -89,6 +101,13 @@ private:
     QSlider *m_elevationSlider{nullptr};
     QLabel *m_elevationLabel{nullptr};
     QCheckBox *m_minimapCheck{nullptr};
+
+    // 悬停高光边框控件
+    QCheckBox *m_hoverHighlightCheck{nullptr};
+    QPushButton *m_hoverHighlightColorBtn{nullptr};
+    QSpinBox *m_hoverHighlightWidthSpin{nullptr};
+    QColor m_currentHighlightColor{QColor(0, 220, 255)};
+    QCheckBox *m_hoverInfoCardCheck{nullptr};
 
     // 视角控件
     QPushButton *m_fitBtn{nullptr};
