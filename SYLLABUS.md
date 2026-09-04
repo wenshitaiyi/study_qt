@@ -340,12 +340,16 @@
 **描述**：使用 `QPainter` 演示画笔（QPen）、画刷（QBrush）、线性/径向渐变（QGradient）、抗锯齿渲染（RenderHints）以及基本几何图形绘制。  
 **应用场景**：自绘网格背景、刻度标尺、几何图元与水印绘制。
 
-#### 2.5.2 demo_coordinate_system ⏳ [待实现]
-**描述**：深入剖析 Qt 多层级坐标系统与空间变换机制：
-1. **控件与屏幕坐标映射**：物理屏幕全局坐标（Global）、顶层窗口坐标与父子控件相对坐标的双向映射（`mapToGlobal()`, `mapFromGlobal()`, `mapToParent()`, `mapFromParent()`）。
-2. **QPainter 视口与逻辑坐标变换**：物理设备视口（Viewport）与逻辑窗口（Window）映射（`setViewport()`, `setWindow()`），实现分辨率无关的自适应矢量绘图。
-3. **QTransform 仿射变换与状态栈**：矩阵平移（`translate`）、旋转（`rotate`）、缩放（`scale`）、错切（`shear`）以及 `painter.save()` / `painter.restore()` 坐标栈保护。  
-**应用场景**：右键菜单精准屏幕定位、CAD/矢量画布平移与无级滚轮缩放、雷达扫描旋转自绘。
+#### 2.5.2 demo_coordinate_system ✅ [已实现]
+- **源码工程**：[code/src/02_advanced/05_painting_ui/demo_coordinate_system](file:///d:/zcode/study/study_qt/code/src/02_advanced/05_painting_ui/demo_coordinate_system/)
+- **描述**：深入剖析 Qt 二维空间矩阵变换、视口操作与图元交互绘制系统（附专属数学原理专著）：
+  1. **坐标系与矩阵变换**：齐次坐标、`QTransform` 仿射变换矩阵（平移、旋转、缩放、错切），支持光标锚点与图元中心双模式无级缩放（`Ctrl + 滚轮`、`Ctrl + Shift + 滚轮`）与平滑旋转（`Alt + 滚轮`、`Alt + Shift + 滚轮`）。
+  2. **定向包围盒（OBB）与交互手柄**：图元包围盒显隐控制、8 向拉伸控制手柄（对角锚点锁死拉伸）、鼠标命中检测与自由拖拽平移。
+  3. **内部图元替换**：矩形、等腰/等边三角形、正六边形及位图图片（`QPixmap`）无缝切换与自适应绘制。
+  4. **保持比例重置定位**：角度归零摆正，支持自适应范围（Fit In View）、宽度自适应居中（Fit Width & Center）与高度自适应居中（Fit Height & Center）。
+  5. **自定义外部视口**：可拖拽与拉伸的外部视口矩形、视口边框显隐控制，内部图元在视口区域内严格执行几何裁剪（`setClipRect`）与事件拦截。
+  6. **数学原理专著**：配套独立专著文档 `MATH_PRINCIPLES.md`，深度推导二维矩阵变换、光标不动点方程、OBB 旋转拉伸与视口裁剪数学算法。  
+- **应用场景**：CAD/矢量制图软件画布核心、图形排版与图像标注编辑工具、工业组态图元变换引擎。
 
 #### 2.5.3 demo_custom_widget ⏳ [待实现]
 **描述**：重写 `paintEvent` 封装一个高复用性、带动态刻度与平滑指针动画的汽车速度仪表盘与环形渐变进度条组件。  
