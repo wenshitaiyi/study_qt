@@ -435,11 +435,34 @@ void VisualizerWidget::paintEvent(QPaintEvent * /*event*/)
         }
     }
 
-    // 绘制当前悬停选中的格点高亮外框
+    // 绘制当前悬停选中的格点高亮外框（与浮起动效完全对齐）
     if (m_hoverHighlightEnabled && m_mouseInWidget && m_hoveredRow >= 0 && m_hoveredCol >= 0 && m_zoom >= 2.5) {
-        double hx = m_offset.x() + m_hoveredCol * m_zoom;
-        double hy = m_offset.y() + m_hoveredRow * m_zoom;
-        QRectF highlightRect(hx, hy, m_zoom, m_zoom);
+        double sx = m_offset.x() + m_hoveredCol * m_zoom;
+        double sy = m_offset.y() + m_hoveredRow * m_zoom;
+        double cx = sx + m_zoom * 0.5;
+        double cy = sy + m_zoom * 0.5;
+
+        double cellW = m_zoom;
+        double cellH = m_zoom;
+        double elevY = 0.0;
+
+        // 如果开启了浮起动效且在感应圆域内，实时同步浮起高度与尺寸缩放
+        if (m_hoverEffectEnabled && m_hoverRadius > 0) {
+            double mx = m_currentCursorPos.x();
+            double my = m_currentCursorPos.y();
+            double dist = std::sqrt((cx - mx) * (cx - mx) + (cy - my) * (cy - my));
+            if (dist < m_hoverRadius) {
+                double weight = std::cos((dist / m_hoverRadius) * (3.1415926535 * 0.5));
+                elevY = -m_elevationIntensity * weight;
+                double scale = 1.0 + 0.22 * weight;
+                cellW = m_zoom * scale;
+                cellH = m_zoom * scale;
+            }
+        }
+
+        QRectF highlightRect(cx - cellW * 0.5,
+                            cy - cellH * 0.5 + elevY,
+                            cellW, cellH);
         painter.setPen(QPen(m_hoverHighlightColor, m_hoverHighlightWidth));
         painter.setBrush(Qt::NoBrush);
         painter.drawRect(highlightRect);
